@@ -1,0 +1,667 @@
+BL51 BANKED LINKER/LOCATER V6.05                                                        10/15/2020  16:31:34  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.05, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE main.obj, circuit.obj, Assem_Func.obj TO 754455 IXREF RAMSIZE (256) DISABLEWARNING (16) CODE (0
+>> X0000-0XF7FF) XDATA (0X0000-0X07FF)
+
+
+MEMORY MODEL: LARGE
+
+
+INPUT MODULES INCLUDED:
+  main.obj (MAIN)
+  circuit.obj (CIRCUIT)
+  Assem_Func.obj (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51L.LIB (?C_INIT)
+  C:\KEIL\C51\LIB\C51L.LIB (?C?CCASE)
+  C:\KEIL\C51\LIB\C51L.LIB (?C?MEMSET)
+
+
+LINK MAP OF MODULE:  754455 (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            IDATA   0000H     0001H     ABSOLUTE     
+* OVERLAP * REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+                    0008H     002DH                  *** GAP ***
+            IDATA   0035H     0001H     ABSOLUTE     
+
+            * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
+            XDATA   0000H     0423H     UNIT         ?XD?MAIN
+            XDATA   0423H     0005H     UNIT         ?XD?MAIN?MAIN
+            XDATA   0428H     0004H     UNIT         ?XD?_WRAD7247?MAIN
+            XDATA   042CH     0003H     UNIT         ?XD?_INITAILIZE_ADUC841_UART?MAIN
+            XDATA   042FH     0003H     UNIT         ?XD?_REMOVEMSGFROMBUFFER?MAIN
+            XDATA   0432H     0001H     UNIT         ?XD?_UART_WRITE?MAIN
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0020H                  *** GAP ***
+            CODE    0023H     0003H     ABSOLUTE     
+            CODE    0026H     050EH     UNIT         ?PR?MAIN?MAIN
+            CODE    0534H     00F8H     UNIT         ?PR?_REMOVEMSGFROMBUFFER?MAIN
+            CODE    062CH     00F4H     UNIT         ?PR?UART_ISR?MAIN
+            CODE    0720H     0083H     UNIT         ?C_C51STARTUP
+            CODE    07A3H     0071H     UNIT         ?PR?_UART_WRITE?MAIN
+            CODE    0814H     005FH     UNIT         ?PR?_WRAD7247?MAIN
+            CODE    0873H     0052H     UNIT         ?C?LIB_CODE
+            CODE    08C5H     0027H     UNIT         ?C_INITSEG
+            CODE    08ECH     0026H     UNIT         ?PR?_INITAILIZE_ADUC841_UART?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   754455 (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+BL51 BANKED LINKER/LOCATER V6.05                                                      10/15/2020  16:31:34  PAGE 2
+
+
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN
+  +--> ?PR?_INITAILIZE_ADUC841_UART?MAIN
+  +--> ?PR?_WRAD7247?MAIN
+  +--> ?PR?_UART_WRITE?MAIN
+  +--> ?PR?_REMOVEMSGFROMBUFFER?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  754455 (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  X:0000H         SYMBOL        acDataChange
+  C:062CH         SYMBOL        UART_ISR
+  X:0002H         SYMBOL        uart0_RxHead
+  C:0534H         PUBLIC        _RemoveMsgFromBuffer
+  X:0004H         SYMBOL        uart0_TxHead
+  X:0006H         PUBLIC        devicedata
+  D:009DH         PUBLIC        T3FD
+  B:00A8H.4       PUBLIC        ES
+  X:000BH         SYMBOL        uart0_TxFlag
+  B:0098H.0       PUBLIC        RI
+  B:0098H.1       PUBLIC        TI
+  X:000CH         SYMBOL        HrtBeatDelay
+  D:0081H         PUBLIC        SP
+  C:0026H         PUBLIC        main
+  X:000EH         SYMBOL        uart0_RxCount
+  X:0010H         SYMBOL        uart0_RxTail
+  X:0012H         SYMBOL        uart0_TxCount
+  X:0014H         SYMBOL        uart0_TxTail
+  C:07A3H         PUBLIC        _UART_Write
+  D:0099H         PUBLIC        SBUF
+  D:0098H         PUBLIC        SCON
+  X:0016H         SYMBOL        uart0_RxBuf
+  X:0216H         SYMBOL        uart0_TxBuf
+  X:0416H         SYMBOL        acFirmwareRsp
+  B:00B0H.5       PUBLIC        a2d_wr
+  C:0814H         PUBLIC        _wrAD7247
+  X:0418H         SYMBOL        acReset
+  X:041AH         SYMBOL        uart0_Mode
+  B:00B0H.7       PUBLIC        DO1_ctrl
+  X:041BH         PUBLIC        firmware
+  B:00B0H.4       PUBLIC        RTS_DE
+  X:0420H         SYMBOL        olduart0_RxCount
+BL51 BANKED LINKER/LOCATER V6.05                                                      10/15/2020  16:31:34  PAGE 3
+
+
+  D:009EH         PUBLIC        T3CON
+  D:00AFH         PUBLIC        CFG841
+  X:0422H         SYMBOL        MinMsgLen
+  C:08ECH         PUBLIC        _initailize_ADUC841_UART
+  B:00B0H.6       PUBLIC        HeartBeat
+  -------         PROC          UART_ISR
+  C:062CH         LINE#         104
+  C:063BH         LINE#         106
+  C:063EH         LINE#         107
+  C:063EH         LINE#         108
+  C:0640H         LINE#         109
+  C:0652H         LINE#         110
+  C:0652H         LINE#         111
+  C:0667H         LINE#         112
+  C:0675H         LINE#         113
+  C:0683H         LINE#         114
+  C:0691H         LINE#         115
+  C:0691H         LINE#         116
+  C:0693H         LINE#         117
+  C:0695H         LINE#         118
+  C:0695H         LINE#         119
+  C:0698H         LINE#         120
+  C:0698H         LINE#         121
+  C:069AH         LINE#         122
+  C:06AEH         LINE#         123
+  C:06BCH         LINE#         124
+  C:06CAH         LINE#         125
+  C:06D8H         LINE#         126
+  C:06F2H         LINE#         127
+  C:070AH         LINE#         129
+  C:070FH         LINE#         130
+  C:0711H         LINE#         131
+  C:0713H         LINE#         132
+  C:0713H         LINE#         133
+  -------         ENDPROC       UART_ISR
+  -------         PROC          _UART_WRITE
+  X:0432H         SYMBOL        c
+  C:07A3H         LINE#         143
+  C:07A8H         LINE#         144
+  C:07A8H         LINE#         145
+  C:07C1H         LINE#         146
+  C:07C3H         LINE#         147
+  C:07D1H         LINE#         148
+  C:07D3H         LINE#         149
+  C:07E1H         LINE#         150
+  C:07EFH         LINE#         151
+  C:07F7H         LINE#         152
+  C:07F7H         LINE#         153
+  C:07FDH         LINE#         154
+  C:0813H         LINE#         155
+  C:0813H         LINE#         156
+  -------         ENDPROC       _UART_WRITE
+  -------         PROC          _INITAILIZE_ADUC841_UART
+  X:042CH         SYMBOL        t3con
+  X:042DH         SYMBOL        t3fd
+  C:08ECH         LINE#         165
+  C:08F9H         LINE#         166
+BL51 BANKED LINKER/LOCATER V6.05                                                      10/15/2020  16:31:34  PAGE 4
+
+
+  C:08F9H         LINE#         167
+  C:0900H         LINE#         168
+  C:090AH         LINE#         169
+  C:090DH         LINE#         170
+  C:090FH         LINE#         171
+  C:0911H         LINE#         172
+  -------         ENDPROC       _INITAILIZE_ADUC841_UART
+  -------         PROC          _REMOVEMSGFROMBUFFER
+  X:042FH         SYMBOL        cnt
+  -------         DO            
+  X:0430H         SYMBOL        tmp
+  -------         ENDDO         
+  C:0534H         LINE#         181
+  C:0539H         LINE#         182
+  C:0539H         LINE#         185
+  C:0557H         LINE#         186
+  C:0557H         LINE#         187
+  C:056FH         LINE#         188
+  C:058EH         LINE#         189
+  C:05A1H         LINE#         190
+  C:05AFH         LINE#         191
+  C:05C2H         LINE#         192
+  C:05C4H         LINE#         194
+  C:05C4H         LINE#         195
+  C:05E2H         LINE#         196
+  C:05F5H         LINE#         197
+  C:0603H         LINE#         198
+  C:0603H         LINE#         199
+  C:0605H         LINE#         200
+  C:0623H         LINE#         201
+  C:0625H         LINE#         202
+  C:062BH         LINE#         203
+  -------         ENDPROC       _REMOVEMSGFROMBUFFER
+  -------         PROC          _WRAD7247
+  X:0428H         SYMBOL        val
+  X:042AH         SYMBOL        ch
+  -------         DO            
+  X:042BH         SYMBOL        tmp
+  -------         ENDDO         
+  C:0814H         LINE#         212
+  C:0821H         LINE#         213
+  C:0821H         LINE#         216
+  C:0839H         LINE#         217
+  C:085CH         LINE#         218
+  C:0863H         LINE#         220
+  C:086BH         LINE#         222
+  C:086DH         LINE#         223
+  C:086FH         LINE#         225
+  C:0872H         LINE#         230
+  -------         ENDPROC       _WRAD7247
+  -------         PROC          MAIN
+  -------         DO            
+  X:0423H         SYMBOL        index
+  X:0425H         SYMBOL        cmd
+  X:0426H         SYMBOL        adr
+  X:0427H         SYMBOL        DeviceAddress
+  -------         ENDDO         
+BL51 BANKED LINKER/LOCATER V6.05                                                      10/15/2020  16:31:34  PAGE 5
+
+
+  C:0026H         LINE#         239
+  C:0026H         LINE#         240
+  C:0026H         LINE#         246
+  C:0029H         LINE#         250
+  C:002CH         LINE#         258
+  C:003BH         LINE#         259
+  C:004AH         LINE#         260
+  C:0052H         LINE#         261
+  C:005AH         LINE#         262
+  C:0062H         LINE#         263
+  C:0067H         LINE#         264
+  C:006FH         LINE#         265
+  C:0077H         LINE#         266
+  C:007CH         LINE#         267
+  C:0084H         LINE#         268
+  C:008CH         LINE#         269
+  C:0092H         LINE#         273
+  C:009BH         LINE#         278
+  C:009DH         LINE#         279
+  C:009FH         LINE#         280
+  C:00A1H         LINE#         284
+  C:00AAH         LINE#         285
+  C:00ACH         LINE#         289
+  C:00B2H         LINE#         290
+  C:00B8H         LINE#         291
+  C:00BEH         LINE#         292
+  C:00C4H         LINE#         296
+  C:00CDH         LINE#         297
+  C:00CDH         LINE#         298
+  C:00CDH         LINE#         299
+  C:00D7H         LINE#         300
+  C:00E5H         LINE#         301
+  C:00F9H         LINE#         302
+  C:00F9H         LINE#         303
+  C:00FBH         LINE#         304
+  C:0105H         LINE#         305
+  C:0107H         LINE#         306
+  C:011BH         LINE#         307
+  C:011BH         LINE#         308
+  C:011DH         LINE#         309
+  C:0126H         LINE#         310
+  C:0126H         LINE#         311
+  C:0137H         LINE#         312
+  C:0137H         LINE#         316
+  C:0146H         LINE#         325
+  C:014FH         LINE#         327
+  C:0157H         LINE#         328
+  C:0165H         LINE#         329
+  C:0165H         LINE#         330
+  C:0179H         LINE#         331
+  C:0179H         LINE#         332
+  C:0188H         LINE#         333
+  C:01A3H         LINE#         334
+  C:01BBH         LINE#         335
+  C:01DCH         LINE#         336
+  C:01E9H         LINE#         341
+  C:01F2H         LINE#         342
+BL51 BANKED LINKER/LOCATER V6.05                                                      10/15/2020  16:31:34  PAGE 6
+
+
+  C:01F6H         LINE#         344
+  C:01F8H         LINE#         346
+  C:0206H         LINE#         347
+  C:0206H         LINE#         354
+  C:0217H         LINE#         355
+  C:0217H         LINE#         357
+  C:021CH         LINE#         358
+  C:0224H         LINE#         359
+  C:022CH         LINE#         360
+  C:0234H         LINE#         361
+  C:023CH         LINE#         362
+  C:024AH         LINE#         363
+  C:024AH         LINE#         367
+  C:0263H         LINE#         368
+  C:0263H         LINE#         369
+  C:0272H         LINE#         370
+  C:0272H         LINE#         371
+  C:0282H         LINE#         372
+  C:029BH         LINE#         373
+  C:02A9H         LINE#         374
+  C:02BDH         LINE#         375
+  C:02D6H         LINE#         376
+  C:02E7H         LINE#         377
+  C:02E7H         LINE#         378
+  C:02FDH         LINE#         379
+  C:02FDH         LINE#         380
+  C:02FDH         LINE#         381
+  C:0303H         LINE#         382
+  C:031CH         LINE#         383
+  C:031CH         LINE#         384
+  C:032AH         LINE#         385
+  C:0332H         LINE#         387
+  C:0332H         LINE#         388
+  C:0335H         LINE#         389
+  C:0335H         LINE#         390
+  C:033BH         LINE#         391
+  C:0354H         LINE#         392
+  C:0354H         LINE#         393
+  C:0362H         LINE#         394
+  C:0376H         LINE#         395
+  C:038FH         LINE#         396
+  C:039DH         LINE#         397
+  C:03B1H         LINE#         398
+  C:03CAH         LINE#         399
+  C:03D8H         LINE#         400
+  C:03ECH         LINE#         401
+  C:0405H         LINE#         402
+  C:0413H         LINE#         403
+  C:0427H         LINE#         404
+  C:0440H         LINE#         405
+  C:044EH         LINE#         406
+  C:0462H         LINE#         407
+  C:047BH         LINE#         408
+  C:0489H         LINE#         409
+  C:049DH         LINE#         410
+  C:04B6H         LINE#         411
+  C:04D5H         LINE#         412
+BL51 BANKED LINKER/LOCATER V6.05                                                      10/15/2020  16:31:34  PAGE 7
+
+
+  C:04DDH         LINE#         414
+  C:04DDH         LINE#         415
+  C:04E0H         LINE#         433
+  C:04E0H         LINE#         434
+  C:04E6H         LINE#         435
+  C:04FFH         LINE#         436
+  C:04FFH         LINE#         437
+  C:050DH         LINE#         438
+  C:0515H         LINE#         440
+  C:0515H         LINE#         441
+  C:0518H         LINE#         442
+  C:0518H         LINE#         443
+  C:051DH         LINE#         444
+  C:0520H         LINE#         445
+  C:0520H         LINE#         446
+  C:0523H         LINE#         448
+  C:0523H         LINE#         449
+  C:0528H         LINE#         451
+  C:0528H         LINE#         452
+  C:052BH         LINE#         454
+  C:052BH         LINE#         455
+  C:0530H         LINE#         457
+  C:0530H         LINE#         458
+  C:0530H         LINE#         459
+  C:0533H         LINE#         460
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        CIRCUIT
+  B:00B0H.5       SYMBOL        A2D_WR
+  B:00D0H.6       SYMBOL        AC
+  D:00E0H         SYMBOL        ACC
+  D:00EFH         SYMBOL        ADCCON1
+  D:00D8H         SYMBOL        ADCCON2
+  D:00F5H         SYMBOL        ADCCON3
+  D:00DAH         SYMBOL        ADCDATAH
+  D:00D9H         SYMBOL        ADCDATAL
+  D:00F4H         SYMBOL        ADCGAINH
+  D:00F3H         SYMBOL        ADCGAINL
+  B:00D8H.7       SYMBOL        ADCI
+  D:00F2H         SYMBOL        ADCOFSH
+  D:00F1H         SYMBOL        ADCOFSL
+  I:0035H         SYMBOL        ASSYVARPASS1
+  B:00E0H.0       SYMBOL        A_0
+  B:00E0H.1       SYMBOL        A_1
+  B:00E0H.2       SYMBOL        A_2
+  B:00E0H.3       SYMBOL        A_3
+  B:00E0H.4       SYMBOL        A_4
+  B:00E0H.5       SYMBOL        A_5
+  B:00E0H.6       SYMBOL        A_6
+  B:00E0H.7       SYMBOL        A_7
+  D:00F0H         SYMBOL        B
+  B:00C8H.0       SYMBOL        CAP2
+  B:00D8H.5       SYMBOL        CCONV
+  D:00AFH         SYMBOL        CFG841
+  D:00C2H         SYMBOL        CHIPID
+  N:0000H         SYMBOL        CIRCUIT
+BL51 BANKED LINKER/LOCATER V6.05                                                      10/15/2020  16:31:34  PAGE 8
+
+
+  B:00C8H.1       SYMBOL        CNT2
+  B:00F8H.2       SYMBOL        CPHA
+  B:00F8H.3       SYMBOL        CPOL
+  B:00D8H.0       SYMBOL        CS0
+  B:00D8H.1       SYMBOL        CS1
+  B:00D8H.2       SYMBOL        CS2
+  B:00D8H.3       SYMBOL        CS3
+  B:00A0H.1       SYMBOL        CS_E02
+  B:00A0H.3       SYMBOL        CS_E13
+  B:00A0H.0       SYMBOL        CS_E15
+  B:00A0H.2       SYMBOL        CS_E17
+  B:00D0H.7       SYMBOL        CY
+  B:00E8H.5       SYMBOL        D0
+  B:00E8H.3       SYMBOL        D0EN
+  B:00E8H.7       SYMBOL        D1
+  B:00E8H.6       SYMBOL        D1EN
+  D:00FAH         SYMBOL        DAC0H
+  D:00F9H         SYMBOL        DAC0L
+  D:00FCH         SYMBOL        DAC1H
+  D:00FBH         SYMBOL        DAC1L
+  D:00FDH         SYMBOL        DACCON
+  D:00E8H         SYMBOL        DCON
+  B:00B0H.3       SYMBOL        DEBUGTMP
+  B:0080H.2       SYMBOL        DISPCE
+  B:0080H.1       SYMBOL        DISPCLK
+  B:0080H.4       SYMBOL        DISPRS
+  B:0080H.3       SYMBOL        DISPRST
+  B:0080H.0       SYMBOL        DISPTDATA
+  B:00D8H.6       SYMBOL        DMA
+  D:00D3H         SYMBOL        DMAH
+  D:00D2H         SYMBOL        DMAL
+  D:00D4H         SYMBOL        DMAP
+  B:00B0H.7       SYMBOL        DO1_CTRL
+  B:00B0H.6       SYMBOL        DO2_CTRL
+  D:00A7H         SYMBOL        DPCON
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  D:0084H         SYMBOL        DPP
+  B:00A8H.7       SYMBOL        EA
+  B:00A8H.6       SYMBOL        EADC
+  D:00C7H         SYMBOL        EADRH
+  D:00C6H         SYMBOL        EADRL
+  D:00B9H         SYMBOL        ECON
+  D:00BCH         SYMBOL        EDATA1
+  D:00BDH         SYMBOL        EDATA2
+  D:00BEH         SYMBOL        EDATA3
+  D:00BFH         SYMBOL        EDATA4
+  B:00A8H.4       SYMBOL        ES
+  B:00A8H.1       SYMBOL        ET0
+  B:00A8H.3       SYMBOL        ET1
+  B:00A8H.5       SYMBOL        ET2
+  B:00A8H.0       SYMBOL        EX0
+  B:00A8H.2       SYMBOL        EX1
+  B:00C8H.3       SYMBOL        EXEN2
+  B:00C8H.6       SYMBOL        EXF2
+  B:00D0H.5       SYMBOL        F0
+  B:00D0H.1       SYMBOL        F1
+BL51 BANKED LINKER/LOCATER V6.05                                                      10/15/2020  16:31:34  PAGE 9
+
+
+  B:0090H.0       SYMBOL        FPGAA0
+  B:0090H.1       SYMBOL        FPGAA1
+  B:0090H.2       SYMBOL        FPGAA2
+  B:0090H.3       SYMBOL        FPGAA3
+  B:0090H.4       SYMBOL        FPGAA4
+  B:0090H.5       SYMBOL        FPGAA5
+  B:0090H.6       SYMBOL        FPGAA6
+  B:0090H.7       SYMBOL        FPGAA7
+  D:0080H         SYMBOL        FPGAADDR
+  B:00B0H.6       SYMBOL        FPGAWR
+  B:00A0H.4       SYMBOL        HBCTRL
+  B:00B0H.6       SYMBOL        HEARTBEAT
+  D:00A5H         SYMBOL        HOUR
+  D:00A2H         SYMBOL        HTHSEC
+  D:009BH         SYMBOL        I2CADD
+  D:0091H         SYMBOL        I2CADD1
+  D:0092H         SYMBOL        I2CADD2
+  D:0093H         SYMBOL        I2CADD3
+  D:00E8H         SYMBOL        I2CCON
+  D:009AH         SYMBOL        I2CDAT
+  B:00E8H.0       SYMBOL        I2CI
+  B:00E8H.3       SYMBOL        I2CM
+  B:00E8H.2       SYMBOL        I2CRS
+  B:00E8H.1       SYMBOL        I2CTX
+  D:00A8H         SYMBOL        IE
+  B:0088H.1       SYMBOL        IE0
+  B:0088H.3       SYMBOL        IE1
+  D:00A9H         SYMBOL        IEIP2
+  B:00B0H.2       SYMBOL        INT0
+  B:00B0H.3       SYMBOL        INT1
+  D:00A6H         SYMBOL        INTVAL
+  D:00B8H         SYMBOL        IP
+  B:00F8H.7       SYMBOL        ISPI
+  B:0088H.0       SYMBOL        IT0
+  B:0088H.2       SYMBOL        IT1
+  B:00E8H.5       SYMBOL        MCO
+  B:00E8H.6       SYMBOL        MDE
+  B:00E8H.4       SYMBOL        MDI
+  B:00E8H.7       SYMBOL        MDO
+  D:00A4H         SYMBOL        MIN
+  B:00A0H.7       SYMBOL        NIWTIHCTRL
+  B:00D0H.2       SYMBOL        OV
+  B:00D0H.0       SYMBOL        P
+  D:0080H         SYMBOL        P0
+  D:0090H         SYMBOL        P1
+  D:00A0H         SYMBOL        P2
+  D:00B0H         SYMBOL        P3
+  B:00B8H.6       SYMBOL        PADC
+  D:0087H         SYMBOL        PCON
+  B:00C0H.4       SYMBOL        PRE0
+  B:00C0H.5       SYMBOL        PRE1
+  B:00C0H.6       SYMBOL        PRE2
+  B:00C0H.7       SYMBOL        PRE3
+  B:00B8H.4       SYMBOL        PS
+  B:00B8H.7       SYMBOL        PSI
+  D:00DFH         SYMBOL        PSMCON
+  D:00D0H         SYMBOL        PSW
+BL51 BANKED LINKER/LOCATER V6.05                                                      10/15/2020  16:31:34  PAGE 10
+
+
+  B:00B8H.1       SYMBOL        PT0
+  B:00B8H.3       SYMBOL        PT1
+  B:00B8H.5       SYMBOL        PT2
+  D:00B2H         SYMBOL        PWM0H
+  D:00B1H         SYMBOL        PWM0L
+  D:00B4H         SYMBOL        PWM1H
+  D:00B3H         SYMBOL        PWM1L
+  D:00AEH         SYMBOL        PWMCON
+  B:00B8H.0       SYMBOL        PX0
+  B:00B8H.2       SYMBOL        PX1
+  B:0098H.2       SYMBOL        RB8
+  D:00CBH         SYMBOL        RCAP2H
+  D:00CAH         SYMBOL        RCAP2L
+  B:00C8H.5       SYMBOL        RCLK
+  B:00B0H.7       SYMBOL        RD
+  B:0098H.4       SYMBOL        REN
+  B:0098H.0       SYMBOL        RI
+  B:00D0H.3       SYMBOL        RS0
+  B:00D0H.4       SYMBOL        RS1
+  B:00B0H.4       SYMBOL        RTS_DE
+  B:00B0H.0       SYMBOL        RXD
+  D:0099H         SYMBOL        SBUF
+  D:0098H         SYMBOL        SCON
+  B:00D8H.4       SYMBOL        SCONV
+  D:00A3H         SYMBOL        SEC
+  B:0098H.7       SYMBOL        SM0
+  B:0098H.6       SYMBOL        SM1
+  B:0098H.5       SYMBOL        SM2
+  D:0081H         SYMBOL        SP
+  B:00F8H.5       SYMBOL        SPE
+  D:00B7H         SYMBOL        SPH
+  D:00F8H         SYMBOL        SPICON
+  D:00F7H         SYMBOL        SPIDAT
+  B:00F8H.4       SYMBOL        SPIM
+  B:00F8H.0       SYMBOL        SPR0
+  B:00F8H.1       SYMBOL        SPR1
+  B:00B0H.4       SYMBOL        T0
+  B:00B0H.5       SYMBOL        T1
+  B:0090H.0       SYMBOL        T2
+  D:00C8H         SYMBOL        T2CON
+  B:0090H.1       SYMBOL        T2EX
+  D:009EH         SYMBOL        T3CON
+  D:009DH         SYMBOL        T3FD
+  B:0098H.3       SYMBOL        TB8
+  B:00C8H.4       SYMBOL        TCLK
+  D:0088H         SYMBOL        TCON
+  B:0088H.5       SYMBOL        TF0
+  B:0088H.7       SYMBOL        TF1
+  B:00C8H.7       SYMBOL        TF2
+  D:008CH         SYMBOL        TH0
+  D:008DH         SYMBOL        TH1
+  D:00CDH         SYMBOL        TH2
+  B:0098H.1       SYMBOL        TI
+  D:00A1H         SYMBOL        TIMECON
+  D:008AH         SYMBOL        TL0
+  D:008BH         SYMBOL        TL1
+  D:00CCH         SYMBOL        TL2
+BL51 BANKED LINKER/LOCATER V6.05                                                      10/15/2020  16:31:34  PAGE 11
+
+
+  D:0089H         SYMBOL        TMOD
+  B:0088H.4       SYMBOL        TR0
+  B:0088H.6       SYMBOL        TR1
+  B:00C8H.2       SYMBOL        TR2
+  B:00B0H.1       SYMBOL        TXD
+  B:00A0H.5       SYMBOL        WBCTRL
+  B:00F8H.6       SYMBOL        WCOL
+  D:00C0H         SYMBOL        WDCON
+  B:00C0H.1       SYMBOL        WDE
+  B:00C0H.3       SYMBOL        WDIR
+  B:00C0H.2       SYMBOL        WDS
+  B:00C0H.0       SYMBOL        WDWR
+  B:00B0H.6       SYMBOL        WR
+  B:00A0H.6       SYMBOL        WTCTRL
+  -------         ENDMOD        CIRCUIT
+
+  -------         MODULE        ?C_STARTUP
+  C:0720H         SEGMENT       ?C_C51STARTUP
+  C:0000H         PUBLIC        ?C_STARTUP
+  C:0720H         SYMBOL        STARTUP1
+  C:0000H         LINE#         11
+  C:0720H         LINE#         15
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        ?C?CCASE
+  C:0873H         PUBLIC        ?C?CCASE
+  -------         ENDMOD        ?C?CCASE
+
+  -------         MODULE        ?C?MEMSET
+  C:0899H         PUBLIC        ?C?MEMSET
+  -------         ENDMOD        ?C?MEMSET
+
+
+
+INTER-MODULE CROSS-REFERENCE LISTING
+------------------------------------
+
+
+NAME . . . . . . . . . . . USAGE    MODULE NAMES
+------------------------------------------------
+
+?C?CCASE . . . . . . . . . CODE;    ?C?CCASE  MAIN  
+?C?MEMSET. . . . . . . . . CODE;    ?C?MEMSET  MAIN  
+?C_INITSEGSTART. . . . . . CODE;    ** L51 GENERATED **  
+?C_START . . . . . . . . . CODE;    ?C_INIT  ?C_STARTUP  
+?C_STARTUP . . . . . . . . CODE;    ?C_STARTUP  MAIN  
+DEVICEDATA . . . . . . . . XDATA;   MAIN  
+FIRMWARE . . . . . . . . . XDATA;   MAIN  
+MAIN . . . . . . . . . . . CODE;    MAIN  ?C_INIT  
+_INITAILIZE_ADUC841_UART . CODE;    MAIN  
+_REMOVEMSGFROMBUFFER . . . CODE;    MAIN  
+_UART_WRITE. . . . . . . . CODE;    MAIN  
+_WRAD7247. . . . . . . . . CODE;    MAIN  
+
+*** WARNING L4: DATA SPACE MEMORY OVERLAP
+    FROM:    0000H
+    TO:      0000H
+BL51 BANKED LINKER/LOCATER V6.05                                                      10/15/2020  16:31:34  PAGE 12
+
+
+
+Program Size: data=10.0 xdata=1075 code=2290
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

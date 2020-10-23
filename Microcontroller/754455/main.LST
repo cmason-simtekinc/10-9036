@@ -1,0 +1,3081 @@
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 1   
+
+
+C51 COMPILER V8.06, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c LARGE OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND CODE LISTINCLUDE S
+                    -YMBOLS PREPRINT
+
+line level    source
+
+   1          //========================================================================================
+   2          //     Copyright (c) 2007     Simtek, Incorporated      All rights reserved.              //
+   3          //                                                                                        //
+   4          //     This is unpublished proprietary source code of Simtek, Inc                         //
+   5          //                                                                                        //
+   6          //     The copyright notice above does not evidence any actual or intended                //
+   7          //     publication of such source code.                                                   //
+   8          //========================================================================================
+   9          //                                                                                        //
+  10          //========================================================================================
+  11          // Module Name : Main.c                                                                   //
+  12          // Purpose     : Main loop of program for 10-8024 (749469.hex)                            //
+  13          // Author      : C. Mason                                                                 //
+  14          // Date        : December 18, 2014                                                        //
+  15          // Notes       :                                                                          //
+  16          //                                                                                        //
+  17          //========================================================================================
+  18          // mode com2 9600,0,8,1
+  19          // assign com2 <sin >sout
+  20          //                                                                                        //
+  21          //========================================================================================
+  22          //          include file declarations                                                     //
+  23          //========================================================================================
+  24          #include "Hardware.H"                                                                     //
+   1      =1  //
+   2      =1  //========================================================================================
+   3      =1  //     Copyright (c) 2007     Simtek, Incorporated      All rights reserved.
+   4      =1  //
+   5      =1  //     This is unpublished proprietary source code of Simtek, Inc
+   6      =1  //
+   7      =1  //     The copyright notice above does not evidence any actual or intended
+   8      =1  //     publication of such source code.
+   9      =1  //========================================================================================
+  10      =1  //
+  11      =1  //========================================================================================
+  12      =1  // Module Name    : Hardware.H
+  13      =1  // Purpose        : Definition of Hardware Specific Registers
+  14      =1  // Author         : C. Mason
+  15      =1  // Date           : June 8, 2007
+  16      =1  // Notes          :
+  17      =1  //
+  18      =1  //========================================================================================
+  19      =1  //
+  20      =1  #include "types.h"
+   1      =2  /*
+   2      =2   ******************************************************************************
+   3      =2   *     Copyright (c) 2007       Simtek, Incorporated      All rights reserved.
+   4      =2   *
+   5      =2   *     This is unpublished proprietary source code of Simtek, Inc
+   6      =2   *
+   7      =2   *     The copyright notice above does not evidence any actual or intended
+   8      =2   *     publication of such source code.
+   9      =2   ******************************************************************************
+  10      =2   */
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 2   
+
+  11      =2  /*=============================================================================
+  12      =2   * Module Name: Main.H
+  13      =2   * Purpose : 
+  14      =2   * Author : C. Mason
+  15      =2   * Date : June 11, 2007
+  16      =2   * Notes :
+  17      =2   *
+  18      =2   *=============================================================================
+  19      =2   */
+  20      =2  
+  21      =2  #ifndef TYPES_H
+  22      =2  #define TYPES_H
+  23      =2  
+  24      =2  typedef unsigned short int      BOOL;                   // Boolean //
+  25      =2  typedef long                    S32_T;          // 32-bit signed //
+  26      =2  typedef unsigned long           U32_T;          // 32-bit unsigned //
+  27      =2  typedef short int                       S16_T;                  // 16-bit  signed //
+  28      =2  typedef unsigned short int      U16_T;                  // 16-bit  unsigned //
+  29      =2  typedef unsigned short int      word;                   // 16-bit  unsigned     //
+  30      =2  typedef char                    S8_T;                   // 8-bit signed //
+  31      =2  typedef unsigned char           U8_T;                   // 8-bit unsigned //
+  32      =2  typedef unsigned char           byte;                   // 8-bit unsigned       //
+  33      =2  
+  34      =2  #ifndef NULL
+  35      =2   #define NULL ((void *) 0L)
+  36      =2  #endif
+  37      =2  
+  38      =2  #define TRUE                            1
+  39      =2  #define FALSE                           0
+  40      =2  
+  41      =2  /* Bit Definitions for Bitwise Operation */
+  42      =2  #define BIT0            0x01
+  43      =2  #define BIT1            0x02
+  44      =2  #define BIT2            0x04
+  45      =2  #define BIT3            0x08
+  46      =2  #define BIT4            0x10
+  47      =2  #define BIT5            0x20
+  48      =2  #define BIT6            0x40
+  49      =2  #define BIT7            0x80
+  50      =2  #define BIT8            0x0100
+  51      =2  #define BIT9            0x0200
+  52      =2  #define BIT10           0x0400
+  53      =2  #define BIT11           0x0800
+  54      =2  #define BIT12           0x1000
+  55      =2  #define BIT13           0x2000
+  56      =2  #define BIT14           0x4000
+  57      =2  #define BIT15           0x8000
+  58      =2  #define BIT16           0x00010000
+  59      =2  #define BIT17           0x00020000
+  60      =2  #define BIT18           0x00040000
+  61      =2  #define BIT19           0x00080000
+  62      =2  #define BIT20           0x00100000
+  63      =2  #define BIT21           0x00200000
+  64      =2  #define BIT22           0x00400000
+  65      =2  #define BIT23           0x00800000
+  66      =2  #define BIT24           0x01000000
+  67      =2  #define BIT25           0x02000000
+  68      =2  #define BIT26           0x04000000
+  69      =2  #define BIT27           0x08000000
+  70      =2  #define BIT28           0x10000000
+  71      =2  #define BIT29           0x20000000
+  72      =2  #define BIT30           0x40000000
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 3   
+
+  73      =2  #define BIT31           0x80000000
+  74      =2  
+  75      =2  #define LOW_BYTE(word)  (U8_T)(word & 0x00FF)
+  76      =2  #define HIGH_BYTE(word) (U8_T)((word & 0xFF00) >> 8)
+  77      =2  
+  78      =2  /* Keil compiler user define */
+  79      =2  #define KEIL_CPL
+  80      =2  
+  81      =2  #ifdef KEIL_CPL
+  82      =2   #define XDATA  xdata
+  83      =2   #define IDATA  idata
+  84      =2   #define BDATA  bdata
+  85      =2   #define CODE   code
+  86      =2   #define FAR    far
+  87      =2  #else
+           =2  #define XDATA
+           =2  #define IDATA
+           =2  #define BDATA
+           =2  #define CODE
+           =2  #define FAR
+           =2 #endif
+  94      =2  
+  95      =2  /* Serial interface command direction */
+  96      =2  #define SI_WR                           BIT0
+  97      =2  #define SI_RD                           BIT1
+  98      =2  
+  99      =2  #define FLASH_WR_ENB            (PCON |= PWE_)
+ 100      =2  #define FLASH_WR_DISB           (PCON &= ~PWE_)
+ 101      =2  
+ 102      =2  #endif  /* end of TYPES_H */
+  21      =1  
+  22      =1  //========================================================================================
+  23      =1  //                      BYTE Register                                                     //
+  24      =1  //========================================================================================
+  25      =1  sfr   P0                = 0x80;
+  26      =1  sfr   SP                = 0x81;
+  27      =1  sfr   DPL               = 0x82;
+  28      =1  sfr   DPH               = 0x83;
+  29      =1  sfr   DPP               = 0x84;
+  30      =1  sfr   PCON              = 0x87;
+  31      =1  sfr   TCON              = 0x88;
+  32      =1  sfr   TMOD              = 0x89;
+  33      =1  sfr   TL0               = 0x8A;
+  34      =1  sfr   TL1               = 0x8B;
+  35      =1  sfr   TH0               = 0x8C;
+  36      =1  sfr   TH1               = 0x8D;
+  37      =1  sfr   P1                = 0x90;
+  38      =1  sfr   I2CADD1           = 0x91;
+  39      =1  sfr   I2CADD2           = 0x92;
+  40      =1  sfr   I2CADD3           = 0x93;
+  41      =1  sfr   SCON              = 0x98;
+  42      =1  sfr   SBUF              = 0x99;
+  43      =1  sfr   I2CDAT            = 0x9A;
+  44      =1  sfr   I2CADD            = 0x9B;
+  45      =1  sfr   T3FD              = 0x9D;
+  46      =1  sfr   T3CON             = 0x9E;
+  47      =1  sfr   P2                = 0xA0;
+  48      =1  sfr   TIMECON           = 0xA1;
+  49      =1  sfr   HTHSEC            = 0xA2;
+  50      =1  sfr   SEC               = 0xA3;
+  51      =1  sfr   MIN               = 0xA4;
+  52      =1  sfr   HOUR              = 0xA5;
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 4   
+
+  53      =1  sfr   INTVAL            = 0xA6;
+  54      =1  sfr   DPCON             = 0xA7;
+  55      =1  sfr   IE                = 0xA8;
+  56      =1  sfr   IEIP2             = 0xA9;
+  57      =1  sfr   PWMCON            = 0xAE;
+  58      =1  sfr   CFG841            = 0xAF;
+  59      =1  sfr   P3                = 0xB0;
+  60      =1  sfr   PWM0L             = 0xB1;
+  61      =1  sfr   PWM0H             = 0xB2;
+  62      =1  sfr   PWM1L             = 0xB3;
+  63      =1  sfr   PWM1H             = 0xB4;
+  64      =1  sfr   SPH               = 0xB7;
+  65      =1  sfr   IP                = 0xB8;
+  66      =1  sfr   ECON              = 0xB9;
+  67      =1  sfr   EDATA1            = 0xBC;
+  68      =1  sfr   EDATA2            = 0xBD;
+  69      =1  sfr   EDATA3            = 0xBE;
+  70      =1  sfr   EDATA4            = 0xBF;
+  71      =1  sfr   WDCON             = 0xC0;
+  72      =1  sfr   CHIPID            = 0xC2;
+  73      =1  sfr   EADRL             = 0xC6;
+  74      =1  sfr   EADRH             = 0xC7;
+  75      =1  sfr   T2CON             = 0xC8;
+  76      =1  sfr   RCAP2L            = 0xCA;
+  77      =1  sfr   RCAP2H            = 0xCB;
+  78      =1  sfr   TL2               = 0xCC;
+  79      =1  sfr   TH2               = 0xCD;
+  80      =1  sfr   PSW               = 0xD0;
+  81      =1  sfr   DMAL              = 0xD2;
+  82      =1  sfr   DMAH              = 0xD3;
+  83      =1  sfr   DMAP              = 0xD4;
+  84      =1  sfr   ADCCON2           = 0xD8;
+  85      =1  sfr   ADCDATAL          = 0xD9;
+  86      =1  sfr   ADCDATAH          = 0xDA;
+  87      =1  sfr   PSMCON            = 0xDF;
+  88      =1  //sfr   ACC               = 0xE0;
+  89      =1  sfr   DCON              = 0xE8;
+  90      =1  sfr   I2CCON            = 0xE8;
+  91      =1  sfr   ADCCON1           = 0xEF;
+  92      =1  sfr   B                 = 0xF0;
+  93      =1  sfr   ADCOFSL           = 0xF1;
+  94      =1  sfr   ADCOFSH           = 0xF2;
+  95      =1  sfr   ADCGAINL          = 0xF3;
+  96      =1  sfr   ADCGAINH          = 0xF4;
+  97      =1  sfr   ADCCON3           = 0xF5;
+  98      =1  sfr   SPIDAT            = 0xF7;
+  99      =1  sfr   SPICON            = 0xF8;
+ 100      =1  sfr   DAC0L             = 0xF9;
+ 101      =1  sfr   DAC0H             = 0xFA;
+ 102      =1  sfr   DAC1L             = 0xFB;
+ 103      =1  sfr   DAC1H             = 0xFC;
+ 104      =1  sfr   DACCON            = 0xFD;
+ 105      =1  //========================================================================================
+ 106      =1  ////                      naming constant declarations                                    //
+ 107      =1  //========================================================================================
+ 108      =1  #define gReset                      0x01
+ 109      =1  #define gBIT                        0x02
+ 110      =1  #define gDisplayChange              0x04
+ 111      =1  #define gBrightChange               0x08
+ 112      =1  #define gFirmwareRequest            0x10
+ 113      =1  #define gSwitchStatus               0x20
+ 114      =1  #define gInstSwStatus               0x40
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 5   
+
+ 115      =1  #define gAnnun                      0x80
+ 116      =1  #define gAddressChange              0x40
+ 117      =1  #define MAX_TX_UART0_BUF_SIZE       512
+ 118      =1  #define MAX_TX_UART0_MASK           (MAX_TX_UART0_BUF_SIZE - 1)
+ 119      =1  #define MAX_RX_UART0_BUF_SIZE       512
+ 120      =1  #define MAX_RX_UART0_MASK           (MAX_RX_UART0_BUF_SIZE - 1)
+ 121      =1  //========================================================================================
+ 122      =1  //                      global variables                                                  //
+ 123      =1  //========================================================================================
+ 124      =1  //extern U8_T Flags;
+ 125      =1  
+ 126      =1  typedef struct flashpage {
+ 127      =1        U8_T D1;
+ 128      =1        U8_T D2;
+ 129      =1        U8_T D3;
+ 130      =1        U8_T D4;
+ 131      =1  }FLASHPAGE;
+ 132      =1  
+ 133      =1  FLASHPAGE Flashread(U16_T pageaddress);
+ 134      =1  void ErasePageOfFlash(U16_T pageaddr);
+ 135      =1  U8_T WriteAPageToFlash(FLASHPAGE newdata, U16_T pageaddr);                                // write a byte 
+             -to flash memory
+ 136      =1  FLASHPAGE ReadAPageFromFlash(U16_T pageaddr);                                             // read a byte f
+             -rom the flash memory
+ 137      =1  //========================================================================================
+ 138      =1  // Hardware Specific P0 (0x80) Bit Registers
+ 139      =1  //========================================================================================
+ 140      =1  sfr  FPGAADDR           = 0x80;
+ 141      =1  sbit DispTData          = 0x80;
+ 142      =1  sbit DispClk            = 0x81;
+ 143      =1  sbit DispCe             = 0x82;
+ 144      =1  sbit DispRst            = 0x83;
+ 145      =1  sbit DispRs             = 0x84;
+ 146      =1  //========================================================================================
+ 147      =1  // Hardware Specific P1 (0x90) Bit Registers
+ 148      =1  //========================================================================================
+ 149      =1  //sfr  FpgaAddr           = 0x90;
+ 150      =1  sbit FpgaA0             = 0x90;
+ 151      =1  sbit FpgaA1             = 0x91;
+ 152      =1  sbit FpgaA2             = 0x92;
+ 153      =1  sbit FpgaA3             = 0x93;
+ 154      =1  sbit FpgaA4             = 0x94;
+ 155      =1  sbit FpgaA5             = 0x95;
+ 156      =1  sbit FpgaA6             = 0x96;
+ 157      =1  sbit FpgaA7             = 0x97;
+ 158      =1  
+ 159      =1  //========================================================================================
+ 160      =1  // Hardware Specific P2 (0xA0) Bit Registers
+ 161      =1  //========================================================================================
+ 162      =1  //sbit XtalSel10n20       = 0xA0;
+ 163      =1  sbit cs_e15             = P2^0;
+ 164      =1  sbit cs_e02             = P2^1;
+ 165      =1  sbit cs_e17             = P2^2;
+ 166      =1  sbit cs_e13             = P2^3;
+ 167      =1  sbit HBCtrl             = P2^4;
+ 168      =1  sbit WBCtrl             = P2^5;
+ 169      =1  sbit WTCtrl             = P2^6;
+ 170      =1  sbit NIWTIHCtrl         = P2^7;
+ 171      =1  
+ 172      =1  //========================================================================================
+ 173      =1  // Hardware Specific P3 (0xB0) Bit Registers
+ 174      =1  //========================================================================================
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 6   
+
+ 175      =1  sbit DebugTmp           = P3^3;
+ 176      =1  sbit RTS_DE             = P3^4;
+ 177      =1  sbit a2d_wr             = P3^5;
+ 178      =1  sbit FpgaWr                     = P3^6;
+ 179      =1  sbit DO2_ctrl           = P3^6;
+ 180      =1  sbit HeartBeat          = P3^6;
+ 181      =1  sbit DO1_ctrl           = P3^7;
+ 182      =1  
+ 183      =1  sfr ACC                 = 0xE0;           // Accumulator
+ 184      =1  //========================================================================================
+ 185      =1  // ACC (0xE0) Bit Registers
+ 186      =1  //========================================================================================
+ 187      =1  sbit A_0                = 0xE0;
+ 188      =1  sbit A_1                = 0xE1;
+ 189      =1  sbit A_2                = 0xE2;
+ 190      =1  sbit A_3                = 0xE3;
+ 191      =1  sbit A_4                = 0xE4;
+ 192      =1  sbit A_5                = 0xE5;
+ 193      =1  sbit A_6                = 0xE6;
+ 194      =1  sbit A_7                = 0xE7;
+ 195      =1  
+ 196      =1  //========================================================================================
+ 197      =1  // Hardware Specific Bit Registers                                                        //
+ 198      =1  //========================================================================================
+ 199      =1  
+ 200      =1  //========================================================================================
+ 201      =1  //    BIT Register.....                                                                   //
+ 202      =1  //========================================================================================
+ 203      =1  //          TCON                                                                          //
+ 204      =1  //========================================================================================
+ 205      =1  sbit  TF1               = 0x8F;
+ 206      =1  sbit  TR1               = 0x8E;
+ 207      =1  sbit  TF0               = 0x8D;
+ 208      =1  sbit  TR0               = 0x8C;
+ 209      =1  sbit  IE1               = 0x8B;
+ 210      =1  sbit  IT1               = 0x8A;
+ 211      =1  sbit  IE0               = 0x89;
+ 212      =1  sbit  IT0               = 0x88;
+ 213      =1  //========================================================================================
+ 214      =1  // P1 //
+ 215      =1  //========================================================================================
+ 216      =1  sbit  T2EX              = 0x91;
+ 217      =1  sbit  T2                = 0x90;
+ 218      =1  //========================================================================================
+ 219      =1  // SCON //
+ 220      =1  //========================================================================================
+ 221      =1  sbit  SM0               = 0x9F;
+ 222      =1  sbit  SM1               = 0x9E;
+ 223      =1  sbit  SM2               = 0x9D;
+ 224      =1  sbit  REN               = 0x9C;
+ 225      =1  sbit  TB8               = 0x9B;
+ 226      =1  sbit  RB8               = 0x9A;
+ 227      =1  sbit  TI                = 0x99;
+ 228      =1  sbit  RI                = 0x98;
+ 229      =1  //========================================================================================
+ 230      =1  // IE //
+ 231      =1  //========================================================================================
+ 232      =1  sbit  EA                = 0xAF;
+ 233      =1  sbit  EADC              = 0xAE;
+ 234      =1  sbit  ET2               = 0xAD;
+ 235      =1  sbit  ES                = 0xAC;
+ 236      =1  sbit  ET1               = 0xAB;
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 7   
+
+ 237      =1  sbit  EX1               = 0xAA;
+ 238      =1  sbit  ET0               = 0xA9;
+ 239      =1  sbit  EX0               = 0xA8;
+ 240      =1  //========================================================================================
+ 241      =1  // P3 //
+ 242      =1  //========================================================================================
+ 243      =1  sbit  RD                = 0xB7;
+ 244      =1  sbit  WR                = 0xB6;
+ 245      =1  sbit  T1                = 0xB5;
+ 246      =1  sbit  T0                = 0xB4;
+ 247      =1  sbit  INT1              = 0xB3;
+ 248      =1  sbit  INT0              = 0xB2;
+ 249      =1  sbit  TXD               = 0xB1;
+ 250      =1  sbit  RXD               = 0xB0;
+ 251      =1  //========================================================================================
+ 252      =1  // IP //
+ 253      =1  //========================================================================================
+ 254      =1  sbit  PSI               = 0xBF;
+ 255      =1  sbit  PADC              = 0xBE;
+ 256      =1  sbit  PT2               = 0xBD;
+ 257      =1  sbit  PS                = 0xBC;
+ 258      =1  sbit  PT1               = 0xBB;
+ 259      =1  sbit  PX1               = 0xBA;
+ 260      =1  sbit  PT0               = 0xB9;
+ 261      =1  sbit  PX0               = 0xB8;
+ 262      =1  //========================================================================================
+ 263      =1  // WDCON //
+ 264      =1  //========================================================================================
+ 265      =1  sbit  PRE3              = 0xC7;
+ 266      =1  sbit  PRE2              = 0xC6;
+ 267      =1  sbit  PRE1              = 0xC5;
+ 268      =1  sbit  PRE0              = 0xC4;
+ 269      =1  sbit  WDIR              = 0xC3;
+ 270      =1  sbit  WDS               = 0xC2;
+ 271      =1  sbit  WDE               = 0xC1;
+ 272      =1  sbit  WDWR              = 0xC0;
+ 273      =1  //========================================================================================
+ 274      =1  // T2CON //
+ 275      =1  //========================================================================================
+ 276      =1  sbit  TF2               = 0xCF;
+ 277      =1  sbit  EXF2              = 0xCE;
+ 278      =1  sbit  RCLK              = 0xCD;
+ 279      =1  sbit  TCLK              = 0xCC;
+ 280      =1  sbit  EXEN2             = 0xCB;
+ 281      =1  sbit  TR2               = 0xCA;
+ 282      =1  sbit  CNT2              = 0xC9;
+ 283      =1  sbit  CAP2              = 0xC8;
+ 284      =1  //========================================================================================
+ 285      =1  // PSW //
+ 286      =1  //========================================================================================
+ 287      =1  sbit  CY                = 0xD7;
+ 288      =1  sbit  AC                = 0xD6;
+ 289      =1  sbit  F0                = 0xD5;
+ 290      =1  sbit  RS1               = 0xD4;
+ 291      =1  sbit  RS0               = 0xD3;
+ 292      =1  sbit  OV                = 0xD2;
+ 293      =1  sbit  F1                = 0xD1;
+ 294      =1  sbit  P                 = 0xD0;
+ 295      =1  //========================================================================================
+ 296      =1  // ADCCON2 //
+ 297      =1  //========================================================================================
+ 298      =1  sbit  ADCI              = 0xDF;
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 8   
+
+ 299      =1  sbit  DMA               = 0xDE;
+ 300      =1  sbit  CCONV             = 0xDD;
+ 301      =1  sbit  SCONV             = 0xDC;
+ 302      =1  sbit  CS3               = 0xDB;
+ 303      =1  sbit  CS2               = 0xDA;
+ 304      =1  sbit  CS1               = 0xD9;
+ 305      =1  sbit  CS0               = 0xD8;
+ 306      =1  //========================================================================================
+ 307      =1  // DCON //
+ 308      =1  //========================================================================================
+ 309      =1  sbit  D1                = 0xEF;
+ 310      =1  sbit  D1EN              = 0xEE;
+ 311      =1  sbit  D0                = 0xED;
+ 312      =1  sbit  D0EN              = 0xEB;
+ 313      =1  //========================================================================================
+ 314      =1  // I2CCON //
+ 315      =1  //========================================================================================
+ 316      =1  sbit  MDO               = 0xEF;
+ 317      =1  sbit  MDE               = 0xEE;
+ 318      =1  sbit  MCO               = 0xED;
+ 319      =1  sbit  MDI               = 0xEC;
+ 320      =1  sbit  I2CM              = 0xEB;
+ 321      =1  sbit  I2CRS             = 0xEA;
+ 322      =1  sbit  I2CTX             = 0xE9;
+ 323      =1  sbit  I2CI              = 0xE8;
+ 324      =1  //========================================================================================
+ 325      =1  // SPICON //
+ 326      =1  //========================================================================================
+ 327      =1  sbit  ISPI              = 0xFF;
+ 328      =1  sbit  WCOL              = 0xFE;
+ 329      =1  sbit  SPE               = 0xFD;
+ 330      =1  sbit  SPIM              = 0xFC;
+ 331      =1  sbit  CPOL              = 0xFB;
+ 332      =1  sbit  CPHA              = 0xFA;
+ 333      =1  sbit  SPR1              = 0xF9;
+ 334      =1  sbit  SPR0              = 0xF8;
+ 335      =1  //========================================================================================
+  25          #include "intrins.H"                                                                      //
+   1      =1  /*--------------------------------------------------------------------------
+   2      =1  INTRINS.H
+   3      =1  
+   4      =1  Intrinsic functions for C51.
+   5      =1  Copyright (c) 1988-2004 Keil Elektronik GmbH and Keil Software, Inc.
+   6      =1  All rights reserved.
+   7      =1  --------------------------------------------------------------------------*/
+   8      =1  
+   9      =1  #ifndef __INTRINS_H__
+  10      =1  #define __INTRINS_H__
+  11      =1  
+  12      =1  extern void          _nop_     (void);
+  13      =1  extern bit           _testbit_ (bit);
+  14      =1  extern unsigned char _cror_    (unsigned char, unsigned char);
+  15      =1  extern unsigned int  _iror_    (unsigned int,  unsigned char);
+  16      =1  extern unsigned long _lror_    (unsigned long, unsigned char);
+  17      =1  extern unsigned char _crol_    (unsigned char, unsigned char);
+  18      =1  extern unsigned int  _irol_    (unsigned int,  unsigned char);
+  19      =1  extern unsigned long _lrol_    (unsigned long, unsigned char);
+  20      =1  extern unsigned char _chkfloat_(float);
+  21      =1  extern void          _push_    (unsigned char _sfr);
+  22      =1  extern void          _pop_     (unsigned char _sfr);
+  23      =1  
+  24      =1  #endif
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 9   
+
+  25      =1  
+  26          #include "math.H"                                                                         //
+   1      =1  /*--------------------------------------------------------------------------
+   2      =1  MATH.H
+   3      =1  
+   4      =1  Prototypes for mathematic functions.
+   5      =1  Copyright (c) 1988-2002 Keil Elektronik GmbH and Keil Software, Inc.
+   6      =1  All rights reserved.
+   7      =1  --------------------------------------------------------------------------*/
+   8      =1  
+   9      =1  #ifndef __MATH_H__
+  10      =1  #define __MATH_H__
+  11      =1  
+  12      =1  #pragma SAVE
+  13      =1  #pragma REGPARMS
+  14      =1  extern char  cabs  (char  val);
+  15      =1  extern int    abs  (int   val);
+  16      =1  extern long  labs  (long  val);
+  17      =1  extern float fabs  (float val);
+  18      =1  extern float sqrt  (float val);
+  19      =1  extern float exp   (float val);
+  20      =1  extern float log   (float val);
+  21      =1  extern float log10 (float val);
+  22      =1  extern float sin   (float val);
+  23      =1  extern float cos   (float val);
+  24      =1  extern float tan   (float val);
+  25      =1  extern float asin  (float val);
+  26      =1  extern float acos  (float val);
+  27      =1  extern float atan  (float val);
+  28      =1  extern float sinh  (float val);
+  29      =1  extern float cosh  (float val);
+  30      =1  extern float tanh  (float val);
+  31      =1  extern float atan2 (float y, float x);
+  32      =1  
+  33      =1  extern float ceil  (float val);
+  34      =1  extern float floor (float val);
+  35      =1  extern float modf  (float val, float *n);
+  36      =1  extern float fmod  (float x, float y);
+  37      =1  extern float pow   (float x, float y);
+  38      =1  
+  39      =1  #pragma RESTORE
+  40      =1  
+  41      =1  #endif
+  27          #include "CIRCUIT.H"                                                                      //
+   1      =1  //
+   2      =1  ///////////////////////////////////////////////////////////////////////////////
+   3      =1  //     Copyright (c) 2013     Simtek, Incorporated      All rights reserved.
+   4      =1  //
+   5      =1  //     This is unpublished proprietary source code of Simtek, Inc
+   6      =1  //
+   7      =1  //     The copyright notice above does not evidence any actual or intended
+   8      =1  //     publication of such source code.
+   9      =1  ///////////////////////////////////////////////////////////////////////////////
+  10      =1  //
+  11      =1  ///////////////////////////////////////////////////////////////////////////////
+  12      =1  // Module Name:CIRCUIT.H
+  13      =1  // Purpose  : Definition of Hardware Specific Routines
+  14      =1  // Author   : C. Mason
+  15      =1  // Date     : August 20, 2013
+  16      =1  // Notes    :
+  17      =1  //
+  18      =1  ///////////////////////////////////////////////////////////////////////////////
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 10  
+
+  19      =1  //
+  20      =1  #ifndef CIRCUIT_H
+  21      =1  #define CIRCUIT_H 1
+  22      =1  
+  23      =1  // GLOBAL PROTOTYPES //
+  24      =1  extern void ext1_5thHardwareDelay(void);
+  25      =1  extern void extHardwareDelay(void);
+  26      =1  
+  27      =1  extern U8_T  aSevenSegXlate(U8_T ascii);
+  28      =1  extern U16_T aFourteenSegXlate(U8_T ascii);
+  29      =1  //extern void  aFourteenSegXlate(U8_T ascii);
+  30      =1  extern U16_T aMAX144ReadADC(void);
+  31      =1  extern void  aHI8045DriverLoad(U8_T XDATA* bmapptr, U8_T loop);                           // output the da
+             -ta to the display driver
+  32      =1  extern U8_T  aFPGARead(U8_T addr);                                                        //
+  33      =1  extern void  aFPGAWrite(U8_T addr, U8_T dat);                                             //
+  34      =1  
+  35      =1  #define tmpvar1               0x35                                                        //
+  36      =1  //#define tmpvar2               0x36                                                      //
+  37      =1  //#define tmpvar3               0x37                                                      //
+  38      =1  extern U8_T  IDATA AssyVarPass1 _at_ tmpvar1;                                             // setup an asse
+             -mbly and C passable variable
+  39      =1  //extern U8_T  IDATA AssyVarPass2 _at_ tmpvar2;                                           //
+  40      =1  //extern U16_T IDATA AssyVarPassW _at_ tmpvar1;                                           //
+  41      =1  #endif      // end of CIRCUIT_H //
+  28          #include <string.h>
+   1      =1  //========================================================================================
+   2      =1  //    STRING.H
+   3      =1  //    
+   4      =1  //    String functions.
+   5      =1  //    Copyright (c) 1988-2002 Keil Elektronik GmbH and Keil Software, Inc.
+   6      =1  //    All rights reserved.
+   7      =1  //========================================================================================
+   8      =1  
+   9      =1  #ifndef __STRING_H__
+  10      =1  #define __STRING_H__
+  11      =1  
+  12      =1  #ifndef _SIZE_T
+  13      =1   #define _SIZE_T
+  14      =1   typedef unsigned int size_t;
+  15      =1  #endif
+  16      =1  
+  17      =1  #ifndef NULL
+           =1  #define NULL ((void *) 0L)
+           =1 #endif
+  20      =1  
+  21      =1  #pragma SAVE
+  22      =1  #pragma REGPARMS
+  23      =1  extern char *strcat (char *s1, char *s2);
+  24      =1  extern char *strncat (char *s1, char *s2, int n);
+  25      =1  
+  26      =1  extern char strcmp (char *s1, char *s2);
+  27      =1  extern char strncmp (char *s1, char *s2, int n);
+  28      =1  
+  29      =1  extern char *strcpy (char *s1, char *s2);
+  30      =1  extern char *strncpy (char *s1, char *s2, int n);
+  31      =1  
+  32      =1  extern int strlen (char *);
+  33      =1  
+  34      =1  extern char *strchr (const char *s, char c);
+  35      =1  extern int strpos (const char *s, char c);
+  36      =1  extern char *strrchr (const char *s, char c);
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 11  
+
+  37      =1  extern int strrpos (const char *s, char c);
+  38      =1  
+  39      =1  extern int strspn (char *s, char *set);
+  40      =1  extern int strcspn (char *s, char *set);
+  41      =1  extern char *strpbrk (char *s, char *set);
+  42      =1  extern char *strrpbrk (char *s, char *set);
+  43      =1  extern char *strstr  (char *s, char *sub);
+  44      =1  extern char *strtok  (char *str, const char *set);
+  45      =1  
+  46      =1  extern char memcmp (void *s1, void *s2, int n);
+  47      =1  extern void *memcpy (void *s1, void *s2, int n);
+  48      =1  extern void *memchr (void *s, char val, int n);
+  49      =1  extern void *memccpy (void *s1, void *s2, char val, int n);
+  50      =1  extern void *memmove (void *s1, void *s2, int n);
+  51      =1  extern void *memset  (void *s, char val, int n);
+  52      =1  #pragma RESTORE
+  53      =1  
+  54      =1  #endif
+  29          //========================================================================================
+  30          //          naming constant declarations                                                  //
+  31          //========================================================================================
+  32          #define ResetRequest          0xF0                                                        // soft reset of
+             - instrument
+  33          #define ResetReqLen              2                                                        // soft reset of
+             - instrument
+  34          #define DataChangeRequest     0xF5                                                        // change indica
+             -tor bar 1 inbd
+  35          #define DataChangeReqLen         5                                                        // change indica
+             -tor bar 1 inbd
+  36          //#define SetDimPnl             0x40                                                        // set panel b
+             -rightness
+  37          #define Firmware              0xFE                                                        // send panel fi
+             -rmware version request
+  38          #define FirmwareLen              2                                                        // send panel fi
+             -rmware version request
+  39          #define FirmwareResponse  Firmware                                                        // send panel fi
+             -rmware version
+  40          #define FirmwareRspLen           5                                                        // send panel fi
+             -rmware version
+  41          #define DefaultMsgLen  ResetReqLen                                                        // send panel fi
+             -rmware version
+  42          #define OneByte                  1                                                        // send panel fi
+             -rmware version
+  43          
+  44          //========================================================================================
+  45          //          fpga addresses definitions                                                    //
+  46          //========================================================================================
+  47          //#define aPWM0H                0xC0                                                        // address of 
+             -register in the FPGA that holds PWM1 high byte of data
+  48          //#define aPWM0L                0xC1                                                        // address of 
+             -register in the FPGA that holds PWM1 low byte of data
+  49          
+  50          #define aControl              0x80                                                        // address of re
+             -gister in the FPGA that holds states of the hardware control lines
+  51          #define aIndOutBD1            0x81                                                        // address of re
+             -gister in the FPGA that holds states for LEDs DS40-34 for the INBD indicator bar
+  52          #define aIndOutBD2            0x82                                                        // address of re
+             -gister in the FPGA that holds states for LEDs DS33-27 for the INBD indicator bar
+  53          #define aIndOutBD3            0x83                                                        // address of re
+             -gister in the FPGA that holds states for LEDs DS26-20 for the INBD indicator bar
+  54          #define aIndOutBD4            0x84                                                        // address of re
+             -gister in the FPGA that holds states for LEDs DS19-13 for the INBD indicator bar
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 12  
+
+  55          #define aIndOutBD5            0x85                                                        // address of re
+             -gister in the FPGA that holds states for LEDs DS12-6 for the INBD indicator bar
+  56          #define aIndOutBD6            0x86                                                        // address of re
+             -gister in the FPGA that holds states for LEDs DS5-1 for the INBD indicator bar
+  57          #define aIndInBD1             0x87                                                        // address of re
+             -gister in the FPGA that holds states for LEDs DS40-34 for the OUTBD indicator bar
+  58          #define aIndInBD2             0x88                                                        // address of re
+             -gister in the FPGA that holds states for LEDs DS33-27 for the OUTBD indicator bar
+  59          #define aIndInBD3             0x89                                                        // address of re
+             -gister in the FPGA that holds states for LEDs DS26-20 for the OUTBD indicator bar
+  60          #define aIndInBD4             0x8A                                                        // address of re
+             -gister in the FPGA that holds states for LEDs DS19-13 for the OUTBD indicator bar
+  61          #define aIndInBD5             0x8B                                                        // address of re
+             -gister in the FPGA that holds states for LEDs DS12-6 for the OUTBD indicator bar
+  62          #define aIndInBD6             0x8C                                                        // address of re
+             -gister in the FPGA that holds states for LEDs DS5-1 for the OUTBD indicator bar
+  63          //========================================================================================
+  64          //          variables declarations                                                        //
+  65          //========================================================================================
+  66          byte              devicedata[DataChangeReqLen];                                           //
+  67          byte              firmware[FirmwareRspLen];                                               // firmware revi
+             -sion information
+  68          //static byte       PnlBrtnessH;                                                            //
+  69          //static byte       PnlBrtnessL;                                                            //
+  70          //static word       acPnlBrt;                                                               //
+  71          static word       HrtBeatDelay;                                                           //
+  72          static word       acReset;                                                                //
+  73          static word       acDataChange;                                                           //
+  74          static word       acFirmwareRsp;                                                          //
+  75          //FLASHPAGE FData;                                                                        //
+  76          static byte       uart0_TxBuf[MAX_TX_UART0_BUF_SIZE];                                     //
+  77          static word       uart0_TxHead = 0;                                                       //
+  78          static word       uart0_TxTail = 0;                                                       //
+  79          static word       uart0_TxCount = 0;                                                      //
+  80          static byte       uart0_TxFlag = 0;                                                       //
+  81          static byte       uart0_RxBuf[MAX_RX_UART0_BUF_SIZE];                                     //
+  82          static word       uart0_RxHead = 0;                                                       //
+  83          static word       uart0_RxTail = 0;                                                       //
+  84          static byte       uart0_Mode = 0;                                                         //
+  85          static word       uart0_RxCount = 0;                                                      //
+  86          static word       olduart0_RxCount;                                                       //
+  87          static byte       MinMsgLen;                                                              //
+  88          //========================================================================================
+  89          //          subroutine declarations                                                       //
+  90          //========================================================================================
+  91          void initailize_ADUC841_UART(byte t3con, t3fd);                                           //
+  92          static void UART_ISR(void);                                                               //
+  93          void UART_Write(byte c);                                                                  //
+  94          void RemoveMsgFromBuffer(byte cnt);                                                       //
+  95          void wrAD7247(word val, byte ch);
+  96          
+  97          //----------------------------------------------------------------------------------------
+  98          // name    : UART_ISR(void)                                                         //
+  99          // purpose       : service all interrupts caused by traffic on the serial data port       //
+ 100          // params        : void                                                                   //
+ 101          // returns       : void                                                                   //
+ 102          // notes         :                                                                        //
+ 103          //----------------------------------------------------------------------------------------
+ 104          static void UART_ISR(void) interrupt 4                                                    // interrupt ser
+             -ivice routine for all serail UART interrupts
+ 105          {
+ 106   1            if (RI)                                                                             // check to see 
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 13  
+
+             -if the receive interrupt flag
+ 107   1              {
+ 108   2              EA = 0;                                                                           // disable other
+             - interrupt wihle processing receive
+ 109   2              if (uart0_RxCount != MAX_RX_UART0_BUF_SIZE)                                       // make sure the
+             - buffer is not full
+ 110   2                {
+ 111   3                uart0_RxBuf[uart0_RxHead] = SBUF;                                               // save the newl
+             -y received data
+ 112   3                uart0_RxCount++;                                                                // updated recei
+             -ved count to show the new byte
+ 113   3                uart0_RxHead++;                                                                 // update pointe
+             -r to next receive buffer location
+ 114   3                uart0_RxHead &= MAX_RX_UART0_MASK;                                              // make sure the
+             - pointer does not go outside buffer space
+ 115   3                }
+ 116   2              RI = 0;                                                                           // clear the byt
+             -e recieved interrupt flag
+ 117   2              EA = 1;                                                                           // reenable all 
+             -interrupts
+ 118   2              } // End of if(RI)
+ 119   1            if (TI)                                                                             // check to see 
+             -if the transmit interrupt flag
+ 120   1              {
+ 121   2              EA = 0;                                                                           // disable all i
+             -nterrupts
+ 122   2              uart0_TxBuf[uart0_TxTail] = 0;                                                    // clear the tra
+             -nsmit buffer location of the last transmitted byte
+ 123   2              uart0_TxTail++;                                                                   // update the tr
+             -ansmit buffer tail index
+ 124   2              uart0_TxTail &= MAX_TX_UART0_MASK;                                                // mask the inde
+             -x to make sure to stay within the buffer
+ 125   2              uart0_TxCount--;                                                                  // update the co
+             -unt of bytes in the buffer
+ 126   2              if ((uart0_TxFlag == 1) && (uart0_TxCount > 0))                                   // check to see 
+             -if there is more data to transmit
+ 127   2                SBUF = uart0_TxBuf[uart0_TxTail];                                               // transmit the 
+             -next byte in the transmit buffer
+ 128   2              else                                                                              // no more data 
+             -to transmit
+ 129   2                uart0_TxFlag = 0;                                                               // clear the fir
+             -st byte transmit flag
+ 130   2              TI = 0;                                                                           // clear the byt
+             -e transmitted interrupt flag
+ 131   2              EA = 1;                                                                           // reenable all 
+             -interrupts
+ 132   2              } // End of if(TI)
+ 133   1      } // End of UART_Int
+ 134          
+ 135          //----------------------------------------------------------------------------------------
+ 136          // name    : UART_Write(byte c)                                                     //
+ 137          // purpose       : write data to the serial port transmit buffer for transmission, and to //
+ 138          //                 start the transmission process if it is not started.                   //
+ 139          // params        : data byte to write to the buffer                                       //
+ 140          // returns       : void                                                                   //
+ 141          // notes         :                                                                        //
+ 142          //----------------------------------------------------------------------------------------
+ 143          void UART_Write(byte c)                                                                   //
+ 144          {
+ 145   1            uart0_TxBuf[uart0_TxHead] = c;                                                      // write the new
+             - byte to the transmit buffer
+ 146   1            EA = 0;                                                                             // diable all in
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 14  
+
+             -terrupts
+ 147   1            uart0_TxCount++;                                                                    // update the nu
+             -mber of bytes in the transmit buffer
+ 148   1            EA = 1;                                                                             // reenable all 
+             -interrupts
+ 149   1            uart0_TxHead++;                                                                     // update the in
+             -dex to the next byte in the transmit buffer
+ 150   1            uart0_TxHead &= MAX_TX_UART0_MASK;                                                  // make sure the
+             - index stays within the buffer
+ 151   1            if (!uart0_TxFlag)                                                                  // check to see 
+             -if this is the first byte to transmit
+ 152   1              {
+ 153   2              uart0_TxFlag = 1;                                                                 // set the first
+             - byte transmitted flag
+ 154   2              SBUF = uart0_TxBuf[uart0_TxTail];                                                 // transmit the 
+             -byte
+ 155   2              }
+ 156   1      }
+ 157          
+ 158          //----------------------------------------------------------------------------------------
+ 159          // name    : initailize_ADUC841_UART(byte t3con, t3fd)                              //
+ 160          // purpose       : setup the internal UART                                                //
+ 161          // params        : divider and fractional divider data                                    //
+ 162          // returns       : void                                                                   //
+ 163          // notes         :                                                                        //
+ 164          //----------------------------------------------------------------------------------------
+ 165          void initailize_ADUC841_UART(byte t3con, t3fd)
+ 166          {// setup serial port for 8 bits, baud at 38400(mode 1, 8 bit uart)
+ 167   1            T3CON       =     t3con;                                                            // set the divid
+             -er to 5 for 38400
+ 168   1            T3FD        =     t3fd;                                                             // set the fract
+             -ional divide to 01 for 38400
+ 169   1            SCON        =     0xD0;                                                             // set serial po
+             -rt to mode 1 (8 bit uart)
+ 170   1            ES          =     1;                                                                // enable serial
+             - interrupts (ie register)
+ 171   1            RTS_DE      =     0;                                                                // disable the t
+             -ransmitter
+ 172   1      }
+ 173          
+ 174          //----------------------------------------------------------------------------------------
+ 175          // name    : RemoveMsgFromBuffer(byte cnt)                                          //
+ 176          // purpose       : remove a processed or error message from the serial receive buffer     //
+ 177          // params        : size of the message to remove from the buffer                          //
+ 178          // returns       : void                                                                   //
+ 179          // notes         :                                                                        //
+ 180          //----------------------------------------------------------------------------------------
+ 181          void RemoveMsgFromBuffer(byte cnt)
+ 182          {
+ 183   1            word tmp;
+ 184   1      
+ 185   1            if((uart0_RxTail+cnt) > MAX_RX_UART0_MASK)
+ 186   1              {
+ 187   2              tmp = MAX_RX_UART0_BUF_SIZE - uart0_RxTail;                                       // find the numb
+             -er of bytes until the end of the buffer
+ 188   2              memset(&uart0_RxBuf[uart0_RxTail], 0, tmp);                                       // remove the me
+             -ssage from the buffer
+ 189   2              uart0_RxTail += cnt;                                                              // update the ar
+             -ray index
+ 190   2              uart0_RxTail &= MAX_RX_UART0_MASK;                                                // make sure the
+             - index does not point outside buffer space
+ 191   2              memset(&uart0_RxBuf[0], 0, uart0_RxTail);                                         // remove the me
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 15  
+
+             -ssage from the buffer
+ 192   2              }
+ 193   1            else
+ 194   1              {
+ 195   2              memset(&uart0_RxBuf[uart0_RxTail], 0, cnt);                                       // remove the me
+             -ssage from the buffer
+ 196   2              uart0_RxTail += cnt;                                                              // update the ar
+             -ray index
+ 197   2              uart0_RxTail &= MAX_RX_UART0_MASK;                                                // make sure the
+             - index does not point outside buffer space
+ 198   2              }
+ 199   1            EA = 0;                                                                             // disable inter
+             -rupts
+ 200   1            uart0_RxCount -= cnt;                                                               // update counte
+             -r to reflect number of bytes still in the buffer
+ 201   1            EA = 1;                                                                             // renable inter
+             -rupts
+ 202   1            MinMsgLen = DefaultMsgLen;                                                          // reset the min
+             -imum message length to the default
+ 203   1      }
+ 204          
+ 205          //----------------------------------------------------------------------------------------
+ 206          // name    : wrAD7247                                                                     //
+ 207          // purpose : write a given channel to the a2d                                             //
+ 208          // params  : value to write                                                               //
+ 209          // returns : void                                                                         //
+ 210          // notes   :                                                                              //
+ 211          //----------------------------------------------------------------------------------------
+ 212          void wrAD7247(word val, byte ch)
+ 213          {// value bits 3 - 0 to p2.7-4, value bits 11 - 4 to p0.7-0
+ 214   1            byte  tmp;
+ 215   1            // write data to port
+ 216   1            P0      = (byte)(val >> 4);                                                         // place bits 11
+             - - 4 on the port pins to write to the a2d
+ 217   1            tmp     = 0xF0 | (((byte)(val << 4)) & 0xF0);                                       // combine bits 
+             -3-0 of port 2 with bits 3-0 of the value
+ 218   1            P2      = tmp;                                                                      // place bits 3-
+             -0 for a2d on the port pins
+ 219   1      
+ 220   1            P2     &= ch;                                                                       // activate the 
+             -a2d channel to update
+ 221   1      
+ 222   1            a2d_wr   = 0;                                                                       // write the new
+             - value to the a2d
+ 223   1            a2d_wr   = 1;                                                                       // deactivate wr
+             -ite
+ 224   1      
+ 225   1            P2     |= 0xF0;                                                                     // disable all a
+             -2d chip selects
+ 226   1      //    cs_e15 = 1;                                                                         //
+ 227   1      //    cs_e02 = 1;                                                                         //
+ 228   1      //    cs_e17 = 1;                                                                         //
+ 229   1      //    cs_e13 = 1;                                                                         //
+ 230   1      }
+ 231          
+ 232          //----------------------------------------------------------------------------------------
+ 233          // name    : main(void)                                                                   //
+ 234          // purpose       : create the main loop                                                   //
+ 235          // params        : void                                                                   //
+ 236          // returns       : void                                                                   //
+ 237          // notes         :                                                                        //
+ 238          //----------------------------------------------------------------------------------------
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 16  
+
+ 239          void main(void)
+ 240          {
+ 241   1            word  index;
+ 242   1            byte  cmd, adr, DeviceAddress;
+ 243   1      //========================================================================================
+ 244   1      //          set the stack pointer                                                         //
+ 245   1      //========================================================================================
+ 246   1            SP = 0x50;                                                                          // relocate the 
+             -stack
+ 247   1      //========================================================================================
+ 248   1      //          enable the internal extended RAM                                              //
+ 249   1      //========================================================================================
+ 250   1            CFG841 |= 0x81;                                                                     // add the inter
+             -nal external RAM mapping switch bit and stack exspansion bit
+ 251   1      //========================================================================================
+ 252   1      //          initailize ADuC internal PWM                                                  //
+ 253   1      //========================================================================================
+ 254   1      //      initailize_ADUC841_PWM();                                                           // setup PWM f
+             -or __% max duty cycle and 256 bits of resolution 16bit programmable pulse and cycle time
+ 255   1      //========================================================================================
+ 256   1      //          initailize ADuC internal UART                                                 //
+ 257   1      //========================================================================================
+ 258   1            memset(&uart0_TxBuf[0], 0, MAX_TX_UART0_BUF_SIZE);                                  // blank out the
+             - buffer
+ 259   1            memset(&uart0_RxBuf[0], 0, MAX_RX_UART0_BUF_SIZE);                                  // blank out the
+             - buffer
+ 260   1            uart0_TxHead     = 0;                                                               // zero out the 
+             -transmit buffer head pointer
+ 261   1            uart0_TxTail     = 0;                                                               // zero out the 
+             -transmit buffer tail pointer
+ 262   1            uart0_TxCount    = 0;                                                               // clear the tra
+             -nsmit mode flag
+ 263   1            uart0_TxFlag     = 0;                                                               // zero out the 
+             -transmitted data counter
+ 264   1            uart0_RxHead     = 0;                                                               // zero out the 
+             -receive buffer head pointer
+ 265   1            uart0_RxTail     = 0;                                                               // zero out the 
+             -receive buffer tail pointer
+ 266   1            uart0_Mode       = 0;                                                               // clear the rec
+             -eive mode flag
+ 267   1            uart0_RxCount    = 0;                                                               // zero out the 
+             -received data counter
+ 268   1            olduart0_RxCount = 0;                                                               //
+ 269   1            MinMsgLen        = DefaultMsgLen;                                                   // initailize th
+             -e minimum message length to the smallest full message length
+ 270   1      //========================================================================================
+ 271   1      //          testing baud rate 115200 @ 14.7456Mhz                                         //
+ 272   1      //========================================================================================
+ 273   1            initailize_ADUC841_UART(0x82, 0x40);                                                // initailize th
+             -e com port for 115200 bps, mode 1, 8 bit uart, odd parity
+ 274   1      //========================================================================================
+ 275   1      //          initailize serial transmitter hardware                                        //
+ 276   1      //========================================================================================
+ 277   1      //      HalfnFull = 0;                                                                      // set RS422 b
+             -uss to full duplex
+ 278   1            HeartBeat = 0;                                                                      // turn on the h
+             -eart beat
+ 279   1            RTS_DE = 1;                                                                         // enable the tr
+             -ansmitter
+ 280   1            EA = 1;                                                                             // enable all in
+             -terrupts
+ 281   1      //========================================================================================
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 17  
+
+ 282   1      //          initailize all internal hardware variables                                    //
+ 283   1      //========================================================================================
+ 284   1            HrtBeatDelay = 1;                                                                   // intailize the
+             - heart beat counter
+ 285   1            HeartBeat = 0;                                                                      // turn on the h
+             -eart beat
+ 286   1      //========================================================================================
+ 287   1      //          initialize all harware control pins                                           //
+ 288   1      //========================================================================================
+ 289   1            firmware[0] = 0x74;                                                                 // initailize th
+             -e microcontroller firmware revision information
+ 290   1            firmware[1] = 0x44;                                                                 // initailize th
+             -e microcontroller firmware revision information
+ 291   1            firmware[2] = 0x55;                                                                 // initailize th
+             -e microcontroller firmware revision information
+ 292   1            firmware[3] = 0x2D;                                                                 // initailize th
+             -e microcontroller firmware revision information
+ 293   1      //========================================================================================
+ 294   1      //          set the reset action counter to execute the reset procedure                   //
+ 295   1      //========================================================================================
+ 296   1            acReset = 1;                                                                        // for a initail
+             - reset of values
+ 297   1            while(1)                                                                            // keep going un
+             -til dead
+ 298   1              {
+ 299   2              DeviceAddress = P1 & 0x07;                                                        // get the set a
+             -ddress
+ 300   2              HrtBeatDelay--;                                                                   // update heartb
+             -eat counter
+ 301   2              if((HeartBeat==0)&&(HrtBeatDelay <= 0x10))                                        // check if the 
+             -heart beat is ready to be turned off
+ 302   2                {
+ 303   3                HeartBeat = 1;                                                                  // turn LED off
+ 304   3                HrtBeatDelay = 0x7FFF;                                                          // set the delay
+             - for off state
+ 305   3                }
+ 306   2              else if((HeartBeat==1)&&(HrtBeatDelay <= 0x10))                                   // check if the 
+             -heart beat is ready to be turned on
+ 307   2                {
+ 308   3                HeartBeat = 0;                                                                  // turn LED on
+ 309   3                HrtBeatDelay = 0x0700;                                                          // set the delay
+             - for on state
+ 310   3                }
+ 311   2              if(acReset > 0)                                                                   // check to see 
+             -if a reset has been requested
+ 312   2                {
+ 313   3      //========================================================================================
+ 314   3      //          reset the ddata registers                                                     //
+ 315   3      //========================================================================================
+ 316   3                memset(&devicedata[0], 0, DataChangeReqLen);                                    // blank out the
+             - buffer
+ 317   3      //========================================================================================
+ 318   3      //          initailize all of the harware values                                          //
+ 319   3      //========================================================================================
+ 320   3      //          PnlBrtnessH   = 0x00;                                                           // reset light
+             -ing to power on state
+ 321   3      //          PnlBrtnessL   = 0x00;                                                           // reset light
+             -ing to power on state
+ 322   3      //========================================================================================
+ 323   3      //          set the action counters to reset the indicator for the user viewpoint         //
+ 324   3      //========================================================================================
+ 325   3                acDataChange  = 1;                                                              // set the actio
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 18  
+
+             -n counter to output new data to the displays one time to show the reset value
+ 326   3      //          acPnlBrt      = 1;                                                              // set the act
+             -ion counter to output new data to the displays one time to show the reset value
+ 327   3                acFirmwareRsp = 0;                                                              // clear the fir
+             -mware response action counter
+ 328   3                acReset--;                                                                      // clear the res
+             -et flag
+ 329   3                }
+ 330   2              if(acDataChange > 0x00)                                                           // check to see 
+             -if the indicators needs to be updated
+ 331   2                {
+ 332   3                index  = devicedata[3];                                                         // get the high 
+             -byte
+ 333   3                index = index << 6;                                                             // put the data 
+             -into the correct bit position
+ 334   3                index &= 0x0FC0;                                                                // mask off any 
+             -other data
+ 335   3                index |= (devicedata[2] & 0x3F);                                                // mask off extr
+             -a data and combine with high byte to get DAC setting
+ 336   3                wrAD7247(index, 0xFE);                                                          // write value t
+             -o a2d channel 1 (E15)
+ 337   3      //          wrAD7247(index, 0xFD);                                                          // write value
+             - to a2d channel 2 (E02)
+ 338   3      //          wrAD7247(index, 0xFB);                                                          // write value
+             - to a2d channel 3 (E17)
+ 339   3      //          wrAD7247(index, 0xF7);                                                          // write value
+             - to a2d channel 4 (E13)
+ 340   3      
+ 341   3                if((devicedata[4] & 0x01) == 0)                                                 // check the fla
+             -g control bit state
+ 342   3                  DO1_ctrl = 0;                                                                 // hide the flag
+ 343   3                else
+ 344   3                  DO1_ctrl = 1;                                                                 // show the flag
+ 345   3      
+ 346   3                acDataChange--;                                                                 // update the IN
+             -BD indicator bar update action counter
+ 347   3                }
+ 348   2      //        if(acPnlBrt > 0x00)                                                               // check to se
+             -e if the panel cimming needs to be updated
+ 349   2      //          {
+ 350   2      //          aFPGAWrite(aPWM0H, PnlBrtnessH);                                                // write the h
+             -igh byte of data to the PWM regsiter in the FPGA
+ 351   2      //          aFPGAWrite(aPWM0L, PnlBrtnessL);                                                // write the l
+             -ow byte of data to the PWM regsiter in the FPGA
+ 352   2      //          acPnlBrt--;                                                                     // clear the d
+             -isplay change request flag
+ 353   2      //          }
+ 354   2              if(acFirmwareRsp > 0x00)                                                          // check to see 
+             -if the firmware revision information has been requested
+ 355   2                {
+ 356   3      //#define FirmwareRspLen           5                                                        // send panel 
+             -firmware version
+ 357   3                UART_Write(FirmwareResponse);                                                   // write the fir
+             -mware response to the UART transmission buffer
+ 358   3                UART_Write(firmware[0]);                                                        // write the fir
+             -mware information to the UART transmission buffer
+ 359   3                UART_Write(firmware[1]);                                                        // write the fir
+             -mware information to the UART transmission buffer
+ 360   3                UART_Write(firmware[2]);                                                        // write the fir
+             -mware information to the UART transmission buffer
+ 361   3                UART_Write(firmware[3]);                                                        // write the fir
+             -mware information to the UART transmission buffer
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 19  
+
+ 362   3                acFirmwareRsp--;                                                                // update the fi
+             -rmware revision response action counter
+ 363   3                }
+ 364   2      //========================================================================================
+ 365   2      //          serial routines                                                               //
+ 366   2      //========================================================================================
+ 367   2              if(uart0_RxCount >= MinMsgLen)                                                    // check for the
+             - minimum message size
+ 368   2                {
+ 369   3                if(uart0_RxCount != 0)                                                          // make sure at 
+             -least a command and start byte were recieved and recieve count is not zero
+ 370   3                  {
+ 371   4                  index  = uart0_RxTail;                                                        // copy the tail
+             - index to use in the processing of the buffer
+ 372   4                  cmd    = uart0_RxBuf[index];                                                  // get the comma
+             -nd
+ 373   4                  index++;                                                                      // update array 
+             -pointer to next byte
+ 374   4                  index &= MAX_RX_UART0_MASK;                                                   // make sure the
+             - pointer does not go outside buffer space
+ 375   4                  adr    = uart0_RxBuf[index];                                                  // get the addre
+             -ss
+ 376   4                  if(DeviceAddress == adr)                                                      // make sure tha
+             -t the received address matches the hardware address
+ 377   4                    {
+ 378   5                    switch(cmd)                                                                 // find which co
+             -mmand
+ 379   5                      {
+ 380   6                      case ResetRequest :
+ 381   6                           MinMsgLen = ResetReqLen;                                             // reset the min
+             -imum message length to the default
+ 382   6                           if(uart0_RxCount >= MinMsgLen)                                       // check to see 
+             -if all the bytes for this message were recieved
+ 383   6                             {
+ 384   7                             acReset++;                                                         // update the re
+             -set action counter
+ 385   7                             RemoveMsgFromBuffer(MinMsgLen);                                    // remove the me
+             -ssage from the recieve buffer
+ 386   7      //                       MinMsgLen = DefaultMsgLen;                                         // reset the m
+             -inimum message length to the default
+ 387   7                             }
+ 388   6                           break;
+ 389   6                      case DataChangeRequest :
+ 390   6                           MinMsgLen = DataChangeReqLen;                                        // set the minim
+             -um message length to this message length to reduce main loop process time
+ 391   6                           if(uart0_RxCount >= MinMsgLen)                                       // check to see 
+             -if all the bytes for this message were recieved
+ 392   6                             {
+ 393   7                             index++;                                                           // update array 
+             -pointer to next byte
+ 394   7                             index &= MAX_RX_UART0_MASK;                                        // make sure the
+             - pointer does not go outside buffer space
+ 395   7                             devicedata[0] = uart0_RxBuf[index];                                // get the 13th 
+             -byte of bar graph data
+ 396   7                             index++;                                                           // update array 
+             -pointer to next byte
+ 397   7                             index &= MAX_RX_UART0_MASK;                                        // make sure the
+             - pointer does not go outside buffer space
+ 398   7                             devicedata[1] = uart0_RxBuf[index];                                // get the 13th 
+             -byte of bar graph data
+ 399   7                             index++;                                                           // update array 
+             -pointer to next byte
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 20  
+
+ 400   7                             index &= MAX_RX_UART0_MASK;                                        // make sure the
+             - pointer does not go outside buffer space
+ 401   7                             devicedata[2] = uart0_RxBuf[index];                                // get the 13th 
+             -byte of bar graph data
+ 402   7                             index++;                                                           // update array 
+             -pointer to next byte
+ 403   7                             index &= MAX_RX_UART0_MASK;                                        // make sure the
+             - pointer does not go outside buffer space
+ 404   7                             devicedata[3] = uart0_RxBuf[index];                                // get the 13th 
+             -byte of bar graph data
+ 405   7                             index++;                                                           // update array 
+             -pointer to next byte
+ 406   7                             index &= MAX_RX_UART0_MASK;                                        // make sure the
+             - pointer does not go outside buffer space
+ 407   7                             devicedata[4] = uart0_RxBuf[index];                                // get the 13th 
+             -byte of bar graph data
+ 408   7                             index++;                                                           // update array 
+             -pointer to next byte
+ 409   7                             index &= MAX_RX_UART0_MASK;                                        // make sure the
+             - pointer does not go outside buffer space
+ 410   7                             devicedata[5] = uart0_RxBuf[index];                                // get the 13th 
+             -byte of bar graph data
+ 411   7                             if(acDataChange < 0xffff) {acDataChange++;}                        // update the in
+             -dicator action counter
+ 412   7                             RemoveMsgFromBuffer(MinMsgLen);                                    // remove the me
+             -ssage from the recieve buffer
+ 413   7      //                       MinMsgLen = DefaultMsgLen;                                         // reset the m
+             -inimum message length to the default
+ 414   7                             }
+ 415   6                           break;
+ 416   6      //                case SetDimPnl :
+ 417   6      //                    MinMsgLen = 4;                                                        // set the min
+             -imum message length to this message length to reduce main loop process time
+ 418   6      //                    if(uart0_RxCount >= MinMsgLen)                                        // check to se
+             -e if all the bytes for this message were recieved
+ 419   6      //                      {
+ 420   6      //                      index++;                                                            // update arra
+             -y pointer to next byte
+ 421   6      //                      index &= MAX_RX_UART0_MASK;                                         // make sure t
+             -he pointer does not go outside buffer space
+ 422   6      //                      PnlBrtnessH = uart0_RxBuf[index];                                   // get the hig
+             -h nibble of the dimming data
+ 423   6      //                      PnlBrtnessH &= 0x0F;                                                // mask the un
+             -used portion of the data
+ 424   6      //                      index++;                                                            // update arra
+             -y pointer to next byte
+ 425   6      //                      index &= MAX_RX_UART0_MASK;                                         // make sure t
+             -he pointer does not go outside buffer space
+ 426   6      //                      PnlBrtnessL = uart0_RxBuf[index];                                   // get the low
+             - nibble of the dimming data
+ 427   6      //                      PnlBrtnessL &= 0x0F;                                                // mask the un
+             -used portion of the data
+ 428   6      //                      if(acPnlBrt < 0xffff) {acPnlBrt++;}                                 // set the pan
+             -el dimming change action counter
+ 429   6      //                      RemoveMsgFromBuffer(4);                                             // remove the 
+             -message from the recieve buffer
+ 430   6      //                      MinMsgLen = DefaultMsgLen;                                          // reset the m
+             -inimum message length to the default
+ 431   6      //                      }
+ 432   6      //                    break;
+ 433   6                      case Firmware :
+ 434   6                           MinMsgLen = FirmwareLen;                                             // reset the min
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 21  
+
+             -imum message length to the default
+ 435   6                           if(uart0_RxCount >= MinMsgLen)                                       // check to see 
+             -if all the bytes for this message were recieved
+ 436   6                             {
+ 437   7                             acFirmwareRsp++;                                                   // update the fi
+             -rmware response action counter
+ 438   7                             RemoveMsgFromBuffer(MinMsgLen);                                    // remove the me
+             -ssage from the recieve buffer
+ 439   7      //                       MinMsgLen = DefaultMsgLen;                                         // reset the m
+             -inimum message length to the default
+ 440   7                             }
+ 441   6                           break;
+ 442   6                      default   :
+ 443   6                          RemoveMsgFromBuffer(OneByte);                                         // remove the me
+             -ssage from the recieve buffer
+ 444   6                          break;
+ 445   6                      }//end switch(cmd)
+ 446   5                    }//if address
+ 447   4                  else
+ 448   4                    {
+ 449   5                    RemoveMsgFromBuffer(OneByte);                                               // remove the me
+             -ssage from the recieve buffer
+ 450   5      //              MinMsgLen = DefaultMsgLen;                                                  // reset the m
+             -inimum message length to the default
+ 451   5                    }
+ 452   4                  }//if uart0_RxCount != 0
+ 453   3                else
+ 454   3                  {
+ 455   4                  RemoveMsgFromBuffer(OneByte);                                                 // remove the me
+             -ssage from the recieve buffer
+ 456   4      //            MinMsgLen = DefaultMsgLen;                                                    // reset the m
+             -inimum message length to the default
+ 457   4                  }
+ 458   3                }// end if((uart0_RxCount >= 2) && (uart0_RxCount != olduart0_RxCount))
+ 459   2            }// end of while //
+ 460   1      } // End of main() //
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 22  
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION UART_ISR (BEGIN)
+0000 C0E0              PUSH    ACC
+0002 C083              PUSH    DPH
+0004 C082              PUSH    DPL
+0006 C0D0              PUSH    PSW
+0008 75D000            MOV     PSW,#00H
+000B C006              PUSH    AR6
+000D C007              PUSH    AR7
+                                           ; SOURCE LINE # 104
+                                           ; SOURCE LINE # 106
+000F 309857            JNB     RI,?C0001
+                                           ; SOURCE LINE # 107
+                                           ; SOURCE LINE # 108
+0012 C2AF              CLR     EA
+                                           ; SOURCE LINE # 109
+0014 900000      R     MOV     DPTR,#uart0_RxCount
+0017 E0                MOVX    A,@DPTR
+0018 FE                MOV     R6,A
+0019 A3                INC     DPTR
+001A E0                MOVX    A,@DPTR
+001B FF                MOV     R7,A
+001C EF                MOV     A,R7
+001D 6400              XRL     A,#00H
+001F 7003              JNZ     ?C0039
+0021 EE                MOV     A,R6
+0022 6402              XRL     A,#02H
+0024         ?C0039:
+0024 603F              JZ      ?C0002
+                                           ; SOURCE LINE # 110
+                                           ; SOURCE LINE # 111
+0026 900000      R     MOV     DPTR,#uart0_RxHead
+0029 E0                MOVX    A,@DPTR
+002A FE                MOV     R6,A
+002B A3                INC     DPTR
+002C E0                MOVX    A,@DPTR
+002D FF                MOV     R7,A
+002E 7400        R     MOV     A,#LOW uart0_RxBuf
+0030 2F                ADD     A,R7
+0031 F582              MOV     DPL,A
+0033 7400        R     MOV     A,#HIGH uart0_RxBuf
+0035 3E                ADDC    A,R6
+0036 F583              MOV     DPH,A
+0038 E599              MOV     A,SBUF
+003A F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 112
+003B 900000      R     MOV     DPTR,#uart0_RxCount+01H
+003E E0                MOVX    A,@DPTR
+003F 04                INC     A
+0040 F0                MOVX    @DPTR,A
+0041 7006              JNZ     ?C0040
+0043 900000      R     MOV     DPTR,#uart0_RxCount
+0046 E0                MOVX    A,@DPTR
+0047 04                INC     A
+0048 F0                MOVX    @DPTR,A
+0049         ?C0040:
+                                           ; SOURCE LINE # 113
+0049 900000      R     MOV     DPTR,#uart0_RxHead+01H
+004C E0                MOVX    A,@DPTR
+004D 04                INC     A
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 23  
+
+004E F0                MOVX    @DPTR,A
+004F 7006              JNZ     ?C0041
+0051 900000      R     MOV     DPTR,#uart0_RxHead
+0054 E0                MOVX    A,@DPTR
+0055 04                INC     A
+0056 F0                MOVX    @DPTR,A
+0057         ?C0041:
+                                           ; SOURCE LINE # 114
+0057 900000      R     MOV     DPTR,#uart0_RxHead
+005A E0                MOVX    A,@DPTR
+005B FF                MOV     R7,A
+005C EF                MOV     A,R7
+005D 5401              ANL     A,#01H
+005F FF                MOV     R7,A
+0060 900000      R     MOV     DPTR,#uart0_RxHead
+0063 EF                MOV     A,R7
+0064 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 115
+0065         ?C0002:
+                                           ; SOURCE LINE # 116
+0065 C298              CLR     RI
+                                           ; SOURCE LINE # 117
+0067 D2AF              SETB    EA
+                                           ; SOURCE LINE # 118
+0069         ?C0001:
+                                           ; SOURCE LINE # 119
+0069 30997B            JNB     TI,?C0006
+                                           ; SOURCE LINE # 120
+                                           ; SOURCE LINE # 121
+006C C2AF              CLR     EA
+                                           ; SOURCE LINE # 122
+006E 900000      R     MOV     DPTR,#uart0_TxTail
+0071 E0                MOVX    A,@DPTR
+0072 FE                MOV     R6,A
+0073 A3                INC     DPTR
+0074 E0                MOVX    A,@DPTR
+0075 FF                MOV     R7,A
+0076 7400        R     MOV     A,#LOW uart0_TxBuf
+0078 2F                ADD     A,R7
+0079 F582              MOV     DPL,A
+007B 7400        R     MOV     A,#HIGH uart0_TxBuf
+007D 3E                ADDC    A,R6
+007E F583              MOV     DPH,A
+0080 E4                CLR     A
+0081 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 123
+0082 900000      R     MOV     DPTR,#uart0_TxTail+01H
+0085 E0                MOVX    A,@DPTR
+0086 04                INC     A
+0087 F0                MOVX    @DPTR,A
+0088 7006              JNZ     ?C0042
+008A 900000      R     MOV     DPTR,#uart0_TxTail
+008D E0                MOVX    A,@DPTR
+008E 04                INC     A
+008F F0                MOVX    @DPTR,A
+0090         ?C0042:
+                                           ; SOURCE LINE # 124
+0090 900000      R     MOV     DPTR,#uart0_TxTail
+0093 E0                MOVX    A,@DPTR
+0094 FF                MOV     R7,A
+0095 EF                MOV     A,R7
+0096 5401              ANL     A,#01H
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 24  
+
+0098 FF                MOV     R7,A
+0099 900000      R     MOV     DPTR,#uart0_TxTail
+009C EF                MOV     A,R7
+009D F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 125
+009E 900000      R     MOV     DPTR,#uart0_TxCount+01H
+00A1 E0                MOVX    A,@DPTR
+00A2 24FF              ADD     A,#0FFH
+00A4 F0                MOVX    @DPTR,A
+00A5 900000      R     MOV     DPTR,#uart0_TxCount
+00A8 E0                MOVX    A,@DPTR
+00A9 34FF              ADDC    A,#0FFH
+00AB F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 126
+00AC 900000      R     MOV     DPTR,#uart0_TxFlag
+00AF E0                MOVX    A,@DPTR
+00B0 FF                MOV     R7,A
+00B1 EF                MOV     A,R7
+00B2 B40129            CJNE    A,#01H,?C0004
+00B5 900000      R     MOV     DPTR,#uart0_TxCount
+00B8 E0                MOVX    A,@DPTR
+00B9 FE                MOV     R6,A
+00BA A3                INC     DPTR
+00BB E0                MOVX    A,@DPTR
+00BC FF                MOV     R7,A
+00BD D3                SETB    C
+00BE EF                MOV     A,R7
+00BF 9400              SUBB    A,#00H
+00C1 EE                MOV     A,R6
+00C2 9400              SUBB    A,#00H
+00C4 4018              JC      ?C0004
+                                           ; SOURCE LINE # 127
+00C6 900000      R     MOV     DPTR,#uart0_TxTail
+00C9 E0                MOVX    A,@DPTR
+00CA FE                MOV     R6,A
+00CB A3                INC     DPTR
+00CC E0                MOVX    A,@DPTR
+00CD FF                MOV     R7,A
+00CE 7400        R     MOV     A,#LOW uart0_TxBuf
+00D0 2F                ADD     A,R7
+00D1 F582              MOV     DPL,A
+00D3 7400        R     MOV     A,#HIGH uart0_TxBuf
+00D5 3E                ADDC    A,R6
+00D6 F583              MOV     DPH,A
+00D8 E0                MOVX    A,@DPTR
+00D9 FF                MOV     R7,A
+00DA 8F99              MOV     SBUF,R7
+00DC 8005              SJMP    ?C0005
+00DE         ?C0004:
+                                           ; SOURCE LINE # 129
+00DE 900000      R     MOV     DPTR,#uart0_TxFlag
+00E1 E4                CLR     A
+00E2 F0                MOVX    @DPTR,A
+00E3         ?C0005:
+                                           ; SOURCE LINE # 130
+00E3 C299              CLR     TI
+                                           ; SOURCE LINE # 131
+00E5 D2AF              SETB    EA
+                                           ; SOURCE LINE # 132
+00E7         ?C0003:
+                                           ; SOURCE LINE # 133
+00E7         ?C0006:
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 25  
+
+00E7 D007              POP     AR7
+00E9 D006              POP     AR6
+00EB D0D0              POP     PSW
+00ED D082              POP     DPL
+00EF D083              POP     DPH
+00F1 D0E0              POP     ACC
+00F3 32                RETI    
+             ; FUNCTION UART_ISR (END)
+
+             ; FUNCTION _UART_Write (BEGIN)
+                                           ; SOURCE LINE # 143
+0000 900000      R     MOV     DPTR,#c
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 144
+                                           ; SOURCE LINE # 145
+0005 900000      R     MOV     DPTR,#c
+0008 E0                MOVX    A,@DPTR
+0009 FF                MOV     R7,A
+000A 900000      R     MOV     DPTR,#uart0_TxHead
+000D E0                MOVX    A,@DPTR
+000E FC                MOV     R4,A
+000F A3                INC     DPTR
+0010 E0                MOVX    A,@DPTR
+0011 FD                MOV     R5,A
+0012 7400        R     MOV     A,#LOW uart0_TxBuf
+0014 2D                ADD     A,R5
+0015 F582              MOV     DPL,A
+0017 7400        R     MOV     A,#HIGH uart0_TxBuf
+0019 3C                ADDC    A,R4
+001A F583              MOV     DPH,A
+001C EF                MOV     A,R7
+001D F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 146
+001E C2AF              CLR     EA
+                                           ; SOURCE LINE # 147
+0020 900000      R     MOV     DPTR,#uart0_TxCount+01H
+0023 E0                MOVX    A,@DPTR
+0024 04                INC     A
+0025 F0                MOVX    @DPTR,A
+0026 7006              JNZ     ?C0043
+0028 900000      R     MOV     DPTR,#uart0_TxCount
+002B E0                MOVX    A,@DPTR
+002C 04                INC     A
+002D F0                MOVX    @DPTR,A
+002E         ?C0043:
+                                           ; SOURCE LINE # 148
+002E D2AF              SETB    EA
+                                           ; SOURCE LINE # 149
+0030 900000      R     MOV     DPTR,#uart0_TxHead+01H
+0033 E0                MOVX    A,@DPTR
+0034 04                INC     A
+0035 F0                MOVX    @DPTR,A
+0036 7006              JNZ     ?C0044
+0038 900000      R     MOV     DPTR,#uart0_TxHead
+003B E0                MOVX    A,@DPTR
+003C 04                INC     A
+003D F0                MOVX    @DPTR,A
+003E         ?C0044:
+                                           ; SOURCE LINE # 150
+003E 900000      R     MOV     DPTR,#uart0_TxHead
+0041 E0                MOVX    A,@DPTR
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 26  
+
+0042 FF                MOV     R7,A
+0043 EF                MOV     A,R7
+0044 5401              ANL     A,#01H
+0046 FF                MOV     R7,A
+0047 900000      R     MOV     DPTR,#uart0_TxHead
+004A EF                MOV     A,R7
+004B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 151
+004C 900000      R     MOV     DPTR,#uart0_TxFlag
+004F E0                MOVX    A,@DPTR
+0050 FF                MOV     R7,A
+0051 EF                MOV     A,R7
+0052 701C              JNZ     ?C0008
+                                           ; SOURCE LINE # 152
+                                           ; SOURCE LINE # 153
+0054 900000      R     MOV     DPTR,#uart0_TxFlag
+0057 7401              MOV     A,#01H
+0059 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 154
+005A 900000      R     MOV     DPTR,#uart0_TxTail
+005D E0                MOVX    A,@DPTR
+005E FE                MOV     R6,A
+005F A3                INC     DPTR
+0060 E0                MOVX    A,@DPTR
+0061 FF                MOV     R7,A
+0062 7400        R     MOV     A,#LOW uart0_TxBuf
+0064 2F                ADD     A,R7
+0065 F582              MOV     DPL,A
+0067 7400        R     MOV     A,#HIGH uart0_TxBuf
+0069 3E                ADDC    A,R6
+006A F583              MOV     DPH,A
+006C E0                MOVX    A,@DPTR
+006D FF                MOV     R7,A
+006E 8F99              MOV     SBUF,R7
+                                           ; SOURCE LINE # 155
+0070         ?C0007:
+                                           ; SOURCE LINE # 156
+0070         ?C0008:
+0070 22                RET     
+             ; FUNCTION _UART_Write (END)
+
+             ; FUNCTION _initailize_ADUC841_UART (BEGIN)
+                                           ; SOURCE LINE # 165
+0000 900000      R     MOV     DPTR,#t3con
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+0005 900000      R     MOV     DPTR,#t3fd
+0008 EC                MOV     A,R4
+0009 F0                MOVX    @DPTR,A
+000A A3                INC     DPTR
+000B ED                MOV     A,R5
+000C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 166
+                                           ; SOURCE LINE # 167
+000D 900000      R     MOV     DPTR,#t3con
+0010 E0                MOVX    A,@DPTR
+0011 FF                MOV     R7,A
+0012 8F9E              MOV     T3CON,R7
+                                           ; SOURCE LINE # 168
+0014 900000      R     MOV     DPTR,#t3fd
+0017 E0                MOVX    A,@DPTR
+0018 FE                MOV     R6,A
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 27  
+
+0019 A3                INC     DPTR
+001A E0                MOVX    A,@DPTR
+001B FF                MOV     R7,A
+001C 8F9D              MOV     T3FD,R7
+                                           ; SOURCE LINE # 169
+001E 7598D0            MOV     SCON,#0D0H
+                                           ; SOURCE LINE # 170
+0021 D2AC              SETB    ES
+                                           ; SOURCE LINE # 171
+0023 C2B4              CLR     RTS_DE
+                                           ; SOURCE LINE # 172
+0025         ?C0009:
+0025 22                RET     
+             ; FUNCTION _initailize_ADUC841_UART (END)
+
+             ; FUNCTION _RemoveMsgFromBuffer (BEGIN)
+                                           ; SOURCE LINE # 181
+0000 900000      R     MOV     DPTR,#cnt
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 182
+                                           ; SOURCE LINE # 185
+0005 900000      R     MOV     DPTR,#cnt
+0008 E0                MOVX    A,@DPTR
+0009 FF                MOV     R7,A
+000A 7E00              MOV     R6,#00H
+000C 900000      R     MOV     DPTR,#uart0_RxTail
+000F E0                MOVX    A,@DPTR
+0010 FC                MOV     R4,A
+0011 A3                INC     DPTR
+0012 E0                MOVX    A,@DPTR
+0013 FD                MOV     R5,A
+0014 EF                MOV     A,R7
+0015 2D                ADD     A,R5
+0016 FF                MOV     R7,A
+0017 EE                MOV     A,R6
+0018 3C                ADDC    A,R4
+0019 FE                MOV     R6,A
+001A D3                SETB    C
+001B EF                MOV     A,R7
+001C 94FF              SUBB    A,#0FFH
+001E EE                MOV     A,R6
+001F 9401              SUBB    A,#01H
+0021 406D              JC      ?C0010
+                                           ; SOURCE LINE # 186
+                                           ; SOURCE LINE # 187
+0023 900000      R     MOV     DPTR,#uart0_RxTail
+0026 E0                MOVX    A,@DPTR
+0027 FE                MOV     R6,A
+0028 A3                INC     DPTR
+0029 E0                MOVX    A,@DPTR
+002A FF                MOV     R7,A
+002B C3                CLR     C
+002C E4                CLR     A
+002D 9F                SUBB    A,R7
+002E FF                MOV     R7,A
+002F 7402              MOV     A,#02H
+0031 9E                SUBB    A,R6
+0032 FE                MOV     R6,A
+0033 900000      R     MOV     DPTR,#tmp
+0036 EE                MOV     A,R6
+0037 F0                MOVX    @DPTR,A
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 28  
+
+0038 A3                INC     DPTR
+0039 EF                MOV     A,R7
+003A F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 188
+003B 900000      R     MOV     DPTR,#tmp
+003E E0                MOVX    A,@DPTR
+003F FE                MOV     R6,A
+0040 A3                INC     DPTR
+0041 E0                MOVX    A,@DPTR
+0042 FF                MOV     R7,A
+0043 7D00              MOV     R5,#00H
+0045 900000      R     MOV     DPTR,#uart0_RxTail
+0048 E0                MOVX    A,@DPTR
+0049 FA                MOV     R2,A
+004A A3                INC     DPTR
+004B E0                MOVX    A,@DPTR
+004C FB                MOV     R3,A
+004D 7400        R     MOV     A,#LOW uart0_RxBuf
+004F 2B                ADD     A,R3
+0050 F9                MOV     R1,A
+0051 7400        R     MOV     A,#HIGH uart0_RxBuf
+0053 3A                ADDC    A,R2
+0054 FA                MOV     R2,A
+0055 7B01              MOV     R3,#01H
+0057 120000      E     LCALL   ?C?MEMSET
+                                           ; SOURCE LINE # 189
+005A 900000      R     MOV     DPTR,#cnt
+005D E0                MOVX    A,@DPTR
+005E FF                MOV     R7,A
+005F 7E00              MOV     R6,#00H
+0061 900000      R     MOV     DPTR,#uart0_RxTail+01H
+0064 E0                MOVX    A,@DPTR
+0065 2F                ADD     A,R7
+0066 F0                MOVX    @DPTR,A
+0067 900000      R     MOV     DPTR,#uart0_RxTail
+006A E0                MOVX    A,@DPTR
+006B 3E                ADDC    A,R6
+006C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 190
+006D 900000      R     MOV     DPTR,#uart0_RxTail
+0070 E0                MOVX    A,@DPTR
+0071 FF                MOV     R7,A
+0072 EF                MOV     A,R7
+0073 5401              ANL     A,#01H
+0075 FF                MOV     R7,A
+0076 900000      R     MOV     DPTR,#uart0_RxTail
+0079 EF                MOV     A,R7
+007A F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 191
+007B 900000      R     MOV     DPTR,#uart0_RxTail
+007E E0                MOVX    A,@DPTR
+007F FE                MOV     R6,A
+0080 A3                INC     DPTR
+0081 E0                MOVX    A,@DPTR
+0082 FF                MOV     R7,A
+0083 7D00              MOV     R5,#00H
+0085 7B01              MOV     R3,#01H
+0087 7A00        R     MOV     R2,#HIGH uart0_RxBuf
+0089 7900        R     MOV     R1,#LOW uart0_RxBuf
+008B 120000      E     LCALL   ?C?MEMSET
+                                           ; SOURCE LINE # 192
+008E 803F              SJMP    ?C0011
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 29  
+
+0090         ?C0010:
+                                           ; SOURCE LINE # 194
+                                           ; SOURCE LINE # 195
+0090 900000      R     MOV     DPTR,#cnt
+0093 E0                MOVX    A,@DPTR
+0094 FF                MOV     R7,A
+0095 7E00              MOV     R6,#00H
+0097 7D00              MOV     R5,#00H
+0099 900000      R     MOV     DPTR,#uart0_RxTail
+009C E0                MOVX    A,@DPTR
+009D FA                MOV     R2,A
+009E A3                INC     DPTR
+009F E0                MOVX    A,@DPTR
+00A0 FB                MOV     R3,A
+00A1 7400        R     MOV     A,#LOW uart0_RxBuf
+00A3 2B                ADD     A,R3
+00A4 F9                MOV     R1,A
+00A5 7400        R     MOV     A,#HIGH uart0_RxBuf
+00A7 3A                ADDC    A,R2
+00A8 FA                MOV     R2,A
+00A9 7B01              MOV     R3,#01H
+00AB 120000      E     LCALL   ?C?MEMSET
+                                           ; SOURCE LINE # 196
+00AE 900000      R     MOV     DPTR,#cnt
+00B1 E0                MOVX    A,@DPTR
+00B2 FF                MOV     R7,A
+00B3 7E00              MOV     R6,#00H
+00B5 900000      R     MOV     DPTR,#uart0_RxTail+01H
+00B8 E0                MOVX    A,@DPTR
+00B9 2F                ADD     A,R7
+00BA F0                MOVX    @DPTR,A
+00BB 900000      R     MOV     DPTR,#uart0_RxTail
+00BE E0                MOVX    A,@DPTR
+00BF 3E                ADDC    A,R6
+00C0 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 197
+00C1 900000      R     MOV     DPTR,#uart0_RxTail
+00C4 E0                MOVX    A,@DPTR
+00C5 FF                MOV     R7,A
+00C6 EF                MOV     A,R7
+00C7 5401              ANL     A,#01H
+00C9 FF                MOV     R7,A
+00CA 900000      R     MOV     DPTR,#uart0_RxTail
+00CD EF                MOV     A,R7
+00CE F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 198
+00CF         ?C0011:
+                                           ; SOURCE LINE # 199
+00CF C2AF              CLR     EA
+                                           ; SOURCE LINE # 200
+00D1 900000      R     MOV     DPTR,#uart0_RxCount
+00D4 E0                MOVX    A,@DPTR
+00D5 FE                MOV     R6,A
+00D6 A3                INC     DPTR
+00D7 E0                MOVX    A,@DPTR
+00D8 FF                MOV     R7,A
+00D9 900000      R     MOV     DPTR,#cnt
+00DC E0                MOVX    A,@DPTR
+00DD FD                MOV     R5,A
+00DE 7C00              MOV     R4,#00H
+00E0 C3                CLR     C
+00E1 EF                MOV     A,R7
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 30  
+
+00E2 9D                SUBB    A,R5
+00E3 FF                MOV     R7,A
+00E4 EE                MOV     A,R6
+00E5 9C                SUBB    A,R4
+00E6 FE                MOV     R6,A
+00E7 900000      R     MOV     DPTR,#uart0_RxCount
+00EA EE                MOV     A,R6
+00EB F0                MOVX    @DPTR,A
+00EC A3                INC     DPTR
+00ED EF                MOV     A,R7
+00EE F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 201
+00EF D2AF              SETB    EA
+                                           ; SOURCE LINE # 202
+00F1 900000      R     MOV     DPTR,#MinMsgLen
+00F4 7402              MOV     A,#02H
+00F6 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 203
+00F7         ?C0012:
+00F7 22                RET     
+             ; FUNCTION _RemoveMsgFromBuffer (END)
+
+             ; FUNCTION _wrAD7247 (BEGIN)
+                                           ; SOURCE LINE # 212
+0000 900000      R     MOV     DPTR,#val
+0003 EE                MOV     A,R6
+0004 F0                MOVX    @DPTR,A
+0005 A3                INC     DPTR
+0006 EF                MOV     A,R7
+0007 F0                MOVX    @DPTR,A
+0008 900000      R     MOV     DPTR,#ch
+000B ED                MOV     A,R5
+000C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 213
+                                           ; SOURCE LINE # 216
+000D 900000      R     MOV     DPTR,#val
+0010 E0                MOVX    A,@DPTR
+0011 FE                MOV     R6,A
+0012 A3                INC     DPTR
+0013 E0                MOVX    A,@DPTR
+0014 FF                MOV     R7,A
+0015 EE                MOV     A,R6
+0016 C4                SWAP    A
+0017 F8                MOV     R0,A
+0018 54F0              ANL     A,#0F0H
+001A C8                XCH     A,R0
+001B 68                XRL     A,R0
+001C FE                MOV     R6,A
+001D EF                MOV     A,R7
+001E C4                SWAP    A
+001F 540F              ANL     A,#0FH
+0021 48                ORL     A,R0
+0022 FF                MOV     R7,A
+0023 8F80              MOV     P0,R7
+                                           ; SOURCE LINE # 217
+0025 900000      R     MOV     DPTR,#val
+0028 E0                MOVX    A,@DPTR
+0029 FE                MOV     R6,A
+002A A3                INC     DPTR
+002B E0                MOVX    A,@DPTR
+002C FF                MOV     R7,A
+002D EF                MOV     A,R7
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 31  
+
+002E C4                SWAP    A
+002F F8                MOV     R0,A
+0030 540F              ANL     A,#0FH
+0032 C8                XCH     A,R0
+0033 68                XRL     A,R0
+0034 FF                MOV     R7,A
+0035 EE                MOV     A,R6
+0036 C4                SWAP    A
+0037 54F0              ANL     A,#0F0H
+0039 48                ORL     A,R0
+003A FE                MOV     R6,A
+003B EF                MOV     A,R7
+003C 54F0              ANL     A,#0F0H
+003E FF                MOV     R7,A
+003F EF                MOV     A,R7
+0040 44F0              ORL     A,#0F0H
+0042 FF                MOV     R7,A
+0043 900000      R     MOV     DPTR,#tmp
+0046 EF                MOV     A,R7
+0047 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 218
+0048 900000      R     MOV     DPTR,#tmp
+004B E0                MOVX    A,@DPTR
+004C FF                MOV     R7,A
+004D 8FA0              MOV     P2,R7
+                                           ; SOURCE LINE # 220
+004F 900000      R     MOV     DPTR,#ch
+0052 E0                MOVX    A,@DPTR
+0053 FF                MOV     R7,A
+0054 EF                MOV     A,R7
+0055 52A0              ANL     P2,A
+                                           ; SOURCE LINE # 222
+0057 C2B5              CLR     a2d_wr
+                                           ; SOURCE LINE # 223
+0059 D2B5              SETB    a2d_wr
+                                           ; SOURCE LINE # 225
+005B 43A0F0            ORL     P2,#0F0H
+                                           ; SOURCE LINE # 230
+005E         ?C0013:
+005E 22                RET     
+             ; FUNCTION _wrAD7247 (END)
+
+             ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 239
+                                           ; SOURCE LINE # 240
+                                           ; SOURCE LINE # 246
+0000 758150            MOV     SP,#050H
+                                           ; SOURCE LINE # 250
+0003 43AF81            ORL     CFG841,#081H
+                                           ; SOURCE LINE # 258
+0006 7E02              MOV     R6,#02H
+0008 7F00              MOV     R7,#00H
+000A 7D00              MOV     R5,#00H
+000C 7B01              MOV     R3,#01H
+000E 7A00        R     MOV     R2,#HIGH uart0_TxBuf
+0010 7900        R     MOV     R1,#LOW uart0_TxBuf
+0012 120000      E     LCALL   ?C?MEMSET
+                                           ; SOURCE LINE # 259
+0015 7E02              MOV     R6,#02H
+0017 7F00              MOV     R7,#00H
+0019 7D00              MOV     R5,#00H
+001B 7B01              MOV     R3,#01H
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 32  
+
+001D 7A00        R     MOV     R2,#HIGH uart0_RxBuf
+001F 7900        R     MOV     R1,#LOW uart0_RxBuf
+0021 120000      E     LCALL   ?C?MEMSET
+                                           ; SOURCE LINE # 260
+0024 900000      R     MOV     DPTR,#uart0_TxHead
+0027 E4                CLR     A
+0028 F0                MOVX    @DPTR,A
+0029 A3                INC     DPTR
+002A E4                CLR     A
+002B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 261
+002C 900000      R     MOV     DPTR,#uart0_TxTail
+002F E4                CLR     A
+0030 F0                MOVX    @DPTR,A
+0031 A3                INC     DPTR
+0032 E4                CLR     A
+0033 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 262
+0034 900000      R     MOV     DPTR,#uart0_TxCount
+0037 E4                CLR     A
+0038 F0                MOVX    @DPTR,A
+0039 A3                INC     DPTR
+003A E4                CLR     A
+003B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 263
+003C 900000      R     MOV     DPTR,#uart0_TxFlag
+003F E4                CLR     A
+0040 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 264
+0041 900000      R     MOV     DPTR,#uart0_RxHead
+0044 E4                CLR     A
+0045 F0                MOVX    @DPTR,A
+0046 A3                INC     DPTR
+0047 E4                CLR     A
+0048 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 265
+0049 900000      R     MOV     DPTR,#uart0_RxTail
+004C E4                CLR     A
+004D F0                MOVX    @DPTR,A
+004E A3                INC     DPTR
+004F E4                CLR     A
+0050 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 266
+0051 900000      R     MOV     DPTR,#uart0_Mode
+0054 E4                CLR     A
+0055 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 267
+0056 900000      R     MOV     DPTR,#uart0_RxCount
+0059 E4                CLR     A
+005A F0                MOVX    @DPTR,A
+005B A3                INC     DPTR
+005C E4                CLR     A
+005D F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 268
+005E 900000      R     MOV     DPTR,#olduart0_RxCount
+0061 E4                CLR     A
+0062 F0                MOVX    @DPTR,A
+0063 A3                INC     DPTR
+0064 E4                CLR     A
+0065 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 269
+0066 900000      R     MOV     DPTR,#MinMsgLen
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 33  
+
+0069 7402              MOV     A,#02H
+006B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 273
+006C 7D40              MOV     R5,#040H
+006E 7C00              MOV     R4,#00H
+0070 7F82              MOV     R7,#082H
+0072 120000      R     LCALL   _initailize_ADUC841_UART
+                                           ; SOURCE LINE # 278
+0075 C2B6              CLR     HeartBeat
+                                           ; SOURCE LINE # 279
+0077 D2B4              SETB    RTS_DE
+                                           ; SOURCE LINE # 280
+0079 D2AF              SETB    EA
+                                           ; SOURCE LINE # 284
+007B 900000      R     MOV     DPTR,#HrtBeatDelay
+007E E4                CLR     A
+007F F0                MOVX    @DPTR,A
+0080 A3                INC     DPTR
+0081 7401              MOV     A,#01H
+0083 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 285
+0084 C2B6              CLR     HeartBeat
+                                           ; SOURCE LINE # 289
+0086 900000      R     MOV     DPTR,#firmware
+0089 7474              MOV     A,#074H
+008B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 290
+008C 900000      R     MOV     DPTR,#firmware+01H
+008F 7444              MOV     A,#044H
+0091 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 291
+0092 900000      R     MOV     DPTR,#firmware+02H
+0095 7455              MOV     A,#055H
+0097 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 292
+0098 900000      R     MOV     DPTR,#firmware+03H
+009B 742D              MOV     A,#02DH
+009D F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 296
+009E 900000      R     MOV     DPTR,#acReset
+00A1 E4                CLR     A
+00A2 F0                MOVX    @DPTR,A
+00A3 A3                INC     DPTR
+00A4 7401              MOV     A,#01H
+00A6 F0                MOVX    @DPTR,A
+00A7         ?C0014:
+                                           ; SOURCE LINE # 297
+                                           ; SOURCE LINE # 298
+                                           ; SOURCE LINE # 299
+00A7 E590              MOV     A,P1
+00A9 5407              ANL     A,#07H
+00AB FF                MOV     R7,A
+00AC 900000      R     MOV     DPTR,#DeviceAddress
+00AF EF                MOV     A,R7
+00B0 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 300
+00B1 900000      R     MOV     DPTR,#HrtBeatDelay+01H
+00B4 E0                MOVX    A,@DPTR
+00B5 24FF              ADD     A,#0FFH
+00B7 F0                MOVX    @DPTR,A
+00B8 900000      R     MOV     DPTR,#HrtBeatDelay
+00BB E0                MOVX    A,@DPTR
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 34  
+
+00BC 34FF              ADDC    A,#0FFH
+00BE F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 301
+00BF 20B61F            JB      HeartBeat,?C0016
+00C2 900000      R     MOV     DPTR,#HrtBeatDelay
+00C5 E0                MOVX    A,@DPTR
+00C6 FE                MOV     R6,A
+00C7 A3                INC     DPTR
+00C8 E0                MOVX    A,@DPTR
+00C9 FF                MOV     R7,A
+00CA D3                SETB    C
+00CB EF                MOV     A,R7
+00CC 9410              SUBB    A,#010H
+00CE EE                MOV     A,R6
+00CF 9400              SUBB    A,#00H
+00D1 500E              JNC     ?C0016
+                                           ; SOURCE LINE # 302
+                                           ; SOURCE LINE # 303
+00D3 D2B6              SETB    HeartBeat
+                                           ; SOURCE LINE # 304
+00D5 900000      R     MOV     DPTR,#HrtBeatDelay
+00D8 747F              MOV     A,#07FH
+00DA F0                MOVX    @DPTR,A
+00DB A3                INC     DPTR
+00DC 74FF              MOV     A,#0FFH
+00DE F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 305
+00DF 801F              SJMP    ?C0017
+00E1         ?C0016:
+                                           ; SOURCE LINE # 306
+00E1 30B61C            JNB     HeartBeat,?C0017
+00E4 900000      R     MOV     DPTR,#HrtBeatDelay
+00E7 E0                MOVX    A,@DPTR
+00E8 FE                MOV     R6,A
+00E9 A3                INC     DPTR
+00EA E0                MOVX    A,@DPTR
+00EB FF                MOV     R7,A
+00EC D3                SETB    C
+00ED EF                MOV     A,R7
+00EE 9410              SUBB    A,#010H
+00F0 EE                MOV     A,R6
+00F1 9400              SUBB    A,#00H
+00F3 500B              JNC     ?C0017
+                                           ; SOURCE LINE # 307
+                                           ; SOURCE LINE # 308
+00F5 C2B6              CLR     HeartBeat
+                                           ; SOURCE LINE # 309
+00F7 900000      R     MOV     DPTR,#HrtBeatDelay
+00FA 7407              MOV     A,#07H
+00FC F0                MOVX    @DPTR,A
+00FD A3                INC     DPTR
+00FE E4                CLR     A
+00FF F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 310
+0100         ?C0018:
+0100         ?C0017:
+                                           ; SOURCE LINE # 311
+0100 900000      R     MOV     DPTR,#acReset
+0103 E0                MOVX    A,@DPTR
+0104 FE                MOV     R6,A
+0105 A3                INC     DPTR
+0106 E0                MOVX    A,@DPTR
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 35  
+
+0107 FF                MOV     R7,A
+0108 D3                SETB    C
+0109 EF                MOV     A,R7
+010A 9400              SUBB    A,#00H
+010C EE                MOV     A,R6
+010D 9400              SUBB    A,#00H
+010F 402E              JC      ?C0019
+                                           ; SOURCE LINE # 312
+                                           ; SOURCE LINE # 316
+0111 7E00              MOV     R6,#00H
+0113 7F05              MOV     R7,#05H
+0115 7D00              MOV     R5,#00H
+0117 7B01              MOV     R3,#01H
+0119 7A00        R     MOV     R2,#HIGH devicedata
+011B 7900        R     MOV     R1,#LOW devicedata
+011D 120000      E     LCALL   ?C?MEMSET
+                                           ; SOURCE LINE # 325
+0120 900000      R     MOV     DPTR,#acDataChange
+0123 E4                CLR     A
+0124 F0                MOVX    @DPTR,A
+0125 A3                INC     DPTR
+0126 7401              MOV     A,#01H
+0128 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 327
+0129 900000      R     MOV     DPTR,#acFirmwareRsp
+012C E4                CLR     A
+012D F0                MOVX    @DPTR,A
+012E A3                INC     DPTR
+012F E4                CLR     A
+0130 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 328
+0131 900000      R     MOV     DPTR,#acReset+01H
+0134 E0                MOVX    A,@DPTR
+0135 24FF              ADD     A,#0FFH
+0137 F0                MOVX    @DPTR,A
+0138 900000      R     MOV     DPTR,#acReset
+013B E0                MOVX    A,@DPTR
+013C 34FF              ADDC    A,#0FFH
+013E F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 329
+013F         ?C0019:
+                                           ; SOURCE LINE # 330
+013F 900000      R     MOV     DPTR,#acDataChange
+0142 E0                MOVX    A,@DPTR
+0143 FE                MOV     R6,A
+0144 A3                INC     DPTR
+0145 E0                MOVX    A,@DPTR
+0146 FF                MOV     R7,A
+0147 D3                SETB    C
+0148 EF                MOV     A,R7
+0149 9400              SUBB    A,#00H
+014B EE                MOV     A,R6
+014C 9400              SUBB    A,#00H
+014E 5003              JNC     $ + 5H
+0150 020000      R     LJMP    ?C0020
+                                           ; SOURCE LINE # 331
+                                           ; SOURCE LINE # 332
+0153 900000      R     MOV     DPTR,#devicedata+03H
+0156 E0                MOVX    A,@DPTR
+0157 FF                MOV     R7,A
+0158 7E00              MOV     R6,#00H
+015A 900000      R     MOV     DPTR,#index
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 36  
+
+015D EE                MOV     A,R6
+015E F0                MOVX    @DPTR,A
+015F A3                INC     DPTR
+0160 EF                MOV     A,R7
+0161 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 333
+0162 900000      R     MOV     DPTR,#index
+0165 E0                MOVX    A,@DPTR
+0166 FE                MOV     R6,A
+0167 A3                INC     DPTR
+0168 E0                MOVX    A,@DPTR
+0169 FF                MOV     R7,A
+016A EF                MOV     A,R7
+016B 7806              MOV     R0,#06H
+016D         ?C0045:
+016D C3                CLR     C
+016E 33                RLC     A
+016F CE                XCH     A,R6
+0170 33                RLC     A
+0171 CE                XCH     A,R6
+0172 D8F9              DJNZ    R0,?C0045
+0174 FF                MOV     R7,A
+0175 900000      R     MOV     DPTR,#index
+0178 EE                MOV     A,R6
+0179 F0                MOVX    @DPTR,A
+017A A3                INC     DPTR
+017B EF                MOV     A,R7
+017C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 334
+017D 900000      R     MOV     DPTR,#index
+0180 E0                MOVX    A,@DPTR
+0181 FE                MOV     R6,A
+0182 A3                INC     DPTR
+0183 E0                MOVX    A,@DPTR
+0184 FF                MOV     R7,A
+0185 EE                MOV     A,R6
+0186 540F              ANL     A,#0FH
+0188 FE                MOV     R6,A
+0189 EF                MOV     A,R7
+018A 54C0              ANL     A,#0C0H
+018C FF                MOV     R7,A
+018D 900000      R     MOV     DPTR,#index
+0190 EE                MOV     A,R6
+0191 F0                MOVX    @DPTR,A
+0192 A3                INC     DPTR
+0193 EF                MOV     A,R7
+0194 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 335
+0195 900000      R     MOV     DPTR,#index
+0198 E0                MOVX    A,@DPTR
+0199 FE                MOV     R6,A
+019A A3                INC     DPTR
+019B E0                MOVX    A,@DPTR
+019C FF                MOV     R7,A
+019D 900000      R     MOV     DPTR,#devicedata+02H
+01A0 E0                MOVX    A,@DPTR
+01A1 FD                MOV     R5,A
+01A2 ED                MOV     A,R5
+01A3 543F              ANL     A,#03FH
+01A5 FD                MOV     R5,A
+01A6 7C00              MOV     R4,#00H
+01A8 EE                MOV     A,R6
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 37  
+
+01A9 4C                ORL     A,R4
+01AA FE                MOV     R6,A
+01AB EF                MOV     A,R7
+01AC 4D                ORL     A,R5
+01AD FF                MOV     R7,A
+01AE 900000      R     MOV     DPTR,#index
+01B1 EE                MOV     A,R6
+01B2 F0                MOVX    @DPTR,A
+01B3 A3                INC     DPTR
+01B4 EF                MOV     A,R7
+01B5 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 336
+01B6 900000      R     MOV     DPTR,#index
+01B9 E0                MOVX    A,@DPTR
+01BA FE                MOV     R6,A
+01BB A3                INC     DPTR
+01BC E0                MOVX    A,@DPTR
+01BD FF                MOV     R7,A
+01BE 7DFE              MOV     R5,#0FEH
+01C0 120000      R     LCALL   _wrAD7247
+                                           ; SOURCE LINE # 341
+01C3 900000      R     MOV     DPTR,#devicedata+04H
+01C6 E0                MOVX    A,@DPTR
+01C7 FF                MOV     R7,A
+01C8 EF                MOV     A,R7
+01C9 20E004            JB      ACC.0,?C0021
+                                           ; SOURCE LINE # 342
+01CC C2B7              CLR     DO1_ctrl
+01CE 8002              SJMP    ?C0022
+01D0         ?C0021:
+                                           ; SOURCE LINE # 344
+01D0 D2B7              SETB    DO1_ctrl
+01D2         ?C0022:
+                                           ; SOURCE LINE # 346
+01D2 900000      R     MOV     DPTR,#acDataChange+01H
+01D5 E0                MOVX    A,@DPTR
+01D6 24FF              ADD     A,#0FFH
+01D8 F0                MOVX    @DPTR,A
+01D9 900000      R     MOV     DPTR,#acDataChange
+01DC E0                MOVX    A,@DPTR
+01DD 34FF              ADDC    A,#0FFH
+01DF F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 347
+01E0         ?C0020:
+                                           ; SOURCE LINE # 354
+01E0 900000      R     MOV     DPTR,#acFirmwareRsp
+01E3 E0                MOVX    A,@DPTR
+01E4 FE                MOV     R6,A
+01E5 A3                INC     DPTR
+01E6 E0                MOVX    A,@DPTR
+01E7 FF                MOV     R7,A
+01E8 D3                SETB    C
+01E9 EF                MOV     A,R7
+01EA 9400              SUBB    A,#00H
+01EC EE                MOV     A,R6
+01ED 9400              SUBB    A,#00H
+01EF 4033              JC      ?C0023
+                                           ; SOURCE LINE # 355
+                                           ; SOURCE LINE # 357
+01F1 7FFE              MOV     R7,#0FEH
+01F3 120000      R     LCALL   _UART_Write
+                                           ; SOURCE LINE # 358
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 38  
+
+01F6 900000      R     MOV     DPTR,#firmware
+01F9 E0                MOVX    A,@DPTR
+01FA FF                MOV     R7,A
+01FB 120000      R     LCALL   _UART_Write
+                                           ; SOURCE LINE # 359
+01FE 900000      R     MOV     DPTR,#firmware+01H
+0201 E0                MOVX    A,@DPTR
+0202 FF                MOV     R7,A
+0203 120000      R     LCALL   _UART_Write
+                                           ; SOURCE LINE # 360
+0206 900000      R     MOV     DPTR,#firmware+02H
+0209 E0                MOVX    A,@DPTR
+020A FF                MOV     R7,A
+020B 120000      R     LCALL   _UART_Write
+                                           ; SOURCE LINE # 361
+020E 900000      R     MOV     DPTR,#firmware+03H
+0211 E0                MOVX    A,@DPTR
+0212 FF                MOV     R7,A
+0213 120000      R     LCALL   _UART_Write
+                                           ; SOURCE LINE # 362
+0216 900000      R     MOV     DPTR,#acFirmwareRsp+01H
+0219 E0                MOVX    A,@DPTR
+021A 24FF              ADD     A,#0FFH
+021C F0                MOVX    @DPTR,A
+021D 900000      R     MOV     DPTR,#acFirmwareRsp
+0220 E0                MOVX    A,@DPTR
+0221 34FF              ADDC    A,#0FFH
+0223 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 363
+0224         ?C0023:
+                                           ; SOURCE LINE # 367
+0224 900000      R     MOV     DPTR,#MinMsgLen
+0227 E0                MOVX    A,@DPTR
+0228 FF                MOV     R7,A
+0229 7E00              MOV     R6,#00H
+022B 900000      R     MOV     DPTR,#uart0_RxCount
+022E E0                MOVX    A,@DPTR
+022F FC                MOV     R4,A
+0230 A3                INC     DPTR
+0231 E0                MOVX    A,@DPTR
+0232 FD                MOV     R5,A
+0233 C3                CLR     C
+0234 ED                MOV     A,R5
+0235 9F                SUBB    A,R7
+0236 EC                MOV     A,R4
+0237 9E                SUBB    A,R6
+0238 5003              JNC     $ + 5H
+023A 020000      R     LJMP    ?C0014
+                                           ; SOURCE LINE # 368
+                                           ; SOURCE LINE # 369
+023D 900000      R     MOV     DPTR,#uart0_RxCount
+0240 E0                MOVX    A,@DPTR
+0241 FE                MOV     R6,A
+0242 A3                INC     DPTR
+0243 E0                MOVX    A,@DPTR
+0244 FF                MOV     R7,A
+0245 EF                MOV     A,R7
+0246 4E                ORL     A,R6
+0247 7003              JNZ     $ + 5H
+0249 020000      R     LJMP    ?C0025
+                                           ; SOURCE LINE # 370
+                                           ; SOURCE LINE # 371
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 39  
+
+024C 900000      R     MOV     DPTR,#uart0_RxTail
+024F E0                MOVX    A,@DPTR
+0250 FE                MOV     R6,A
+0251 A3                INC     DPTR
+0252 E0                MOVX    A,@DPTR
+0253 FF                MOV     R7,A
+0254 900000      R     MOV     DPTR,#index
+0257 EE                MOV     A,R6
+0258 F0                MOVX    @DPTR,A
+0259 A3                INC     DPTR
+025A EF                MOV     A,R7
+025B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 372
+025C 900000      R     MOV     DPTR,#index
+025F E0                MOVX    A,@DPTR
+0260 FE                MOV     R6,A
+0261 A3                INC     DPTR
+0262 E0                MOVX    A,@DPTR
+0263 FF                MOV     R7,A
+0264 7400        R     MOV     A,#LOW uart0_RxBuf
+0266 2F                ADD     A,R7
+0267 F582              MOV     DPL,A
+0269 7400        R     MOV     A,#HIGH uart0_RxBuf
+026B 3E                ADDC    A,R6
+026C F583              MOV     DPH,A
+026E E0                MOVX    A,@DPTR
+026F FF                MOV     R7,A
+0270 900000      R     MOV     DPTR,#cmd
+0273 EF                MOV     A,R7
+0274 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 373
+0275 900000      R     MOV     DPTR,#index+01H
+0278 E0                MOVX    A,@DPTR
+0279 04                INC     A
+027A F0                MOVX    @DPTR,A
+027B 7006              JNZ     ?C0046
+027D 900000      R     MOV     DPTR,#index
+0280 E0                MOVX    A,@DPTR
+0281 04                INC     A
+0282 F0                MOVX    @DPTR,A
+0283         ?C0046:
+                                           ; SOURCE LINE # 374
+0283 900000      R     MOV     DPTR,#index
+0286 E0                MOVX    A,@DPTR
+0287 FE                MOV     R6,A
+0288 A3                INC     DPTR
+0289 E0                MOVX    A,@DPTR
+028A FF                MOV     R7,A
+028B EE                MOV     A,R6
+028C 5401              ANL     A,#01H
+028E FE                MOV     R6,A
+028F 900000      R     MOV     DPTR,#index
+0292 EE                MOV     A,R6
+0293 F0                MOVX    @DPTR,A
+0294 A3                INC     DPTR
+0295 EF                MOV     A,R7
+0296 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 375
+0297 900000      R     MOV     DPTR,#index
+029A E0                MOVX    A,@DPTR
+029B FE                MOV     R6,A
+029C A3                INC     DPTR
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 40  
+
+029D E0                MOVX    A,@DPTR
+029E FF                MOV     R7,A
+029F 7400        R     MOV     A,#LOW uart0_RxBuf
+02A1 2F                ADD     A,R7
+02A2 F582              MOV     DPL,A
+02A4 7400        R     MOV     A,#HIGH uart0_RxBuf
+02A6 3E                ADDC    A,R6
+02A7 F583              MOV     DPH,A
+02A9 E0                MOVX    A,@DPTR
+02AA FF                MOV     R7,A
+02AB 900000      R     MOV     DPTR,#adr
+02AE EF                MOV     A,R7
+02AF F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 376
+02B0 900000      R     MOV     DPTR,#adr
+02B3 E0                MOVX    A,@DPTR
+02B4 FF                MOV     R7,A
+02B5 900000      R     MOV     DPTR,#DeviceAddress
+02B8 E0                MOVX    A,@DPTR
+02B9 FE                MOV     R6,A
+02BA EE                MOV     A,R6
+02BB 6F                XRL     A,R7
+02BC 6003              JZ      $ + 5H
+02BE 020000      R     LJMP    ?C0026
+                                           ; SOURCE LINE # 377
+                                           ; SOURCE LINE # 378
+02C1 900000      R     MOV     DPTR,#cmd
+02C4 E0                MOVX    A,@DPTR
+02C5 FF                MOV     R7,A
+02C6 EF                MOV     A,R7
+02C7 120000      E     LCALL   ?C?CCASE
+02CA 0000        R     DW      ?C0028
+02CC F0                DB      0F0H
+02CD 0000        R     DW      ?C0030
+02CF F5                DB      0F5H
+02D0 0000        R     DW      ?C0033
+02D2 FE                DB      0FEH
+02D3 0000              DW      00H
+02D5 0000        R     DW      ?C0035
+                                           ; SOURCE LINE # 379
+                                           ; SOURCE LINE # 380
+02D7         ?C0028:
+                                           ; SOURCE LINE # 381
+02D7 900000      R     MOV     DPTR,#MinMsgLen
+02DA 7402              MOV     A,#02H
+02DC F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 382
+02DD 900000      R     MOV     DPTR,#MinMsgLen
+02E0 E0                MOVX    A,@DPTR
+02E1 FF                MOV     R7,A
+02E2 7E00              MOV     R6,#00H
+02E4 900000      R     MOV     DPTR,#uart0_RxCount
+02E7 E0                MOVX    A,@DPTR
+02E8 FC                MOV     R4,A
+02E9 A3                INC     DPTR
+02EA E0                MOVX    A,@DPTR
+02EB FD                MOV     R5,A
+02EC C3                CLR     C
+02ED ED                MOV     A,R5
+02EE 9F                SUBB    A,R7
+02EF EC                MOV     A,R4
+02F0 9E                SUBB    A,R6
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 41  
+
+02F1 5003              JNC     $ + 5H
+02F3 020000      R     LJMP    ?C0014
+                                           ; SOURCE LINE # 383
+                                           ; SOURCE LINE # 384
+02F6 900000      R     MOV     DPTR,#acReset+01H
+02F9 E0                MOVX    A,@DPTR
+02FA 04                INC     A
+02FB F0                MOVX    @DPTR,A
+02FC 7006              JNZ     ?C0047
+02FE 900000      R     MOV     DPTR,#acReset
+0301 E0                MOVX    A,@DPTR
+0302 04                INC     A
+0303 F0                MOVX    @DPTR,A
+0304         ?C0047:
+                                           ; SOURCE LINE # 385
+0304 900000      R     MOV     DPTR,#MinMsgLen
+0307 E0                MOVX    A,@DPTR
+0308 FF                MOV     R7,A
+0309 120000      R     LCALL   _RemoveMsgFromBuffer
+                                           ; SOURCE LINE # 387
+030C         ?C0029:
+                                           ; SOURCE LINE # 388
+030C 020000      R     LJMP    ?C0014
+                                           ; SOURCE LINE # 389
+030F         ?C0030:
+                                           ; SOURCE LINE # 390
+030F 900000      R     MOV     DPTR,#MinMsgLen
+0312 7405              MOV     A,#05H
+0314 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 391
+0315 900000      R     MOV     DPTR,#MinMsgLen
+0318 E0                MOVX    A,@DPTR
+0319 FF                MOV     R7,A
+031A 7E00              MOV     R6,#00H
+031C 900000      R     MOV     DPTR,#uart0_RxCount
+031F E0                MOVX    A,@DPTR
+0320 FC                MOV     R4,A
+0321 A3                INC     DPTR
+0322 E0                MOVX    A,@DPTR
+0323 FD                MOV     R5,A
+0324 C3                CLR     C
+0325 ED                MOV     A,R5
+0326 9F                SUBB    A,R7
+0327 EC                MOV     A,R4
+0328 9E                SUBB    A,R6
+0329 5003              JNC     $ + 5H
+032B 020000      R     LJMP    ?C0014
+                                           ; SOURCE LINE # 392
+                                           ; SOURCE LINE # 393
+032E 900000      R     MOV     DPTR,#index+01H
+0331 E0                MOVX    A,@DPTR
+0332 04                INC     A
+0333 F0                MOVX    @DPTR,A
+0334 7006              JNZ     ?C0048
+0336 900000      R     MOV     DPTR,#index
+0339 E0                MOVX    A,@DPTR
+033A 04                INC     A
+033B F0                MOVX    @DPTR,A
+033C         ?C0048:
+                                           ; SOURCE LINE # 394
+033C 900000      R     MOV     DPTR,#index
+033F E0                MOVX    A,@DPTR
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 42  
+
+0340 FE                MOV     R6,A
+0341 A3                INC     DPTR
+0342 E0                MOVX    A,@DPTR
+0343 FF                MOV     R7,A
+0344 EE                MOV     A,R6
+0345 5401              ANL     A,#01H
+0347 FE                MOV     R6,A
+0348 900000      R     MOV     DPTR,#index
+034B EE                MOV     A,R6
+034C F0                MOVX    @DPTR,A
+034D A3                INC     DPTR
+034E EF                MOV     A,R7
+034F F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 395
+0350 900000      R     MOV     DPTR,#index
+0353 E0                MOVX    A,@DPTR
+0354 FE                MOV     R6,A
+0355 A3                INC     DPTR
+0356 E0                MOVX    A,@DPTR
+0357 FF                MOV     R7,A
+0358 7400        R     MOV     A,#LOW uart0_RxBuf
+035A 2F                ADD     A,R7
+035B F582              MOV     DPL,A
+035D 7400        R     MOV     A,#HIGH uart0_RxBuf
+035F 3E                ADDC    A,R6
+0360 F583              MOV     DPH,A
+0362 E0                MOVX    A,@DPTR
+0363 FF                MOV     R7,A
+0364 900000      R     MOV     DPTR,#devicedata
+0367 EF                MOV     A,R7
+0368 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 396
+0369 900000      R     MOV     DPTR,#index+01H
+036C E0                MOVX    A,@DPTR
+036D 04                INC     A
+036E F0                MOVX    @DPTR,A
+036F 7006              JNZ     ?C0049
+0371 900000      R     MOV     DPTR,#index
+0374 E0                MOVX    A,@DPTR
+0375 04                INC     A
+0376 F0                MOVX    @DPTR,A
+0377         ?C0049:
+                                           ; SOURCE LINE # 397
+0377 900000      R     MOV     DPTR,#index
+037A E0                MOVX    A,@DPTR
+037B FE                MOV     R6,A
+037C A3                INC     DPTR
+037D E0                MOVX    A,@DPTR
+037E FF                MOV     R7,A
+037F EE                MOV     A,R6
+0380 5401              ANL     A,#01H
+0382 FE                MOV     R6,A
+0383 900000      R     MOV     DPTR,#index
+0386 EE                MOV     A,R6
+0387 F0                MOVX    @DPTR,A
+0388 A3                INC     DPTR
+0389 EF                MOV     A,R7
+038A F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 398
+038B 900000      R     MOV     DPTR,#index
+038E E0                MOVX    A,@DPTR
+038F FE                MOV     R6,A
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 43  
+
+0390 A3                INC     DPTR
+0391 E0                MOVX    A,@DPTR
+0392 FF                MOV     R7,A
+0393 7400        R     MOV     A,#LOW uart0_RxBuf
+0395 2F                ADD     A,R7
+0396 F582              MOV     DPL,A
+0398 7400        R     MOV     A,#HIGH uart0_RxBuf
+039A 3E                ADDC    A,R6
+039B F583              MOV     DPH,A
+039D E0                MOVX    A,@DPTR
+039E FF                MOV     R7,A
+039F 900000      R     MOV     DPTR,#devicedata+01H
+03A2 EF                MOV     A,R7
+03A3 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 399
+03A4 900000      R     MOV     DPTR,#index+01H
+03A7 E0                MOVX    A,@DPTR
+03A8 04                INC     A
+03A9 F0                MOVX    @DPTR,A
+03AA 7006              JNZ     ?C0050
+03AC 900000      R     MOV     DPTR,#index
+03AF E0                MOVX    A,@DPTR
+03B0 04                INC     A
+03B1 F0                MOVX    @DPTR,A
+03B2         ?C0050:
+                                           ; SOURCE LINE # 400
+03B2 900000      R     MOV     DPTR,#index
+03B5 E0                MOVX    A,@DPTR
+03B6 FE                MOV     R6,A
+03B7 A3                INC     DPTR
+03B8 E0                MOVX    A,@DPTR
+03B9 FF                MOV     R7,A
+03BA EE                MOV     A,R6
+03BB 5401              ANL     A,#01H
+03BD FE                MOV     R6,A
+03BE 900000      R     MOV     DPTR,#index
+03C1 EE                MOV     A,R6
+03C2 F0                MOVX    @DPTR,A
+03C3 A3                INC     DPTR
+03C4 EF                MOV     A,R7
+03C5 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 401
+03C6 900000      R     MOV     DPTR,#index
+03C9 E0                MOVX    A,@DPTR
+03CA FE                MOV     R6,A
+03CB A3                INC     DPTR
+03CC E0                MOVX    A,@DPTR
+03CD FF                MOV     R7,A
+03CE 7400        R     MOV     A,#LOW uart0_RxBuf
+03D0 2F                ADD     A,R7
+03D1 F582              MOV     DPL,A
+03D3 7400        R     MOV     A,#HIGH uart0_RxBuf
+03D5 3E                ADDC    A,R6
+03D6 F583              MOV     DPH,A
+03D8 E0                MOVX    A,@DPTR
+03D9 FF                MOV     R7,A
+03DA 900000      R     MOV     DPTR,#devicedata+02H
+03DD EF                MOV     A,R7
+03DE F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 402
+03DF 900000      R     MOV     DPTR,#index+01H
+03E2 E0                MOVX    A,@DPTR
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 44  
+
+03E3 04                INC     A
+03E4 F0                MOVX    @DPTR,A
+03E5 7006              JNZ     ?C0051
+03E7 900000      R     MOV     DPTR,#index
+03EA E0                MOVX    A,@DPTR
+03EB 04                INC     A
+03EC F0                MOVX    @DPTR,A
+03ED         ?C0051:
+                                           ; SOURCE LINE # 403
+03ED 900000      R     MOV     DPTR,#index
+03F0 E0                MOVX    A,@DPTR
+03F1 FE                MOV     R6,A
+03F2 A3                INC     DPTR
+03F3 E0                MOVX    A,@DPTR
+03F4 FF                MOV     R7,A
+03F5 EE                MOV     A,R6
+03F6 5401              ANL     A,#01H
+03F8 FE                MOV     R6,A
+03F9 900000      R     MOV     DPTR,#index
+03FC EE                MOV     A,R6
+03FD F0                MOVX    @DPTR,A
+03FE A3                INC     DPTR
+03FF EF                MOV     A,R7
+0400 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 404
+0401 900000      R     MOV     DPTR,#index
+0404 E0                MOVX    A,@DPTR
+0405 FE                MOV     R6,A
+0406 A3                INC     DPTR
+0407 E0                MOVX    A,@DPTR
+0408 FF                MOV     R7,A
+0409 7400        R     MOV     A,#LOW uart0_RxBuf
+040B 2F                ADD     A,R7
+040C F582              MOV     DPL,A
+040E 7400        R     MOV     A,#HIGH uart0_RxBuf
+0410 3E                ADDC    A,R6
+0411 F583              MOV     DPH,A
+0413 E0                MOVX    A,@DPTR
+0414 FF                MOV     R7,A
+0415 900000      R     MOV     DPTR,#devicedata+03H
+0418 EF                MOV     A,R7
+0419 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 405
+041A 900000      R     MOV     DPTR,#index+01H
+041D E0                MOVX    A,@DPTR
+041E 04                INC     A
+041F F0                MOVX    @DPTR,A
+0420 7006              JNZ     ?C0052
+0422 900000      R     MOV     DPTR,#index
+0425 E0                MOVX    A,@DPTR
+0426 04                INC     A
+0427 F0                MOVX    @DPTR,A
+0428         ?C0052:
+                                           ; SOURCE LINE # 406
+0428 900000      R     MOV     DPTR,#index
+042B E0                MOVX    A,@DPTR
+042C FE                MOV     R6,A
+042D A3                INC     DPTR
+042E E0                MOVX    A,@DPTR
+042F FF                MOV     R7,A
+0430 EE                MOV     A,R6
+0431 5401              ANL     A,#01H
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 45  
+
+0433 FE                MOV     R6,A
+0434 900000      R     MOV     DPTR,#index
+0437 EE                MOV     A,R6
+0438 F0                MOVX    @DPTR,A
+0439 A3                INC     DPTR
+043A EF                MOV     A,R7
+043B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 407
+043C 900000      R     MOV     DPTR,#index
+043F E0                MOVX    A,@DPTR
+0440 FE                MOV     R6,A
+0441 A3                INC     DPTR
+0442 E0                MOVX    A,@DPTR
+0443 FF                MOV     R7,A
+0444 7400        R     MOV     A,#LOW uart0_RxBuf
+0446 2F                ADD     A,R7
+0447 F582              MOV     DPL,A
+0449 7400        R     MOV     A,#HIGH uart0_RxBuf
+044B 3E                ADDC    A,R6
+044C F583              MOV     DPH,A
+044E E0                MOVX    A,@DPTR
+044F FF                MOV     R7,A
+0450 900000      R     MOV     DPTR,#devicedata+04H
+0453 EF                MOV     A,R7
+0454 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 408
+0455 900000      R     MOV     DPTR,#index+01H
+0458 E0                MOVX    A,@DPTR
+0459 04                INC     A
+045A F0                MOVX    @DPTR,A
+045B 7006              JNZ     ?C0053
+045D 900000      R     MOV     DPTR,#index
+0460 E0                MOVX    A,@DPTR
+0461 04                INC     A
+0462 F0                MOVX    @DPTR,A
+0463         ?C0053:
+                                           ; SOURCE LINE # 409
+0463 900000      R     MOV     DPTR,#index
+0466 E0                MOVX    A,@DPTR
+0467 FE                MOV     R6,A
+0468 A3                INC     DPTR
+0469 E0                MOVX    A,@DPTR
+046A FF                MOV     R7,A
+046B EE                MOV     A,R6
+046C 5401              ANL     A,#01H
+046E FE                MOV     R6,A
+046F 900000      R     MOV     DPTR,#index
+0472 EE                MOV     A,R6
+0473 F0                MOVX    @DPTR,A
+0474 A3                INC     DPTR
+0475 EF                MOV     A,R7
+0476 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 410
+0477 900000      R     MOV     DPTR,#index
+047A E0                MOVX    A,@DPTR
+047B FE                MOV     R6,A
+047C A3                INC     DPTR
+047D E0                MOVX    A,@DPTR
+047E FF                MOV     R7,A
+047F 7400        R     MOV     A,#LOW uart0_RxBuf
+0481 2F                ADD     A,R7
+0482 F582              MOV     DPL,A
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 46  
+
+0484 7400        R     MOV     A,#HIGH uart0_RxBuf
+0486 3E                ADDC    A,R6
+0487 F583              MOV     DPH,A
+0489 E0                MOVX    A,@DPTR
+048A FF                MOV     R7,A
+048B 900000      R     MOV     DPTR,#devicedata+05H
+048E EF                MOV     A,R7
+048F F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 411
+0490 900000      R     MOV     DPTR,#acDataChange
+0493 E0                MOVX    A,@DPTR
+0494 FE                MOV     R6,A
+0495 A3                INC     DPTR
+0496 E0                MOVX    A,@DPTR
+0497 FF                MOV     R7,A
+0498 C3                CLR     C
+0499 EF                MOV     A,R7
+049A 94FF              SUBB    A,#0FFH
+049C EE                MOV     A,R6
+049D 94FF              SUBB    A,#0FFH
+049F 500E              JNC     ?C0032
+04A1 900000      R     MOV     DPTR,#acDataChange+01H
+04A4 E0                MOVX    A,@DPTR
+04A5 04                INC     A
+04A6 F0                MOVX    @DPTR,A
+04A7 7006              JNZ     ?C0054
+04A9 900000      R     MOV     DPTR,#acDataChange
+04AC E0                MOVX    A,@DPTR
+04AD 04                INC     A
+04AE F0                MOVX    @DPTR,A
+04AF         ?C0054:
+04AF         ?C0032:
+                                           ; SOURCE LINE # 412
+04AF 900000      R     MOV     DPTR,#MinMsgLen
+04B2 E0                MOVX    A,@DPTR
+04B3 FF                MOV     R7,A
+04B4 120000      R     LCALL   _RemoveMsgFromBuffer
+                                           ; SOURCE LINE # 414
+04B7         ?C0031:
+                                           ; SOURCE LINE # 415
+04B7 020000      R     LJMP    ?C0014
+                                           ; SOURCE LINE # 433
+04BA         ?C0033:
+                                           ; SOURCE LINE # 434
+04BA 900000      R     MOV     DPTR,#MinMsgLen
+04BD 7402              MOV     A,#02H
+04BF F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 435
+04C0 900000      R     MOV     DPTR,#MinMsgLen
+04C3 E0                MOVX    A,@DPTR
+04C4 FF                MOV     R7,A
+04C5 7E00              MOV     R6,#00H
+04C7 900000      R     MOV     DPTR,#uart0_RxCount
+04CA E0                MOVX    A,@DPTR
+04CB FC                MOV     R4,A
+04CC A3                INC     DPTR
+04CD E0                MOVX    A,@DPTR
+04CE FD                MOV     R5,A
+04CF C3                CLR     C
+04D0 ED                MOV     A,R5
+04D1 9F                SUBB    A,R7
+04D2 EC                MOV     A,R4
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 47  
+
+04D3 9E                SUBB    A,R6
+04D4 5003              JNC     $ + 5H
+04D6 020000      R     LJMP    ?C0014
+                                           ; SOURCE LINE # 436
+                                           ; SOURCE LINE # 437
+04D9 900000      R     MOV     DPTR,#acFirmwareRsp+01H
+04DC E0                MOVX    A,@DPTR
+04DD 04                INC     A
+04DE F0                MOVX    @DPTR,A
+04DF 7006              JNZ     ?C0055
+04E1 900000      R     MOV     DPTR,#acFirmwareRsp
+04E4 E0                MOVX    A,@DPTR
+04E5 04                INC     A
+04E6 F0                MOVX    @DPTR,A
+04E7         ?C0055:
+                                           ; SOURCE LINE # 438
+04E7 900000      R     MOV     DPTR,#MinMsgLen
+04EA E0                MOVX    A,@DPTR
+04EB FF                MOV     R7,A
+04EC 120000      R     LCALL   _RemoveMsgFromBuffer
+                                           ; SOURCE LINE # 440
+04EF         ?C0034:
+                                           ; SOURCE LINE # 441
+04EF 020000      R     LJMP    ?C0014
+                                           ; SOURCE LINE # 442
+04F2         ?C0035:
+                                           ; SOURCE LINE # 443
+04F2 7F01              MOV     R7,#01H
+04F4 120000      R     LCALL   _RemoveMsgFromBuffer
+                                           ; SOURCE LINE # 444
+04F7 020000      R     LJMP    ?C0014
+                                           ; SOURCE LINE # 445
+04FA         ?C0027:
+                                           ; SOURCE LINE # 446
+04FA 020000      R     LJMP    ?C0014
+04FD         ?C0026:
+                                           ; SOURCE LINE # 448
+                                           ; SOURCE LINE # 449
+04FD 7F01              MOV     R7,#01H
+04FF 120000      R     LCALL   _RemoveMsgFromBuffer
+                                           ; SOURCE LINE # 451
+0502         ?C0036:
+                                           ; SOURCE LINE # 452
+0502 020000      R     LJMP    ?C0014
+0505         ?C0025:
+                                           ; SOURCE LINE # 454
+                                           ; SOURCE LINE # 455
+0505 7F01              MOV     R7,#01H
+0507 120000      R     LCALL   _RemoveMsgFromBuffer
+                                           ; SOURCE LINE # 457
+050A         ?C0037:
+                                           ; SOURCE LINE # 458
+050A         ?C0024:
+                                           ; SOURCE LINE # 459
+050A 020000      R     LJMP    ?C0014
+050D         ?C0015:
+                                           ; SOURCE LINE # 460
+050D         ?C0038:
+050D 22                RET     
+             ; FUNCTION main (END)
+
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 48  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
+EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
+acDataChange . . . . . . . . . . . . .  STATIC   XDATA  U_INT    0000H  2
+UART_ISR . . . . . . . . . . . . . . .  STATIC   CODE   PROC     0000H  -----
+uart0_RxHead . . . . . . . . . . . . .  STATIC   XDATA  U_INT    0002H  2
+FLASHPAGE. . . . . . . . . . . . . . .  TYPEDEF  -----  STRUCT   -----  4
+  D1 . . . . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0000H  1
+  D2 . . . . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0001H  1
+  D3 . . . . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0002H  1
+  D4 . . . . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0003H  1
+_RemoveMsgFromBuffer . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  cnt. . . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0000H  1
+  tmp. . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0001H  2
+uart0_TxHead . . . . . . . . . . . . .  STATIC   XDATA  U_INT    0004H  2
+devicedata . . . . . . . . . . . . . .  PUBLIC   XDATA  ARRAY    0006H  5
+size_t . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+T3FD . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009DH  1
+ES . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
+uart0_TxFlag . . . . . . . . . . . . .  STATIC   XDATA  U_CHAR   000BH  1
+RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+HrtBeatDelay . . . . . . . . . . . . .  STATIC   XDATA  U_INT    000CH  2
+SP . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0081H  1
+main . . . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  index. . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0000H  2
+  cmd. . . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0002H  1
+  adr. . . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0003H  1
+  DeviceAddress. . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0004H  1
+uart0_RxCount. . . . . . . . . . . . .  STATIC   XDATA  U_INT    000EH  2
+uart0_RxTail . . . . . . . . . . . . .  STATIC   XDATA  U_INT    0010H  2
+uart0_TxCount. . . . . . . . . . . . .  STATIC   XDATA  U_INT    0012H  2
+uart0_TxTail . . . . . . . . . . . . .  STATIC   XDATA  U_INT    0014H  2
+_UART_Write. . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  c. . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0000H  1
+BOOL . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+flashpage. . . . . . . . . . . . . . .  * TAG *  -----  STRUCT   -----  4
+  D1 . . . . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0000H  1
+  D2 . . . . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0001H  1
+  D3 . . . . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0002H  1
+  D4 . . . . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0003H  1
+SBUF . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0099H  1
+SCON . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0098H  1
+byte . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+uart0_RxBuf. . . . . . . . . . . . . .  STATIC   XDATA  ARRAY    0016H  512
+uart0_TxBuf. . . . . . . . . . . . . .  STATIC   XDATA  ARRAY    0216H  512
+word . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+acFirmwareRsp. . . . . . . . . . . . .  STATIC   XDATA  U_INT    0416H  2
+S8_T . . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
+U8_T . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+a2d_wr . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
+_wrAD7247. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  val. . . . . . . . . . . . . . . . .  AUTO     XDATA  U_INT    0000H  2
+  ch . . . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0002H  1
+  tmp. . . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0003H  1
+C51 COMPILER V8.06   MAIN                                                                  10/15/2020 16:31:33 PAGE 49  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+acReset. . . . . . . . . . . . . . . .  STATIC   XDATA  U_INT    0418H  2
+uart0_Mode . . . . . . . . . . . . . .  STATIC   XDATA  U_CHAR   041AH  1
+DO1_ctrl . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
+firmware . . . . . . . . . . . . . . .  PUBLIC   XDATA  ARRAY    041BH  5
+RTS_DE . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
+olduart0_RxCount . . . . . . . . . . .  STATIC   XDATA  U_INT    0420H  2
+T3CON. . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   009EH  1
+S32_T. . . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
+CFG841 . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00AFH  1
+S16_T. . . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
+U32_T. . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
+MinMsgLen. . . . . . . . . . . . . . .  STATIC   XDATA  U_CHAR   0422H  1
+U16_T. . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+_initailize_ADUC841_UART . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  t3con. . . . . . . . . . . . . . . .  AUTO     XDATA  U_CHAR   0000H  1
+  t3fd . . . . . . . . . . . . . . . .  AUTO     XDATA  INT      0001H  2
+HeartBeat. . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   2032    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   1075    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

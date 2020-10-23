@@ -1,0 +1,737 @@
+A51 MACRO ASSEMBLER  CIRCUIT                                                              10/15/2020 16:31:34 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00c
+OBJECT MODULE PLACED IN circuit.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE circuit.src PR(.\circuit.ls1) EP DEBUG
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; .\circuit.SRC generated from: circuit.c
+                       2     ; COMPILER INVOKED BY:
+                       3     ;        C:\Keil\C51\BIN\C51.EXE circuit.c LARGE OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEN
+                             D CODE LISTINCLUDE SYMBOLS PREPRINT SRC(.\circuit.SRC)
+                       4     
+                       5     $nomod51 
+                       6     
+                       7     NAME    CIRCUIT
+                       8     
+  00A1                 9     cs_e02  BIT     0A0H.1
+  00F1                10     ADCOFSL DATA    0F1H
+  0080                11     P0      DATA    080H
+  00A3                12     cs_e13  BIT     0A0H.3
+  0090                13     P1      DATA    090H
+  00A0                14     P2      DATA    0A0H
+  00A0                15     cs_e15  BIT     0A0H.0
+  00B0                16     P3      DATA    0B0H
+  00D6                17     AC      BIT     0D0H.6
+  00B4                18     T0      BIT     0B0H.4
+  00B5                19     T1      BIT     0B0H.5
+  00A2                20     cs_e17  BIT     0A0H.2
+  00AF                21     EA      BIT     0A8H.7
+  0090                22     T2      BIT     090H.0
+  00C8                23     CAP2    BIT     0C8H.0
+  00E8                24     I2CI    BIT     0E8H.0
+  00EB                25     D0EN    BIT     0E8H.3
+  00EE                26     D1EN    BIT     0E8H.6
+  009B                27     I2CADD  DATA    09BH
+  00DC                28     SCONV   BIT     0D8H.4
+  00EB                29     I2CM    BIT     0E8H.3
+  00AE                30     EADC    BIT     0A8H.6
+  00A8                31     IE      DATA    0A8H
+  00DF                32     ADCI    BIT     0D8H.7
+  00BC                33     EDATA1  DATA    0BCH
+  00A1                34     TIMECON DATA    0A1H
+  009D                35     T3FD    DATA    09DH
+  00BD                36     EDATA2  DATA    0BDH
+  00BE                37     EDATA3  DATA    0BEH
+  00BF                38     EDATA4  DATA    0BFH
+  00CE                39     EXF2    BIT     0C8H.6
+  00B7                40     RD      BIT     0B0H.7
+  00C9                41     CNT2    BIT     0C8H.1
+  00C4                42     PRE0    BIT     0C0H.4
+  00AC                43     ES      BIT     0A8H.4
+  00C5                44     PRE1    BIT     0C0H.5
+  00BE                45     PADC    BIT     0B8H.6
+  00B8                46     IP      DATA    0B8H
+  009A                47     I2CDAT  DATA    09AH
+  00C6                48     PRE2    BIT     0C0H.6
+  00C7                49     PRE3    BIT     0C0H.7
+  0098                50     RI      BIT     098H.0
+  00D3                51     DMAH    DATA    0D3H
+  00D7                52     CY      BIT     0D0H.7
+  00B2                53     INT0    BIT     0B0H.2
+  00FA                54     CPHA    BIT     0F8H.2
+  00B3                55     INT1    BIT     0B0H.3
+  0099                56     TI      BIT     098H.1
+  00B3                57     DebugTmp        BIT     0B0H.3
+A51 MACRO ASSEMBLER  CIRCUIT                                                              10/15/2020 16:31:34 PAGE     2
+
+  00D2                58     DMAL    DATA    0D2H
+  00E8                59     I2CCON  DATA    0E8H
+  00A4                60     HBCtrl  BIT     0A0H.4
+  00CB                61     RCAP2H  DATA    0CBH
+  00BC                62     PS      BIT     0B8H.4
+  00D4                63     DMAP    DATA    0D4H
+  0081                64     SP      DATA    081H
+  0091                65     T2EX    BIT     090H.1
+  00D2                66     OV      BIT     0D0H.2
+  00E8                67     DCON    DATA    0E8H
+  00F8                68     SPR0    BIT     0F8H.0
+  00CA                69     RCAP2L  DATA    0CAH
+  00B9                70     ECON    DATA    0B9H
+  00F9                71     SPR1    BIT     0F8H.1
+  00B6                72     WR      BIT     0B0H.6
+  00FD                73     DACCON  DATA    0FDH
+  00CD                74     RCLK    BIT     0C8H.5
+  00DA                75     ADCDATAH        DATA    0DAH
+  0081                76     DispClk BIT     080H.1
+  00FB                77     CPOL    BIT     0F8H.3
+  00CC                78     TCLK    BIT     0C8H.4
+  00A5                79     WBCtrl  BIT     0A0H.5
+  00D9                80     ADCDATAL        DATA    0D9H
+  0099                81     SBUF    DATA    099H
+  0087                82     PCON    DATA    087H
+  00F4                83     ADCGAINH        DATA    0F4H
+  00C2                84     CHIPID  DATA    0C2H
+  0098                85     SCON    DATA    098H
+  0089                86     TMOD    DATA    089H
+  0088                87     TCON    DATA    088H
+  00FE                88     WCOL    BIT     0F8H.6
+  00FF                89     ISPI    BIT     0F8H.7
+  00F3                90     ADCGAINL        DATA    0F3H
+  00C3                91     WDIR    BIT     0C0H.3
+  00FC                92     SPIM    BIT     0F8H.4
+  0091                93     I2CADD1 DATA    091H
+  0082                94     DispCe  BIT     080H.2
+  0092                95     I2CADD2 DATA    092H
+  0080                96     FPGAADDR        DATA    080H
+  0093                97     I2CADD3 DATA    093H
+  0089                98     IE0     BIT     088H.1
+  008B                99     IE1     BIT     088H.3
+  00A5               100     HOUR    DATA    0A5H
+  00FA               101     DAC0H   DATA    0FAH
+  00F0               102     B       DATA    0F0H
+  00A2               103     HTHSEC  DATA    0A2H
+  00B5               104     a2d_wr  BIT     0B0H.5
+  00FC               105     DAC1H   DATA    0FCH
+  00A6               106     WTCtrl  BIT     0A0H.6
+  00C0               107     WDWR    BIT     0C0H.0
+  00F9               108     DAC0L   DATA    0F9H
+  00D8               109     CS0     BIT     0D8H.0
+  00FB               110     DAC1L   DATA    0FBH
+  00D9               111     CS1     BIT     0D8H.1
+  00E0               112     ACC     DATA    0E0H
+  00F7               113     SPIDAT  DATA    0F7H
+  00DA               114     CS2     BIT     0D8H.2
+  00DB               115     CS3     BIT     0D8H.3
+  00A9               116     ET0     BIT     0A8H.1
+  00AB               117     ET1     BIT     0A8H.3
+  008D               118     TF0     BIT     088H.5
+  00B6               119     FpgaWr  BIT     0B0H.6
+  00AD               120     ET2     BIT     0A8H.5
+  008F               121     TF1     BIT     088H.7
+  00CF               122     TF2     BIT     0C8H.7
+  009A               123     RB8     BIT     098H.2
+A51 MACRO ASSEMBLER  CIRCUIT                                                              10/15/2020 16:31:34 PAGE     3
+
+  008C               124     TH0     DATA    08CH
+  00A8               125     EX0     BIT     0A8H.0
+  0088               126     IT0     BIT     088H.0
+  0083               127     DispRst BIT     080H.3
+  008D               128     TH1     DATA    08DH
+  00AA               129     EX1     BIT     0A8H.2
+  009B               130     TB8     BIT     098H.3
+  008A               131     IT1     BIT     088H.2
+  00F8               132     SPICON  DATA    0F8H
+  00CD               133     TH2     DATA    0CDH
+  00D0               134     P       BIT     0D0H.0
+  009F               135     SM0     BIT     098H.7
+  00E0               136     A_0     BIT     0E0H.0
+  00A6               137     INTVAL  DATA    0A6H
+  008A               138     TL0     DATA    08AH
+  009E               139     SM1     BIT     098H.6
+  00E1               140     A_1     BIT     0E0H.1
+  008B               141     TL1     DATA    08BH
+  00DE               142     DMA     BIT     0D8H.6
+  009D               143     SM2     BIT     098H.5
+  00E2               144     A_2     BIT     0E0H.2
+  00DF               145     PSMCON  DATA    0DFH
+  00CC               146     TL2     DATA    0CCH
+  00E3               147     A_3     BIT     0E0H.3
+  00B9               148     PT0     BIT     0B8H.1
+  00E4               149     A_4     BIT     0E0H.4
+  00D3               150     RS0     BIT     0D0H.3
+  00BB               151     PT1     BIT     0B8H.3
+  00E5               152     A_5     BIT     0E0H.5
+  00EE               153     MDE     BIT     0E8H.6
+  00D4               154     RS1     BIT     0D0H.4
+  00BD               155     PT2     BIT     0B8H.5
+  008C               156     TR0     BIT     088H.4
+  00E6               157     A_6     BIT     0E0H.6
+  00AE               158     PWMCON  DATA    0AEH
+  008E               159     TR1     BIT     088H.6
+  00E7               160     A_7     BIT     0E0H.7
+  00CA               161     TR2     BIT     0C8H.2
+  00B8               162     PX0     BIT     0B8H.0
+  0084               163     DispRs  BIT     080H.4
+  00BA               164     PX1     BIT     0B8H.2
+  00EC               165     MDI     BIT     0E8H.4
+  00A9               166     IEIP2   DATA    0A9H
+  00EF               167     ADCCON1 DATA    0EFH
+  00A3               168     SEC     DATA    0A3H
+  00B7               169     DO1_ctrl        BIT     0B0H.7
+  00D8               170     ADCCON2 DATA    0D8H
+  0083               171     DPH     DATA    083H
+  00B6               172     DO2_ctrl        BIT     0B0H.6
+  00F5               173     ADCCON3 DATA    0F5H
+  00ED               174     MCO     BIT     0E8H.5
+  00EF               175     MDO     BIT     0E8H.7
+  00C1               176     WDE     BIT     0C0H.1
+  0082               177     DPL     DATA    082H
+  00CB               178     EXEN2   BIT     0C8H.3
+  00B4               179     RTS_DE  BIT     0B0H.4
+  0080               180     DispTData       BIT     080H.0
+  00EA               181     I2CRS   BIT     0E8H.2
+  00A4               182     MIN     DATA    0A4H
+  0084               183     DPP     DATA    084H
+  009C               184     REN     BIT     098H.4
+  00C7               185     EADRH   DATA    0C7H
+  00C8               186     T2CON   DATA    0C8H
+  00FD               187     SPE     BIT     0F8H.5
+  009E               188     T3CON   DATA    09EH
+  00C6               189     EADRL   DATA    0C6H
+A51 MACRO ASSEMBLER  CIRCUIT                                                              10/15/2020 16:31:34 PAGE     4
+
+  00E9               190     I2CTX   BIT     0E8H.1
+  00B7               191     SPH     DATA    0B7H
+  00BF               192     PSI     BIT     0B8H.7
+  00A7               193     NIWTIHCtrl      BIT     0A0H.7
+  00B2               194     PWM0H   DATA    0B2H
+  00C2               195     WDS     BIT     0C0H.2
+  00B0               196     RXD     BIT     0B0H.0
+  00B4               197     PWM1H   DATA    0B4H
+  00AF               198     CFG841  DATA    0AFH
+  00B1               199     TXD     BIT     0B0H.1
+  0090               200     FpgaA0  BIT     090H.0
+  00B1               201     PWM0L   DATA    0B1H
+  0091               202     FpgaA1  BIT     090H.1
+  00B3               203     PWM1L   DATA    0B3H
+  00ED               204     D0      BIT     0E8H.5
+  0092               205     FpgaA2  BIT     090H.2
+  00EF               206     D1      BIT     0E8H.7
+  0093               207     FpgaA3  BIT     090H.3
+  00D5               208     F0      BIT     0D0H.5
+  00B6               209     HeartBeat       BIT     0B0H.6
+  0094               210     FpgaA4  BIT     090H.4
+  00A7               211     DPCON   DATA    0A7H
+  00D1               212     F1      BIT     0D0H.1
+  0095               213     FpgaA5  BIT     090H.5
+  0096               214     FpgaA6  BIT     090H.6
+  0097               215     FpgaA7  BIT     090H.7
+  00DD               216     CCONV   BIT     0D8H.5
+  00F2               217     ADCOFSH DATA    0F2H
+  00D0               218     PSW     DATA    0D0H
+  00C0               219     WDCON   DATA    0C0H
+                     220     
+----                 221             ISEG  AT  035H
+0035                 222        AssyVarPass1:   DS   1
+                     223     ; //=======================================================================================
+                             =
+                     224     ; //     Copyright (c) 2014     Simtek, Incorporated      All rights reserved.
+                     225     ; //
+                     226     ; //     This is unpublished proprietary source code of Simtek, Inc
+                     227     ; //
+                     228     ; //     The copyright notice above does not evidence any actual or intended
+                     229     ; //     publication of such source code.
+                     230     ; //=======================================================================================
+                             =
+                     231     ; //
+                     232     ; //=======================================================================================
+                             =
+                     233     ; // Module Name: circuit.c
+                     234     ; // Purpose : interface the main routines with the hardware and execute some functions in
+                     235     ; //           assembly.
+                     236     ; // Author : C. Mason
+                     237     ; // Date : December 9, 2014
+                     238     ; // Notes :
+                     239     ; //
+                     240     ; // Revision -
+                     241     ; // Notes : original. cjm
+                     242     ; //
+                     243     ; //=======================================================================================
+                             =
+                     244     ; //
+                     245     ; //
+                     246     ; //=======================================================================================
+                             =//
+                     247     ; //                      INCLUDE FILE DECLARATIONS                                        
+                              //
+                     248     ; //=======================================================================================
+                             =//
+A51 MACRO ASSEMBLER  CIRCUIT                                                              10/15/2020 16:31:34 PAGE     5
+
+                     249     ; #include "types.h"                                                                       
+                              //
+                     250     ; #include "intrins.h"                                                                     
+                              //
+                     251     ; #include "CIRCUIT.H"                                                                     
+                              //
+                     252     ; #include "Hardware.H"                                                                    
+                              //
+                     253     ; //=======================================================================================
+                             =//
+                     254     ; //                      GLOBAL VARIABLES DECLARATIONS                                    
+                              //
+                     255     ; //=======================================================================================
+                             =//
+                     256     ; //U8_T  IDATA AssyVarPass1 _at_ tmpvar1;                                                 
+                                //
+                     257     ; //U8_T  IDATA AssyVarPass2 _at_ tmpvar2;                                                 
+                                //
+                     258     ; //U16_T IDATA AssyVarPassW _at_ tmpvar1;                                                 
+                                //
+                     259     ; //#define tmpvar4             0x38                                                       
+                              //
+                     260     ; //static U8_T IDATA AssyVarPass3 _at_ tmpvar4;                                           
+                              //
+                     261     ; //=======================================================================================
+                             =//
+                     262     ; //                      harware pin declarations                                         
+                              //
+                     263     ; //=======================================================================================
+                             =//
+                     264     ; //sbit ADCCs                  = 0x82;
+                     265     ; //sbit ADCClk                 = 0x83;
+                     266     ; //sbit ADCDin                 = 0x84;
+                     267     ; //sbit  DispCs                  = 0xA0;
+                     268     ; //sbit  DispClk                 = 0xA1;
+                     269     ; //sbit  DispLoad                = 0xA2;
+                     270     ; //sbit  DispData                = 0xA3;
+                     271     ; //sbit  ADCClk                  = 0xA4;
+                     272     ; //sbit  ADCDin                  = 0xA5;
+                     273     ; //sbit  ADCCs                   = 0xA6;
+                     274     ; //=======================================================================================
+                             =//
+                     275     ; //                      LOCAL SUBPROGRAM DECLARATIONS                                    
+                              //
+                     276     ; //=======================================================================================
+                             =//
+                     277     ; //U8_T aSevenSegXlate(U8_T ascii);                                                       
+                                // translate the ASCII character into seven segment data
+                     278     ; //U16_T aFourteenSegXlate(U8_T ascii)                                                    
+                                // translate the ASCII character into fourteen segment data
+                     279     ; //void x100nSDelay(void);                                                                
+                                //
+                     280     ; //void x001uSDelay(void);                                                                
+                                //
+                     281     ; //void ext1_5thHardwareDelay(void);                                                      
+                                //
+                     282     ; //void extHardwareDelay(void);                                                           
+                                //
+                     283     ; //void aHI8045DriverLoad(U8_T XDATA* bmapptr, U8_T loop);                                
+                                //
+                     284     ; //                                                                                       
+                              //
+                     285     ; //=======================================================================================
+                             =//
+                     286     ; //                      ROUTINES ADDED TO MAIN                                           
+                              //
+A51 MACRO ASSEMBLER  CIRCUIT                                                              10/15/2020 16:31:34 PAGE     6
+
+                     287     ; //=======================================================================================
+                             =//
+                     288     ; 
+                     289     ; //
+                     290     ; // --------------------------------------------------------------------------------------
+                             -
+                     291     ; // Function Name : aFPGARead(U8_T addr)
+                     292     ; // Purpose       : read data from a FPGA register
+                     293     ; // Params        : the address of the register to read
+                     294     ; // Returns       : the data read from the FPGA
+                     295     ; // Note          :
+                     296     ; // --------------------------------------------------------------------------------------
+                             -
+                     297     ; //
+                     298     ; //U8_T aFPGARead(U8_T addr)                                                              
+                                // write address to the FPGA and read the data from the FPGA
+                     299     ; //{
+                     300     ; ////      U8_T tmp;
+                     301     ; //      
+                     302     ; //      FPGAADDR = addr;                                                                 
+                                // place the address on the port for the FPGA to read
+                     303     ; //#pragma asm
+                     304     ; //      nop                                                                              
+                                // give the display time to see the change
+                     305     ; //      nop                                                                              
+                                // give the display time to see the change
+                     306     ; //      nop                                                                              
+                                // give the display time to see the change
+                     307     ; //#pragma endasm
+                     308     ; //      fpgaserialale = 1;                                                               
+                                      // activate the FPGA ale line
+                     309     ; //#pragma asm
+                     310     ; //      nop                                                                              
+                                // give the display time to see the change
+                     311     ; //      nop                                                                              
+                                // give the display time to see the change
+                     312     ; //      nop                                                                              
+                                // give the display time to see the change
+                     313     ; //#pragma endasm
+                     314     ; //      fpgaserialale = 0;                                                               
+                                      // deactivate the FPGA ale line
+                     315     ; //#pragma asm
+                     316     ; //      nop                                                                              
+                                // give the display time to see the change
+                     317     ; //      nop                                                                              
+                                // give the display time to see the change
+                     318     ; //      nop                                                                              
+                                // give the display time to see the change
+                     319     ; //#pragma endasm
+                     320     ; //      FPGAADDR = 0xFF;                                                                 
+                                // setup the FPGA communications port for reading data
+                     321     ; //#pragma asm
+                     322     ; //      nop                                                                              
+                                // give the display time to see the change
+                     323     ; //      nop                                                                              
+                                // give the display time to see the change
+                     324     ; //      nop                                                                              
+                                // give the display time to see the change
+                     325     ; //#pragma endasm
+                     326     ; //      FpgaRd = 0;                                                                      
+                                // activate the FPGA write line to write the data into the FPGA
+                     327     ; //#pragma asm
+                     328     ; //      nop                                                                              
+                                // give the display time to see the change
+                     329     ; //      nop                                                                              
+                                // give the display time to see the change
+A51 MACRO ASSEMBLER  CIRCUIT                                                              10/15/2020 16:31:34 PAGE     7
+
+                     330     ; //      nop                                                                              
+                                // give the display time to see the change
+                     331     ; //      mov         tmpvar1,FPGAADDR;                                                    
+                                // read the dat from the FPGA
+                     332     ; //      nop                                                                              
+                                // give the display time to see the change
+                     333     ; //      nop                                                                              
+                                // give the display time to see the change
+                     334     ; //      nop                                                                              
+                                // give the display time to see the change
+                     335     ; //#pragma endasm
+                     336     ; //      FpgaRd = 1;                                                                      
+                                // deactivate the FPGA write line to finish the process
+                     337     ; //      return AssyVarPass1;                                                             
+                                // pass read value back to calling routine
+                     338     ; //}
+                     339     ; 
+                     340     ; //
+                     341     ; // --------------------------------------------------------------------------------------
+                             -
+                     342     ; // Function Name : aFPGAWrite(U8_T addr, U8_T dat)
+                     343     ; // Purpose       : write data to an FPGA register
+                     344     ; // Params        : the FPGA register address, the data to write to the register
+                     345     ; // Returns       : void
+                     346     ; // Note          :
+                     347     ; // --------------------------------------------------------------------------------------
+                             -
+                     348     ; //
+                     349     ; //void aFPGAWrite(U8_T addr, U8_T dat)                                                   
+                                 // write address and data to the FPGA
+                     350     ; //{
+                     351     ; //      FPGAADDR = addr;                                                                 
+                                // place the address on the port for the FPGA to read
+                     352     ; //#pragma asm
+                     353     ; //      nop                                                                              
+                                // give the display time to see the change
+                     354     ; //      nop                                                                              
+                                // give the display time to see the change
+                     355     ; //      nop                                                                              
+                                // give the display time to see the change
+                     356     ; //#pragma endasm
+                     357     ; //      fpgaserialale = 1;                                                               
+                                      // activate the FPGA ale line
+                     358     ; //#pragma asm
+                     359     ; //      nop                                                                              
+                                // give the display time to see the change
+                     360     ; //      nop                                                                              
+                                // give the display time to see the change
+                     361     ; //      nop                                                                              
+                                // give the display time to see the change
+                     362     ; //#pragma endasm
+                     363     ; //      fpgaserialale = 0;                                                               
+                                      // deactivate the FPGA ale line
+                     364     ; //#pragma asm
+                     365     ; //      nop                                                                              
+                                // give the display time to see the change
+                     366     ; //      nop                                                                              
+                                // give the display time to see the change
+                     367     ; //      nop                                                                              
+                                // give the display time to see the change
+                     368     ; //#pragma endasm
+                     369     ; //      FPGAADDR = dat;                                                                  
+                                // place the data to write on the port for the FPGA to read
+                     370     ; //#pragma asm
+                     371     ; //      nop                                                                              
+                                // give the display time to see the change
+A51 MACRO ASSEMBLER  CIRCUIT                                                              10/15/2020 16:31:34 PAGE     8
+
+                     372     ; //      nop                                                                              
+                                // give the display time to see the change
+                     373     ; //      nop                                                                              
+                                // give the display time to see the change
+                     374     ; //#pragma endasm
+                     375     ; //      FpgaWr = 0;                                                                      
+                                // activate the FPGA write line to write the data into the FPGA
+                     376     ; //#pragma asm
+                     377     ; //      nop                                                                              
+                                // give the display time to see the change
+                     378     ; //      nop                                                                              
+                                // give the display time to see the change
+                     379     ; //      nop                                                                              
+                                // give the display time to see the change
+                     380     ; //#pragma endasm
+                     381     ; //      FpgaWr = 1;                                                                      
+                                // deactivate the FPGA write line to finish the process
+                     382     ; //}
+                     383     ; 
+                     384     ; *** sync lost ***
+                     385     ; *** sync lost ***
+                     386     ; *** sync lost ***
+                     387     ; *** sync lost ***
+                     388     ; *** sync lost ***
+                     389     ; *** sync lost ***
+                     390     ; *** sync lost ***
+                     391             END
+A51 MACRO ASSEMBLER  CIRCUIT                                                              10/15/2020 16:31:34 PAGE     9
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+A2D_WR . . . . . .  B ADDR   00B0H.5 A   
+AC . . . . . . . .  B ADDR   00D0H.6 A   
+ACC. . . . . . . .  D ADDR   00E0H   A   
+ADCCON1. . . . . .  D ADDR   00EFH   A   
+ADCCON2. . . . . .  D ADDR   00D8H   A   
+ADCCON3. . . . . .  D ADDR   00F5H   A   
+ADCDATAH . . . . .  D ADDR   00DAH   A   
+ADCDATAL . . . . .  D ADDR   00D9H   A   
+ADCGAINH . . . . .  D ADDR   00F4H   A   
+ADCGAINL . . . . .  D ADDR   00F3H   A   
+ADCI . . . . . . .  B ADDR   00D8H.7 A   
+ADCOFSH. . . . . .  D ADDR   00F2H   A   
+ADCOFSL. . . . . .  D ADDR   00F1H   A   
+ASSYVARPASS1 . . .  I ADDR   0035H   A   
+A_0. . . . . . . .  B ADDR   00E0H.0 A   
+A_1. . . . . . . .  B ADDR   00E0H.1 A   
+A_2. . . . . . . .  B ADDR   00E0H.2 A   
+A_3. . . . . . . .  B ADDR   00E0H.3 A   
+A_4. . . . . . . .  B ADDR   00E0H.4 A   
+A_5. . . . . . . .  B ADDR   00E0H.5 A   
+A_6. . . . . . . .  B ADDR   00E0H.6 A   
+A_7. . . . . . . .  B ADDR   00E0H.7 A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+CAP2 . . . . . . .  B ADDR   00C8H.0 A   
+CCONV. . . . . . .  B ADDR   00D8H.5 A   
+CFG841 . . . . . .  D ADDR   00AFH   A   
+CHIPID . . . . . .  D ADDR   00C2H   A   
+CIRCUIT. . . . . .  N NUMB   -----       
+CNT2 . . . . . . .  B ADDR   00C8H.1 A   
+CPHA . . . . . . .  B ADDR   00F8H.2 A   
+CPOL . . . . . . .  B ADDR   00F8H.3 A   
+CS0. . . . . . . .  B ADDR   00D8H.0 A   
+CS1. . . . . . . .  B ADDR   00D8H.1 A   
+CS2. . . . . . . .  B ADDR   00D8H.2 A   
+CS3. . . . . . . .  B ADDR   00D8H.3 A   
+CS_E02 . . . . . .  B ADDR   00A0H.1 A   
+CS_E13 . . . . . .  B ADDR   00A0H.3 A   
+CS_E15 . . . . . .  B ADDR   00A0H.0 A   
+CS_E17 . . . . . .  B ADDR   00A0H.2 A   
+CY . . . . . . . .  B ADDR   00D0H.7 A   
+D0 . . . . . . . .  B ADDR   00E8H.5 A   
+D0EN . . . . . . .  B ADDR   00E8H.3 A   
+D1 . . . . . . . .  B ADDR   00E8H.7 A   
+D1EN . . . . . . .  B ADDR   00E8H.6 A   
+DAC0H. . . . . . .  D ADDR   00FAH   A   
+DAC0L. . . . . . .  D ADDR   00F9H   A   
+DAC1H. . . . . . .  D ADDR   00FCH   A   
+DAC1L. . . . . . .  D ADDR   00FBH   A   
+DACCON . . . . . .  D ADDR   00FDH   A   
+DCON . . . . . . .  D ADDR   00E8H   A   
+DEBUGTMP . . . . .  B ADDR   00B0H.3 A   
+DISPCE . . . . . .  B ADDR   0080H.2 A   
+DISPCLK. . . . . .  B ADDR   0080H.1 A   
+DISPRS . . . . . .  B ADDR   0080H.4 A   
+DISPRST. . . . . .  B ADDR   0080H.3 A   
+DISPTDATA. . . . .  B ADDR   0080H.0 A   
+DMA. . . . . . . .  B ADDR   00D8H.6 A   
+DMAH . . . . . . .  D ADDR   00D3H   A   
+DMAL . . . . . . .  D ADDR   00D2H   A   
+DMAP . . . . . . .  D ADDR   00D4H   A   
+A51 MACRO ASSEMBLER  CIRCUIT                                                              10/15/2020 16:31:34 PAGE    10
+
+DO1_CTRL . . . . .  B ADDR   00B0H.7 A   
+DO2_CTRL . . . . .  B ADDR   00B0H.6 A   
+DPCON. . . . . . .  D ADDR   00A7H   A   
+DPH. . . . . . . .  D ADDR   0083H   A   
+DPL. . . . . . . .  D ADDR   0082H   A   
+DPP. . . . . . . .  D ADDR   0084H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+EADC . . . . . . .  B ADDR   00A8H.6 A   
+EADRH. . . . . . .  D ADDR   00C7H   A   
+EADRL. . . . . . .  D ADDR   00C6H   A   
+ECON . . . . . . .  D ADDR   00B9H   A   
+EDATA1 . . . . . .  D ADDR   00BCH   A   
+EDATA2 . . . . . .  D ADDR   00BDH   A   
+EDATA3 . . . . . .  D ADDR   00BEH   A   
+EDATA4 . . . . . .  D ADDR   00BFH   A   
+ES . . . . . . . .  B ADDR   00A8H.4 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+ET1. . . . . . . .  B ADDR   00A8H.3 A   
+ET2. . . . . . . .  B ADDR   00A8H.5 A   
+EX0. . . . . . . .  B ADDR   00A8H.0 A   
+EX1. . . . . . . .  B ADDR   00A8H.2 A   
+EXEN2. . . . . . .  B ADDR   00C8H.3 A   
+EXF2 . . . . . . .  B ADDR   00C8H.6 A   
+F0 . . . . . . . .  B ADDR   00D0H.5 A   
+F1 . . . . . . . .  B ADDR   00D0H.1 A   
+FPGAA0 . . . . . .  B ADDR   0090H.0 A   
+FPGAA1 . . . . . .  B ADDR   0090H.1 A   
+FPGAA2 . . . . . .  B ADDR   0090H.2 A   
+FPGAA3 . . . . . .  B ADDR   0090H.3 A   
+FPGAA4 . . . . . .  B ADDR   0090H.4 A   
+FPGAA5 . . . . . .  B ADDR   0090H.5 A   
+FPGAA6 . . . . . .  B ADDR   0090H.6 A   
+FPGAA7 . . . . . .  B ADDR   0090H.7 A   
+FPGAADDR . . . . .  D ADDR   0080H   A   
+FPGAWR . . . . . .  B ADDR   00B0H.6 A   
+HBCTRL . . . . . .  B ADDR   00A0H.4 A   
+HEARTBEAT. . . . .  B ADDR   00B0H.6 A   
+HOUR . . . . . . .  D ADDR   00A5H   A   
+HTHSEC . . . . . .  D ADDR   00A2H   A   
+I2CADD . . . . . .  D ADDR   009BH   A   
+I2CADD1. . . . . .  D ADDR   0091H   A   
+I2CADD2. . . . . .  D ADDR   0092H   A   
+I2CADD3. . . . . .  D ADDR   0093H   A   
+I2CCON . . . . . .  D ADDR   00E8H   A   
+I2CDAT . . . . . .  D ADDR   009AH   A   
+I2CI . . . . . . .  B ADDR   00E8H.0 A   
+I2CM . . . . . . .  B ADDR   00E8H.3 A   
+I2CRS. . . . . . .  B ADDR   00E8H.2 A   
+I2CTX. . . . . . .  B ADDR   00E8H.1 A   
+IE . . . . . . . .  D ADDR   00A8H   A   
+IE0. . . . . . . .  B ADDR   0088H.1 A   
+IE1. . . . . . . .  B ADDR   0088H.3 A   
+IEIP2. . . . . . .  D ADDR   00A9H   A   
+INT0 . . . . . . .  B ADDR   00B0H.2 A   
+INT1 . . . . . . .  B ADDR   00B0H.3 A   
+INTVAL . . . . . .  D ADDR   00A6H   A   
+IP . . . . . . . .  D ADDR   00B8H   A   
+ISPI . . . . . . .  B ADDR   00F8H.7 A   
+IT0. . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . .  B ADDR   0088H.2 A   
+MCO. . . . . . . .  B ADDR   00E8H.5 A   
+MDE. . . . . . . .  B ADDR   00E8H.6 A   
+MDI. . . . . . . .  B ADDR   00E8H.4 A   
+MDO. . . . . . . .  B ADDR   00E8H.7 A   
+MIN. . . . . . . .  D ADDR   00A4H   A   
+NIWTIHCTRL . . . .  B ADDR   00A0H.7 A   
+A51 MACRO ASSEMBLER  CIRCUIT                                                              10/15/2020 16:31:34 PAGE    11
+
+OV . . . . . . . .  B ADDR   00D0H.2 A   
+P. . . . . . . . .  B ADDR   00D0H.0 A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+PADC . . . . . . .  B ADDR   00B8H.6 A   
+PCON . . . . . . .  D ADDR   0087H   A   
+PRE0 . . . . . . .  B ADDR   00C0H.4 A   
+PRE1 . . . . . . .  B ADDR   00C0H.5 A   
+PRE2 . . . . . . .  B ADDR   00C0H.6 A   
+PRE3 . . . . . . .  B ADDR   00C0H.7 A   
+PS . . . . . . . .  B ADDR   00B8H.4 A   
+PSI. . . . . . . .  B ADDR   00B8H.7 A   
+PSMCON . . . . . .  D ADDR   00DFH   A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+PT0. . . . . . . .  B ADDR   00B8H.1 A   
+PT1. . . . . . . .  B ADDR   00B8H.3 A   
+PT2. . . . . . . .  B ADDR   00B8H.5 A   
+PWM0H. . . . . . .  D ADDR   00B2H   A   
+PWM0L. . . . . . .  D ADDR   00B1H   A   
+PWM1H. . . . . . .  D ADDR   00B4H   A   
+PWM1L. . . . . . .  D ADDR   00B3H   A   
+PWMCON . . . . . .  D ADDR   00AEH   A   
+PX0. . . . . . . .  B ADDR   00B8H.0 A   
+PX1. . . . . . . .  B ADDR   00B8H.2 A   
+RB8. . . . . . . .  B ADDR   0098H.2 A   
+RCAP2H . . . . . .  D ADDR   00CBH   A   
+RCAP2L . . . . . .  D ADDR   00CAH   A   
+RCLK . . . . . . .  B ADDR   00C8H.5 A   
+RD . . . . . . . .  B ADDR   00B0H.7 A   
+REN. . . . . . . .  B ADDR   0098H.4 A   
+RI . . . . . . . .  B ADDR   0098H.0 A   
+RS0. . . . . . . .  B ADDR   00D0H.3 A   
+RS1. . . . . . . .  B ADDR   00D0H.4 A   
+RTS_DE . . . . . .  B ADDR   00B0H.4 A   
+RXD. . . . . . . .  B ADDR   00B0H.0 A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . .  D ADDR   0098H   A   
+SCONV. . . . . . .  B ADDR   00D8H.4 A   
+SEC. . . . . . . .  D ADDR   00A3H   A   
+SM0. . . . . . . .  B ADDR   0098H.7 A   
+SM1. . . . . . . .  B ADDR   0098H.6 A   
+SM2. . . . . . . .  B ADDR   0098H.5 A   
+SP . . . . . . . .  D ADDR   0081H   A   
+SPE. . . . . . . .  B ADDR   00F8H.5 A   
+SPH. . . . . . . .  D ADDR   00B7H   A   
+SPICON . . . . . .  D ADDR   00F8H   A   
+SPIDAT . . . . . .  D ADDR   00F7H   A   
+SPIM . . . . . . .  B ADDR   00F8H.4 A   
+SPR0 . . . . . . .  B ADDR   00F8H.0 A   
+SPR1 . . . . . . .  B ADDR   00F8H.1 A   
+T0 . . . . . . . .  B ADDR   00B0H.4 A   
+T1 . . . . . . . .  B ADDR   00B0H.5 A   
+T2 . . . . . . . .  B ADDR   0090H.0 A   
+T2CON. . . . . . .  D ADDR   00C8H   A   
+T2EX . . . . . . .  B ADDR   0090H.1 A   
+T3CON. . . . . . .  D ADDR   009EH   A   
+T3FD . . . . . . .  D ADDR   009DH   A   
+TB8. . . . . . . .  B ADDR   0098H.3 A   
+TCLK . . . . . . .  B ADDR   00C8H.4 A   
+TCON . . . . . . .  D ADDR   0088H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . .  B ADDR   0088H.7 A   
+TF2. . . . . . . .  B ADDR   00C8H.7 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+A51 MACRO ASSEMBLER  CIRCUIT                                                              10/15/2020 16:31:34 PAGE    12
+
+TH1. . . . . . . .  D ADDR   008DH   A   
+TH2. . . . . . . .  D ADDR   00CDH   A   
+TI . . . . . . . .  B ADDR   0098H.1 A   
+TIMECON. . . . . .  D ADDR   00A1H   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TL2. . . . . . . .  D ADDR   00CCH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+TR2. . . . . . . .  B ADDR   00C8H.2 A   
+TXD. . . . . . . .  B ADDR   00B0H.1 A   
+WBCTRL . . . . . .  B ADDR   00A0H.5 A   
+WCOL . . . . . . .  B ADDR   00F8H.6 A   
+WDCON. . . . . . .  D ADDR   00C0H   A   
+WDE. . . . . . . .  B ADDR   00C0H.1 A   
+WDIR . . . . . . .  B ADDR   00C0H.3 A   
+WDS. . . . . . . .  B ADDR   00C0H.2 A   
+WDWR . . . . . . .  B ADDR   00C0H.0 A   
+WR . . . . . . . .  B ADDR   00B0H.6 A   
+WTCTRL . . . . . .  B ADDR   00A0H.6 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

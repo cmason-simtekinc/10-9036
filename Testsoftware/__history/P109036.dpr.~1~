@@ -1,0 +1,15 @@
+program P109036;
+
+uses
+  Forms,
+  Main in 'W:\W220000\W220155\INSTRUMENTS\9026\Electrical\Engineering\Source_Code\Testsoftware\Main.pas' {MainForm},
+  CPDrv in 'W:\W220000\W220155\INSTRUMENTS\9026\Electrical\Engineering\Source_Code\Testsoftware\CPDrv.pas';
+
+{$R *.RES}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TMainForm, MainForm);
+  Application.Run;
+
+  end.

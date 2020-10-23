@@ -1,0 +1,391 @@
+; .\circuit.SRC generated from: circuit.c
+; COMPILER INVOKED BY:
+;        C:\Keil\C51\BIN\C51.EXE circuit.c LARGE OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND CODE LISTINCLUDE SYMBOLS PREPRINT SRC(.\circuit.SRC)
+
+$NOMOD51
+
+NAME	CIRCUIT
+
+cs_e02	BIT	0A0H.1
+ADCOFSL	DATA	0F1H
+P0	DATA	080H
+cs_e13	BIT	0A0H.3
+P1	DATA	090H
+P2	DATA	0A0H
+cs_e15	BIT	0A0H.0
+P3	DATA	0B0H
+AC	BIT	0D0H.6
+T0	BIT	0B0H.4
+T1	BIT	0B0H.5
+cs_e17	BIT	0A0H.2
+EA	BIT	0A8H.7
+T2	BIT	090H.0
+CAP2	BIT	0C8H.0
+I2CI	BIT	0E8H.0
+D0EN	BIT	0E8H.3
+D1EN	BIT	0E8H.6
+I2CADD	DATA	09BH
+SCONV	BIT	0D8H.4
+I2CM	BIT	0E8H.3
+EADC	BIT	0A8H.6
+IE	DATA	0A8H
+ADCI	BIT	0D8H.7
+EDATA1	DATA	0BCH
+TIMECON	DATA	0A1H
+T3FD	DATA	09DH
+EDATA2	DATA	0BDH
+EDATA3	DATA	0BEH
+EDATA4	DATA	0BFH
+EXF2	BIT	0C8H.6
+RD	BIT	0B0H.7
+CNT2	BIT	0C8H.1
+PRE0	BIT	0C0H.4
+ES	BIT	0A8H.4
+PRE1	BIT	0C0H.5
+PADC	BIT	0B8H.6
+IP	DATA	0B8H
+I2CDAT	DATA	09AH
+PRE2	BIT	0C0H.6
+PRE3	BIT	0C0H.7
+RI	BIT	098H.0
+DMAH	DATA	0D3H
+CY	BIT	0D0H.7
+INT0	BIT	0B0H.2
+CPHA	BIT	0F8H.2
+INT1	BIT	0B0H.3
+TI	BIT	098H.1
+DebugTmp	BIT	0B0H.3
+DMAL	DATA	0D2H
+I2CCON	DATA	0E8H
+HBCtrl	BIT	0A0H.4
+RCAP2H	DATA	0CBH
+PS	BIT	0B8H.4
+DMAP	DATA	0D4H
+SP	DATA	081H
+T2EX	BIT	090H.1
+OV	BIT	0D0H.2
+DCON	DATA	0E8H
+SPR0	BIT	0F8H.0
+RCAP2L	DATA	0CAH
+ECON	DATA	0B9H
+SPR1	BIT	0F8H.1
+WR	BIT	0B0H.6
+DACCON	DATA	0FDH
+RCLK	BIT	0C8H.5
+ADCDATAH	DATA	0DAH
+DispClk	BIT	080H.1
+CPOL	BIT	0F8H.3
+TCLK	BIT	0C8H.4
+WBCtrl	BIT	0A0H.5
+ADCDATAL	DATA	0D9H
+SBUF	DATA	099H
+PCON	DATA	087H
+ADCGAINH	DATA	0F4H
+CHIPID	DATA	0C2H
+SCON	DATA	098H
+TMOD	DATA	089H
+TCON	DATA	088H
+WCOL	BIT	0F8H.6
+ISPI	BIT	0F8H.7
+ADCGAINL	DATA	0F3H
+WDIR	BIT	0C0H.3
+SPIM	BIT	0F8H.4
+I2CADD1	DATA	091H
+DispCe	BIT	080H.2
+I2CADD2	DATA	092H
+FPGAADDR	DATA	080H
+I2CADD3	DATA	093H
+IE0	BIT	088H.1
+IE1	BIT	088H.3
+HOUR	DATA	0A5H
+DAC0H	DATA	0FAH
+B	DATA	0F0H
+HTHSEC	DATA	0A2H
+a2d_wr	BIT	0B0H.5
+DAC1H	DATA	0FCH
+WTCtrl	BIT	0A0H.6
+WDWR	BIT	0C0H.0
+DAC0L	DATA	0F9H
+CS0	BIT	0D8H.0
+DAC1L	DATA	0FBH
+CS1	BIT	0D8H.1
+ACC	DATA	0E0H
+SPIDAT	DATA	0F7H
+CS2	BIT	0D8H.2
+CS3	BIT	0D8H.3
+ET0	BIT	0A8H.1
+ET1	BIT	0A8H.3
+TF0	BIT	088H.5
+FpgaWr	BIT	0B0H.6
+ET2	BIT	0A8H.5
+TF1	BIT	088H.7
+TF2	BIT	0C8H.7
+RB8	BIT	098H.2
+TH0	DATA	08CH
+EX0	BIT	0A8H.0
+IT0	BIT	088H.0
+DispRst	BIT	080H.3
+TH1	DATA	08DH
+EX1	BIT	0A8H.2
+TB8	BIT	098H.3
+IT1	BIT	088H.2
+SPICON	DATA	0F8H
+TH2	DATA	0CDH
+P	BIT	0D0H.0
+SM0	BIT	098H.7
+A_0	BIT	0E0H.0
+INTVAL	DATA	0A6H
+TL0	DATA	08AH
+SM1	BIT	098H.6
+A_1	BIT	0E0H.1
+TL1	DATA	08BH
+DMA	BIT	0D8H.6
+SM2	BIT	098H.5
+A_2	BIT	0E0H.2
+PSMCON	DATA	0DFH
+TL2	DATA	0CCH
+A_3	BIT	0E0H.3
+PT0	BIT	0B8H.1
+A_4	BIT	0E0H.4
+RS0	BIT	0D0H.3
+PT1	BIT	0B8H.3
+A_5	BIT	0E0H.5
+MDE	BIT	0E8H.6
+RS1	BIT	0D0H.4
+PT2	BIT	0B8H.5
+TR0	BIT	088H.4
+A_6	BIT	0E0H.6
+PWMCON	DATA	0AEH
+TR1	BIT	088H.6
+A_7	BIT	0E0H.7
+TR2	BIT	0C8H.2
+PX0	BIT	0B8H.0
+DispRs	BIT	080H.4
+PX1	BIT	0B8H.2
+MDI	BIT	0E8H.4
+IEIP2	DATA	0A9H
+ADCCON1	DATA	0EFH
+SEC	DATA	0A3H
+DO1_ctrl	BIT	0B0H.7
+ADCCON2	DATA	0D8H
+DPH	DATA	083H
+DO2_ctrl	BIT	0B0H.6
+ADCCON3	DATA	0F5H
+MCO	BIT	0E8H.5
+MDO	BIT	0E8H.7
+WDE	BIT	0C0H.1
+DPL	DATA	082H
+EXEN2	BIT	0C8H.3
+RTS_DE	BIT	0B0H.4
+DispTData	BIT	080H.0
+I2CRS	BIT	0E8H.2
+MIN	DATA	0A4H
+DPP	DATA	084H
+REN	BIT	098H.4
+EADRH	DATA	0C7H
+T2CON	DATA	0C8H
+SPE	BIT	0F8H.5
+T3CON	DATA	09EH
+EADRL	DATA	0C6H
+I2CTX	BIT	0E8H.1
+SPH	DATA	0B7H
+PSI	BIT	0B8H.7
+NIWTIHCtrl	BIT	0A0H.7
+PWM0H	DATA	0B2H
+WDS	BIT	0C0H.2
+RXD	BIT	0B0H.0
+PWM1H	DATA	0B4H
+CFG841	DATA	0AFH
+TXD	BIT	0B0H.1
+FpgaA0	BIT	090H.0
+PWM0L	DATA	0B1H
+FpgaA1	BIT	090H.1
+PWM1L	DATA	0B3H
+D0	BIT	0E8H.5
+FpgaA2	BIT	090H.2
+D1	BIT	0E8H.7
+FpgaA3	BIT	090H.3
+F0	BIT	0D0H.5
+HeartBeat	BIT	0B0H.6
+FpgaA4	BIT	090H.4
+DPCON	DATA	0A7H
+F1	BIT	0D0H.1
+FpgaA5	BIT	090H.5
+FpgaA6	BIT	090H.6
+FpgaA7	BIT	090H.7
+CCONV	BIT	0D8H.5
+ADCOFSH	DATA	0F2H
+PSW	DATA	0D0H
+WDCON	DATA	0C0H
+
+	ISEG  AT  035H
+   AssyVarPass1:   DS   1
+; //========================================================================================
+; //     Copyright (c) 2014     Simtek, Incorporated      All rights reserved.
+; //
+; //     This is unpublished proprietary source code of Simtek, Inc
+; //
+; //     The copyright notice above does not evidence any actual or intended
+; //     publication of such source code.
+; //========================================================================================
+; //
+; //========================================================================================
+; // Module Name: circuit.c
+; // Purpose : interface the main routines with the hardware and execute some functions in
+; //           assembly.
+; // Author : C. Mason
+; // Date : December 9, 2014
+; // Notes :
+; //
+; // Revision -
+; // Notes : original. cjm
+; //
+; //========================================================================================
+; //
+; //
+; //========================================================================================//
+; //                      INCLUDE FILE DECLARATIONS                                         //
+; //========================================================================================//
+; #include "types.h"                                                                        //
+; #include "intrins.h"                                                                      //
+; #include "CIRCUIT.H"                                                                      //
+; #include "Hardware.H"                                                                     //
+; //========================================================================================//
+; //                      GLOBAL VARIABLES DECLARATIONS                                     //
+; //========================================================================================//
+; //U8_T  IDATA AssyVarPass1 _at_ tmpvar1;                                                    //
+; //U8_T  IDATA AssyVarPass2 _at_ tmpvar2;                                                    //
+; //U16_T IDATA AssyVarPassW _at_ tmpvar1;                                                    //
+; //#define tmpvar4             0x38                                                        //
+; //static U8_T IDATA AssyVarPass3 _at_ tmpvar4;                                            //
+; //========================================================================================//
+; //                      harware pin declarations                                          //
+; //========================================================================================//
+; //sbit ADCCs			= 0x82;
+; //sbit ADCClk			= 0x83;
+; //sbit ADCDin			= 0x84;
+; //sbit  DispCs                  = 0xA0;
+; //sbit  DispClk                 = 0xA1;
+; //sbit  DispLoad                = 0xA2;
+; //sbit  DispData                = 0xA3;
+; //sbit  ADCClk                  = 0xA4;
+; //sbit  ADCDin                  = 0xA5;
+; //sbit  ADCCs                   = 0xA6;
+; //========================================================================================//
+; //                      LOCAL SUBPROGRAM DECLARATIONS                                     //
+; //========================================================================================//
+; //U8_T aSevenSegXlate(U8_T ascii);                                                          // translate the ASCII character into seven segment data
+; //U16_T aFourteenSegXlate(U8_T ascii)                                                       // translate the ASCII character into fourteen segment data
+; //void x100nSDelay(void);                                                                   //
+; //void x001uSDelay(void);                                                                   //
+; //void ext1_5thHardwareDelay(void);                                                         //
+; //void extHardwareDelay(void);                                                              //
+; //void aHI8045DriverLoad(U8_T XDATA* bmapptr, U8_T loop);                                   //
+; //                                                                                        //
+; //========================================================================================//
+; //                      ROUTINES ADDED TO MAIN                                            //
+; //========================================================================================//
+; 
+; //
+; // ---------------------------------------------------------------------------------------
+; // Function Name : aFPGARead(U8_T addr)
+; // Purpose       : read data from a FPGA register
+; // Params        : the address of the register to read
+; // Returns       : the data read from the FPGA
+; // Note          :
+; // ---------------------------------------------------------------------------------------
+; //
+; //U8_T aFPGARead(U8_T addr)                                                                 // write address to the FPGA and read the data from the FPGA
+; //{
+; ////      U8_T tmp;
+; //      
+; //      FPGAADDR = addr;                                                                    // place the address on the port for the FPGA to read
+; //#pragma asm
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //#pragma endasm
+; //      fpgaserialale = 1;                                                                        // activate the FPGA ale line
+; //#pragma asm
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //#pragma endasm
+; //      fpgaserialale = 0;                                                                        // deactivate the FPGA ale line
+; //#pragma asm
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //#pragma endasm
+; //      FPGAADDR = 0xFF;                                                                    // setup the FPGA communications port for reading data
+; //#pragma asm
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //#pragma endasm
+; //      FpgaRd = 0;                                                                         // activate the FPGA write line to write the data into the FPGA
+; //#pragma asm
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //      mov         tmpvar1,FPGAADDR;                                                       // read the dat from the FPGA
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //#pragma endasm
+; //      FpgaRd = 1;                                                                         // deactivate the FPGA write line to finish the process
+; //      return AssyVarPass1;                                                                // pass read value back to calling routine
+; //}
+; 
+; //
+; // ---------------------------------------------------------------------------------------
+; // Function Name : aFPGAWrite(U8_T addr, U8_T dat)
+; // Purpose       : write data to an FPGA register
+; // Params        : the FPGA register address, the data to write to the register
+; // Returns       : void
+; // Note          :
+; // ---------------------------------------------------------------------------------------
+; //
+; //void aFPGAWrite(U8_T addr, U8_T dat)                                                       // write address and data to the FPGA
+; //{
+; //      FPGAADDR = addr;                                                                    // place the address on the port for the FPGA to read
+; //#pragma asm
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //#pragma endasm
+; //      fpgaserialale = 1;                                                                        // activate the FPGA ale line
+; //#pragma asm
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //#pragma endasm
+; //      fpgaserialale = 0;                                                                        // deactivate the FPGA ale line
+; //#pragma asm
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //#pragma endasm
+; //      FPGAADDR = dat;                                                                     // place the data to write on the port for the FPGA to read
+; //#pragma asm
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //#pragma endasm
+; //      FpgaWr = 0;                                                                         // activate the FPGA write line to write the data into the FPGA
+; //#pragma asm
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //      nop                                                                                 // give the display time to see the change
+; //#pragma endasm
+; //      FpgaWr = 1;                                                                         // deactivate the FPGA write line to finish the process
+; //}
+; 
+; *** sync lost ***
+; *** sync lost ***
+; *** sync lost ***
+; *** sync lost ***
+; *** sync lost ***
+; *** sync lost ***
+; *** sync lost ***
+	END

@@ -1,0 +1,45 @@
+A51 MACRO ASSEMBLER  ASSEM_FUNC                                                           10/06/2020 12:21:33 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00c
+OBJECT MODULE PLACED IN Assem_Func.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Assem_Func.a51 SET(LARGE) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     $nomod51 
+                       2             NAME    ?C_STARTUP
+                       3     
+                       4     
+                       5     ?C_C51STARTUP   SEGMENT CODE
+                       6             EXTRN   CODE (?C_START)
+                       7             
+                       8             PUBLIC  ?C_STARTUP
+                       9     
+----                  10             CSEG    AT      0
+0000 020000   F       11     ?C_STARTUP:     LJMP    STARTUP1
+                      12     
+----                  13             RSEG    ?C_C51STARTUP
+                      14     
+0000 020000   F       15     STARTUP1:       LJMP    ?C_START
+                      16     
+                      17                     END
+                             
+A51 MACRO ASSEMBLER  ASSEM_FUNC                                                           10/06/2020 12:21:33 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+?C_C51STARTUP. . .  C SEG    0003H       REL=UNIT
+?C_START . . . . .  C ADDR   -----       EXT
+?C_STARTUP . . . .  C ADDR   0000H   A   
+STARTUP1 . . . . .  C ADDR   0000H   R   SEG=?C_C51STARTUP
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

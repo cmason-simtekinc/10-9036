@@ -1,0 +1,898 @@
+C51 COMPILER V8.06   CIRCUIT                                                               10/15/2020 16:31:34 PAGE 1   
+
+
+C51 COMPILER V8.06, COMPILATION OF MODULE CIRCUIT
+NO OBJECT MODULE REQUESTED
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE circuit.c LARGE OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND CODE LISTINCLUD
+                    -E SYMBOLS PREPRINT SRC(.\circuit.SRC)
+
+line level    source
+
+   1          //========================================================================================
+   2          //     Copyright (c) 2014     Simtek, Incorporated      All rights reserved.
+   3          //
+   4          //     This is unpublished proprietary source code of Simtek, Inc
+   5          //
+   6          //     The copyright notice above does not evidence any actual or intended
+   7          //     publication of such source code.
+   8          //========================================================================================
+   9          //
+  10          //========================================================================================
+  11          // Module Name: circuit.c
+  12          // Purpose : interface the main routines with the hardware and execute some functions in
+  13          //           assembly.
+  14          // Author : C. Mason
+  15          // Date : December 9, 2014
+  16          // Notes :
+  17          //
+  18          // Revision -
+  19          // Notes : original. cjm
+  20          //
+  21          //========================================================================================
+  22          //
+  23          //
+  24          //========================================================================================//
+  25          //                      INCLUDE FILE DECLARATIONS                                         //
+  26          //========================================================================================//
+  27          #include "types.h"                                                                        //
+   1      =1  /*
+   2      =1   ******************************************************************************
+   3      =1   *     Copyright (c) 2007       Simtek, Incorporated      All rights reserved.
+   4      =1   *
+   5      =1   *     This is unpublished proprietary source code of Simtek, Inc
+   6      =1   *
+   7      =1   *     The copyright notice above does not evidence any actual or intended
+   8      =1   *     publication of such source code.
+   9      =1   ******************************************************************************
+  10      =1   */
+  11      =1  /*=============================================================================
+  12      =1   * Module Name: Main.H
+  13      =1   * Purpose : 
+  14      =1   * Author : C. Mason
+  15      =1   * Date : June 11, 2007
+  16      =1   * Notes :
+  17      =1   *
+  18      =1   *=============================================================================
+  19      =1   */
+  20      =1  
+  21      =1  #ifndef TYPES_H
+  22      =1  #define TYPES_H
+  23      =1  
+  24      =1  typedef unsigned short int      BOOL;                   // Boolean //
+  25      =1  typedef long                    S32_T;          // 32-bit signed //
+  26      =1  typedef unsigned long           U32_T;          // 32-bit unsigned //
+  27      =1  typedef short int                       S16_T;                  // 16-bit  signed //
+C51 COMPILER V8.06   CIRCUIT                                                               10/15/2020 16:31:34 PAGE 2   
+
+  28      =1  typedef unsigned short int      U16_T;                  // 16-bit  unsigned //
+  29      =1  typedef unsigned short int      word;                   // 16-bit  unsigned     //
+  30      =1  typedef char                    S8_T;                   // 8-bit signed //
+  31      =1  typedef unsigned char           U8_T;                   // 8-bit unsigned //
+  32      =1  typedef unsigned char           byte;                   // 8-bit unsigned       //
+  33      =1  
+  34      =1  #ifndef NULL
+  35      =1   #define NULL ((void *) 0L)
+  36      =1  #endif
+  37      =1  
+  38      =1  #define TRUE                            1
+  39      =1  #define FALSE                           0
+  40      =1  
+  41      =1  /* Bit Definitions for Bitwise Operation */
+  42      =1  #define BIT0            0x01
+  43      =1  #define BIT1            0x02
+  44      =1  #define BIT2            0x04
+  45      =1  #define BIT3            0x08
+  46      =1  #define BIT4            0x10
+  47      =1  #define BIT5            0x20
+  48      =1  #define BIT6            0x40
+  49      =1  #define BIT7            0x80
+  50      =1  #define BIT8            0x0100
+  51      =1  #define BIT9            0x0200
+  52      =1  #define BIT10           0x0400
+  53      =1  #define BIT11           0x0800
+  54      =1  #define BIT12           0x1000
+  55      =1  #define BIT13           0x2000
+  56      =1  #define BIT14           0x4000
+  57      =1  #define BIT15           0x8000
+  58      =1  #define BIT16           0x00010000
+  59      =1  #define BIT17           0x00020000
+  60      =1  #define BIT18           0x00040000
+  61      =1  #define BIT19           0x00080000
+  62      =1  #define BIT20           0x00100000
+  63      =1  #define BIT21           0x00200000
+  64      =1  #define BIT22           0x00400000
+  65      =1  #define BIT23           0x00800000
+  66      =1  #define BIT24           0x01000000
+  67      =1  #define BIT25           0x02000000
+  68      =1  #define BIT26           0x04000000
+  69      =1  #define BIT27           0x08000000
+  70      =1  #define BIT28           0x10000000
+  71      =1  #define BIT29           0x20000000
+  72      =1  #define BIT30           0x40000000
+  73      =1  #define BIT31           0x80000000
+  74      =1  
+  75      =1  #define LOW_BYTE(word)  (U8_T)(word & 0x00FF)
+  76      =1  #define HIGH_BYTE(word) (U8_T)((word & 0xFF00) >> 8)
+  77      =1  
+  78      =1  /* Keil compiler user define */
+  79      =1  #define KEIL_CPL
+  80      =1  
+  81      =1  #ifdef KEIL_CPL
+  82      =1   #define XDATA  xdata
+  83      =1   #define IDATA  idata
+  84      =1   #define BDATA  bdata
+  85      =1   #define CODE   code
+  86      =1   #define FAR    far
+  87      =1  #else
+           =1  #define XDATA
+           =1  #define IDATA
+C51 COMPILER V8.06   CIRCUIT                                                               10/15/2020 16:31:34 PAGE 3   
+
+           =1  #define BDATA
+           =1  #define CODE
+           =1  #define FAR
+           =1 #endif
+  94      =1  
+  95      =1  /* Serial interface command direction */
+  96      =1  #define SI_WR                           BIT0
+  97      =1  #define SI_RD                           BIT1
+  98      =1  
+  99      =1  #define FLASH_WR_ENB            (PCON |= PWE_)
+ 100      =1  #define FLASH_WR_DISB           (PCON &= ~PWE_)
+ 101      =1  
+ 102      =1  #endif  /* end of TYPES_H */
+  28          #include "intrins.h"                                                                      //
+   1      =1  /*--------------------------------------------------------------------------
+   2      =1  INTRINS.H
+   3      =1  
+   4      =1  Intrinsic functions for C51.
+   5      =1  Copyright (c) 1988-2004 Keil Elektronik GmbH and Keil Software, Inc.
+   6      =1  All rights reserved.
+   7      =1  --------------------------------------------------------------------------*/
+   8      =1  
+   9      =1  #ifndef __INTRINS_H__
+  10      =1  #define __INTRINS_H__
+  11      =1  
+  12      =1  extern void          _nop_     (void);
+  13      =1  extern bit           _testbit_ (bit);
+  14      =1  extern unsigned char _cror_    (unsigned char, unsigned char);
+  15      =1  extern unsigned int  _iror_    (unsigned int,  unsigned char);
+  16      =1  extern unsigned long _lror_    (unsigned long, unsigned char);
+  17      =1  extern unsigned char _crol_    (unsigned char, unsigned char);
+  18      =1  extern unsigned int  _irol_    (unsigned int,  unsigned char);
+  19      =1  extern unsigned long _lrol_    (unsigned long, unsigned char);
+  20      =1  extern unsigned char _chkfloat_(float);
+  21      =1  extern void          _push_    (unsigned char _sfr);
+  22      =1  extern void          _pop_     (unsigned char _sfr);
+  23      =1  
+  24      =1  #endif
+  25      =1  
+  29          #include "CIRCUIT.H"                                                                      //
+   1      =1  //
+   2      =1  ///////////////////////////////////////////////////////////////////////////////
+   3      =1  //     Copyright (c) 2013     Simtek, Incorporated      All rights reserved.
+   4      =1  //
+   5      =1  //     This is unpublished proprietary source code of Simtek, Inc
+   6      =1  //
+   7      =1  //     The copyright notice above does not evidence any actual or intended
+   8      =1  //     publication of such source code.
+   9      =1  ///////////////////////////////////////////////////////////////////////////////
+  10      =1  //
+  11      =1  ///////////////////////////////////////////////////////////////////////////////
+  12      =1  // Module Name:CIRCUIT.H
+  13      =1  // Purpose  : Definition of Hardware Specific Routines
+  14      =1  // Author   : C. Mason
+  15      =1  // Date     : August 20, 2013
+  16      =1  // Notes    :
+  17      =1  //
+  18      =1  ///////////////////////////////////////////////////////////////////////////////
+  19      =1  //
+  20      =1  #ifndef CIRCUIT_H
+  21      =1  #define CIRCUIT_H 1
+  22      =1  
+C51 COMPILER V8.06   CIRCUIT                                                               10/15/2020 16:31:34 PAGE 4   
+
+  23      =1  // GLOBAL PROTOTYPES //
+  24      =1  extern void ext1_5thHardwareDelay(void);
+  25      =1  extern void extHardwareDelay(void);
+  26      =1  
+  27      =1  extern U8_T  aSevenSegXlate(U8_T ascii);
+  28      =1  extern U16_T aFourteenSegXlate(U8_T ascii);
+  29      =1  //extern void  aFourteenSegXlate(U8_T ascii);
+  30      =1  extern U16_T aMAX144ReadADC(void);
+  31      =1  extern void  aHI8045DriverLoad(U8_T XDATA* bmapptr, U8_T loop);                           // output the da
+             -ta to the display driver
+  32      =1  extern U8_T  aFPGARead(U8_T addr);                                                        //
+  33      =1  extern void  aFPGAWrite(U8_T addr, U8_T dat);                                             //
+  34      =1  
+  35      =1  #define tmpvar1               0x35                                                        //
+  36      =1  //#define tmpvar2               0x36                                                      //
+  37      =1  //#define tmpvar3               0x37                                                      //
+  38      =1  extern U8_T  IDATA AssyVarPass1 _at_ tmpvar1;                                             // setup an asse
+             -mbly and C passable variable
+  39      =1  //extern U8_T  IDATA AssyVarPass2 _at_ tmpvar2;                                           //
+  40      =1  //extern U16_T IDATA AssyVarPassW _at_ tmpvar1;                                           //
+  41      =1  #endif      // end of CIRCUIT_H //
+  30          #include "Hardware.H"                                                                     //
+   1      =1  //
+   2      =1  //========================================================================================
+   3      =1  //     Copyright (c) 2007     Simtek, Incorporated      All rights reserved.
+   4      =1  //
+   5      =1  //     This is unpublished proprietary source code of Simtek, Inc
+   6      =1  //
+   7      =1  //     The copyright notice above does not evidence any actual or intended
+   8      =1  //     publication of such source code.
+   9      =1  //========================================================================================
+  10      =1  //
+  11      =1  //========================================================================================
+  12      =1  // Module Name    : Hardware.H
+  13      =1  // Purpose        : Definition of Hardware Specific Registers
+  14      =1  // Author         : C. Mason
+  15      =1  // Date           : June 8, 2007
+  16      =1  // Notes          :
+  17      =1  //
+  18      =1  //========================================================================================
+  19      =1  //
+  20      =1  #include "types.h"
+   1      =2  /*
+   2      =2   ******************************************************************************
+   3      =2   *     Copyright (c) 2007       Simtek, Incorporated      All rights reserved.
+   4      =2   *
+   5      =2   *     This is unpublished proprietary source code of Simtek, Inc
+   6      =2   *
+   7      =2   *     The copyright notice above does not evidence any actual or intended
+   8      =2   *     publication of such source code.
+   9      =2   ******************************************************************************
+  10      =2   */
+  11      =2  /*=============================================================================
+  12      =2   * Module Name: Main.H
+  13      =2   * Purpose : 
+  14      =2   * Author : C. Mason
+  15      =2   * Date : June 11, 2007
+  16      =2   * Notes :
+  17      =2   *
+  18      =2   *=============================================================================
+  19      =2   */
+  20      =2  
+C51 COMPILER V8.06   CIRCUIT                                                               10/15/2020 16:31:34 PAGE 5   
+
+  21      =2  #ifndef TYPES_H
+           =2 #define TYPES_H
+           =2 
+           =2 typedef unsigned short int      BOOL;                   // Boolean //
+           =2 typedef long                    S32_T;          // 32-bit signed //
+           =2 typedef unsigned long           U32_T;          // 32-bit unsigned //
+           =2 typedef short int                       S16_T;                  // 16-bit  signed //
+           =2 typedef unsigned short int      U16_T;                  // 16-bit  unsigned //
+           =2 typedef unsigned short int      word;                   // 16-bit  unsigned     //
+           =2 typedef char                    S8_T;                   // 8-bit signed //
+           =2 typedef unsigned char           U8_T;                   // 8-bit unsigned //
+           =2 typedef unsigned char           byte;                   // 8-bit unsigned       //
+           =2 
+           =2 #ifndef NULL
+           =2  #define NULL ((void *) 0L)
+           =2 #endif
+           =2 
+           =2 #define TRUE                            1
+           =2 #define FALSE                           0
+           =2 
+           =2 /* Bit Definitions for Bitwise Operation */
+           =2 #define BIT0            0x01
+           =2 #define BIT1            0x02
+           =2 #define BIT2            0x04
+           =2 #define BIT3            0x08
+           =2 #define BIT4            0x10
+           =2 #define BIT5            0x20
+           =2 #define BIT6            0x40
+           =2 #define BIT7            0x80
+           =2 #define BIT8            0x0100
+           =2 #define BIT9            0x0200
+           =2 #define BIT10           0x0400
+           =2 #define BIT11           0x0800
+           =2 #define BIT12           0x1000
+           =2 #define BIT13           0x2000
+           =2 #define BIT14           0x4000
+           =2 #define BIT15           0x8000
+           =2 #define BIT16           0x00010000
+           =2 #define BIT17           0x00020000
+           =2 #define BIT18           0x00040000
+           =2 #define BIT19           0x00080000
+           =2 #define BIT20           0x00100000
+           =2 #define BIT21           0x00200000
+           =2 #define BIT22           0x00400000
+           =2 #define BIT23           0x00800000
+           =2 #define BIT24           0x01000000
+           =2 #define BIT25           0x02000000
+           =2 #define BIT26           0x04000000
+           =2 #define BIT27           0x08000000
+           =2 #define BIT28           0x10000000
+           =2 #define BIT29           0x20000000
+           =2 #define BIT30           0x40000000
+           =2 #define BIT31           0x80000000
+           =2 
+           =2 #define LOW_BYTE(word)  (U8_T)(word & 0x00FF)
+           =2 #define HIGH_BYTE(word) (U8_T)((word & 0xFF00) >> 8)
+           =2 
+           =2 /* Keil compiler user define */
+           =2 #define KEIL_CPL
+           =2 
+           =2 #ifdef KEIL_CPL
+           =2  #define XDATA  xdata
+C51 COMPILER V8.06   CIRCUIT                                                               10/15/2020 16:31:34 PAGE 6   
+
+           =2  #define IDATA  idata
+           =2  #define BDATA  bdata
+           =2  #define CODE   code
+           =2  #define FAR    far
+           =2 #else
+           =2  #define XDATA
+           =2  #define IDATA
+           =2  #define BDATA
+           =2  #define CODE
+           =2  #define FAR
+           =2 #endif
+           =2 
+           =2 /* Serial interface command direction */
+           =2 #define SI_WR                           BIT0
+           =2 #define SI_RD                           BIT1
+           =2 
+           =2 #define FLASH_WR_ENB            (PCON |= PWE_)
+           =2 #define FLASH_WR_DISB           (PCON &= ~PWE_)
+           =2 
+           =2 #endif  /* end of TYPES_H */
+  21      =1  
+  22      =1  //========================================================================================
+  23      =1  //                      BYTE Register                                                     //
+  24      =1  //========================================================================================
+  25      =1  sfr   P0                = 0x80;
+  26      =1  sfr   SP                = 0x81;
+  27      =1  sfr   DPL               = 0x82;
+  28      =1  sfr   DPH               = 0x83;
+  29      =1  sfr   DPP               = 0x84;
+  30      =1  sfr   PCON              = 0x87;
+  31      =1  sfr   TCON              = 0x88;
+  32      =1  sfr   TMOD              = 0x89;
+  33      =1  sfr   TL0               = 0x8A;
+  34      =1  sfr   TL1               = 0x8B;
+  35      =1  sfr   TH0               = 0x8C;
+  36      =1  sfr   TH1               = 0x8D;
+  37      =1  sfr   P1                = 0x90;
+  38      =1  sfr   I2CADD1           = 0x91;
+  39      =1  sfr   I2CADD2           = 0x92;
+  40      =1  sfr   I2CADD3           = 0x93;
+  41      =1  sfr   SCON              = 0x98;
+  42      =1  sfr   SBUF              = 0x99;
+  43      =1  sfr   I2CDAT            = 0x9A;
+  44      =1  sfr   I2CADD            = 0x9B;
+  45      =1  sfr   T3FD              = 0x9D;
+  46      =1  sfr   T3CON             = 0x9E;
+  47      =1  sfr   P2                = 0xA0;
+  48      =1  sfr   TIMECON           = 0xA1;
+  49      =1  sfr   HTHSEC            = 0xA2;
+  50      =1  sfr   SEC               = 0xA3;
+  51      =1  sfr   MIN               = 0xA4;
+  52      =1  sfr   HOUR              = 0xA5;
+  53      =1  sfr   INTVAL            = 0xA6;
+  54      =1  sfr   DPCON             = 0xA7;
+  55      =1  sfr   IE                = 0xA8;
+  56      =1  sfr   IEIP2             = 0xA9;
+  57      =1  sfr   PWMCON            = 0xAE;
+  58      =1  sfr   CFG841            = 0xAF;
+  59      =1  sfr   P3                = 0xB0;
+  60      =1  sfr   PWM0L             = 0xB1;
+  61      =1  sfr   PWM0H             = 0xB2;
+  62      =1  sfr   PWM1L             = 0xB3;
+C51 COMPILER V8.06   CIRCUIT                                                               10/15/2020 16:31:34 PAGE 7   
+
+  63      =1  sfr   PWM1H             = 0xB4;
+  64      =1  sfr   SPH               = 0xB7;
+  65      =1  sfr   IP                = 0xB8;
+  66      =1  sfr   ECON              = 0xB9;
+  67      =1  sfr   EDATA1            = 0xBC;
+  68      =1  sfr   EDATA2            = 0xBD;
+  69      =1  sfr   EDATA3            = 0xBE;
+  70      =1  sfr   EDATA4            = 0xBF;
+  71      =1  sfr   WDCON             = 0xC0;
+  72      =1  sfr   CHIPID            = 0xC2;
+  73      =1  sfr   EADRL             = 0xC6;
+  74      =1  sfr   EADRH             = 0xC7;
+  75      =1  sfr   T2CON             = 0xC8;
+  76      =1  sfr   RCAP2L            = 0xCA;
+  77      =1  sfr   RCAP2H            = 0xCB;
+  78      =1  sfr   TL2               = 0xCC;
+  79      =1  sfr   TH2               = 0xCD;
+  80      =1  sfr   PSW               = 0xD0;
+  81      =1  sfr   DMAL              = 0xD2;
+  82      =1  sfr   DMAH              = 0xD3;
+  83      =1  sfr   DMAP              = 0xD4;
+  84      =1  sfr   ADCCON2           = 0xD8;
+  85      =1  sfr   ADCDATAL          = 0xD9;
+  86      =1  sfr   ADCDATAH          = 0xDA;
+  87      =1  sfr   PSMCON            = 0xDF;
+  88      =1  //sfr   ACC               = 0xE0;
+  89      =1  sfr   DCON              = 0xE8;
+  90      =1  sfr   I2CCON            = 0xE8;
+  91      =1  sfr   ADCCON1           = 0xEF;
+  92      =1  sfr   B                 = 0xF0;
+  93      =1  sfr   ADCOFSL           = 0xF1;
+  94      =1  sfr   ADCOFSH           = 0xF2;
+  95      =1  sfr   ADCGAINL          = 0xF3;
+  96      =1  sfr   ADCGAINH          = 0xF4;
+  97      =1  sfr   ADCCON3           = 0xF5;
+  98      =1  sfr   SPIDAT            = 0xF7;
+  99      =1  sfr   SPICON            = 0xF8;
+ 100      =1  sfr   DAC0L             = 0xF9;
+ 101      =1  sfr   DAC0H             = 0xFA;
+ 102      =1  sfr   DAC1L             = 0xFB;
+ 103      =1  sfr   DAC1H             = 0xFC;
+ 104      =1  sfr   DACCON            = 0xFD;
+ 105      =1  //========================================================================================
+ 106      =1  ////                      naming constant declarations                                    //
+ 107      =1  //========================================================================================
+ 108      =1  #define gReset                      0x01
+ 109      =1  #define gBIT                        0x02
+ 110      =1  #define gDisplayChange              0x04
+ 111      =1  #define gBrightChange               0x08
+ 112      =1  #define gFirmwareRequest            0x10
+ 113      =1  #define gSwitchStatus               0x20
+ 114      =1  #define gInstSwStatus               0x40
+ 115      =1  #define gAnnun                      0x80
+ 116      =1  #define gAddressChange              0x40
+ 117      =1  #define MAX_TX_UART0_BUF_SIZE       512
+ 118      =1  #define MAX_TX_UART0_MASK           (MAX_TX_UART0_BUF_SIZE - 1)
+ 119      =1  #define MAX_RX_UART0_BUF_SIZE       512
+ 120      =1  #define MAX_RX_UART0_MASK           (MAX_RX_UART0_BUF_SIZE - 1)
+ 121      =1  //========================================================================================
+ 122      =1  //                      global variables                                                  //
+ 123      =1  //========================================================================================
+ 124      =1  //extern U8_T Flags;
+C51 COMPILER V8.06   CIRCUIT                                                               10/15/2020 16:31:34 PAGE 8   
+
+ 125      =1  
+ 126      =1  typedef struct flashpage {
+ 127      =1        U8_T D1;
+ 128      =1        U8_T D2;
+ 129      =1        U8_T D3;
+ 130      =1        U8_T D4;
+ 131      =1  }FLASHPAGE;
+ 132      =1  
+ 133      =1  FLASHPAGE Flashread(U16_T pageaddress);
+ 134      =1  void ErasePageOfFlash(U16_T pageaddr);
+ 135      =1  U8_T WriteAPageToFlash(FLASHPAGE newdata, U16_T pageaddr);                                // write a byte 
+             -to flash memory
+ 136      =1  FLASHPAGE ReadAPageFromFlash(U16_T pageaddr);                                             // read a byte f
+             -rom the flash memory
+ 137      =1  //========================================================================================
+ 138      =1  // Hardware Specific P0 (0x80) Bit Registers
+ 139      =1  //========================================================================================
+ 140      =1  sfr  FPGAADDR           = 0x80;
+ 141      =1  sbit DispTData          = 0x80;
+ 142      =1  sbit DispClk            = 0x81;
+ 143      =1  sbit DispCe             = 0x82;
+ 144      =1  sbit DispRst            = 0x83;
+ 145      =1  sbit DispRs             = 0x84;
+ 146      =1  //========================================================================================
+ 147      =1  // Hardware Specific P1 (0x90) Bit Registers
+ 148      =1  //========================================================================================
+ 149      =1  //sfr  FpgaAddr           = 0x90;
+ 150      =1  sbit FpgaA0             = 0x90;
+ 151      =1  sbit FpgaA1             = 0x91;
+ 152      =1  sbit FpgaA2             = 0x92;
+ 153      =1  sbit FpgaA3             = 0x93;
+ 154      =1  sbit FpgaA4             = 0x94;
+ 155      =1  sbit FpgaA5             = 0x95;
+ 156      =1  sbit FpgaA6             = 0x96;
+ 157      =1  sbit FpgaA7             = 0x97;
+ 158      =1  
+ 159      =1  //========================================================================================
+ 160      =1  // Hardware Specific P2 (0xA0) Bit Registers
+ 161      =1  //========================================================================================
+ 162      =1  //sbit XtalSel10n20       = 0xA0;
+ 163      =1  sbit cs_e15             = P2^0;
+ 164      =1  sbit cs_e02             = P2^1;
+ 165      =1  sbit cs_e17             = P2^2;
+ 166      =1  sbit cs_e13             = P2^3;
+ 167      =1  sbit HBCtrl             = P2^4;
+ 168      =1  sbit WBCtrl             = P2^5;
+ 169      =1  sbit WTCtrl             = P2^6;
+ 170      =1  sbit NIWTIHCtrl         = P2^7;
+ 171      =1  
+ 172      =1  //========================================================================================
+ 173      =1  // Hardware Specific P3 (0xB0) Bit Registers
+ 174      =1  //========================================================================================
+ 175      =1  sbit DebugTmp           = P3^3;
+ 176      =1  sbit RTS_DE             = P3^4;
+ 177      =1  sbit a2d_wr             = P3^5;
+ 178      =1  sbit FpgaWr                     = P3^6;
+ 179      =1  sbit DO2_ctrl           = P3^6;
+ 180      =1  sbit HeartBeat          = P3^6;
+ 181      =1  sbit DO1_ctrl           = P3^7;
+ 182      =1  
+ 183      =1  sfr ACC                 = 0xE0;           // Accumulator
+ 184      =1  //========================================================================================
+C51 COMPILER V8.06   CIRCUIT                                                               10/15/2020 16:31:34 PAGE 9   
+
+ 185      =1  // ACC (0xE0) Bit Registers
+ 186      =1  //========================================================================================
+ 187      =1  sbit A_0                = 0xE0;
+ 188      =1  sbit A_1                = 0xE1;
+ 189      =1  sbit A_2                = 0xE2;
+ 190      =1  sbit A_3                = 0xE3;
+ 191      =1  sbit A_4                = 0xE4;
+ 192      =1  sbit A_5                = 0xE5;
+ 193      =1  sbit A_6                = 0xE6;
+ 194      =1  sbit A_7                = 0xE7;
+ 195      =1  
+ 196      =1  //========================================================================================
+ 197      =1  // Hardware Specific Bit Registers                                                        //
+ 198      =1  //========================================================================================
+ 199      =1  
+ 200      =1  //========================================================================================
+ 201      =1  //    BIT Register.....                                                                   //
+ 202      =1  //========================================================================================
+ 203      =1  //          TCON                                                                          //
+ 204      =1  //========================================================================================
+ 205      =1  sbit  TF1               = 0x8F;
+ 206      =1  sbit  TR1               = 0x8E;
+ 207      =1  sbit  TF0               = 0x8D;
+ 208      =1  sbit  TR0               = 0x8C;
+ 209      =1  sbit  IE1               = 0x8B;
+ 210      =1  sbit  IT1               = 0x8A;
+ 211      =1  sbit  IE0               = 0x89;
+ 212      =1  sbit  IT0               = 0x88;
+ 213      =1  //========================================================================================
+ 214      =1  // P1 //
+ 215      =1  //========================================================================================
+ 216      =1  sbit  T2EX              = 0x91;
+ 217      =1  sbit  T2                = 0x90;
+ 218      =1  //========================================================================================
+ 219      =1  // SCON //
+ 220      =1  //========================================================================================
+ 221      =1  sbit  SM0               = 0x9F;
+ 222      =1  sbit  SM1               = 0x9E;
+ 223      =1  sbit  SM2               = 0x9D;
+ 224      =1  sbit  REN               = 0x9C;
+ 225      =1  sbit  TB8               = 0x9B;
+ 226      =1  sbit  RB8               = 0x9A;
+ 227      =1  sbit  TI                = 0x99;
+ 228      =1  sbit  RI                = 0x98;
+ 229      =1  //========================================================================================
+ 230      =1  // IE //
+ 231      =1  //========================================================================================
+ 232      =1  sbit  EA                = 0xAF;
+ 233      =1  sbit  EADC              = 0xAE;
+ 234      =1  sbit  ET2               = 0xAD;
+ 235      =1  sbit  ES                = 0xAC;
+ 236      =1  sbit  ET1               = 0xAB;
+ 237      =1  sbit  EX1               = 0xAA;
+ 238      =1  sbit  ET0               = 0xA9;
+ 239      =1  sbit  EX0               = 0xA8;
+ 240      =1  //========================================================================================
+ 241      =1  // P3 //
+ 242      =1  //========================================================================================
+ 243      =1  sbit  RD                = 0xB7;
+ 244      =1  sbit  WR                = 0xB6;
+ 245      =1  sbit  T1                = 0xB5;
+ 246      =1  sbit  T0                = 0xB4;
+C51 COMPILER V8.06   CIRCUIT                                                               10/15/2020 16:31:34 PAGE 10  
+
+ 247      =1  sbit  INT1              = 0xB3;
+ 248      =1  sbit  INT0              = 0xB2;
+ 249      =1  sbit  TXD               = 0xB1;
+ 250      =1  sbit  RXD               = 0xB0;
+ 251      =1  //========================================================================================
+ 252      =1  // IP //
+ 253      =1  //========================================================================================
+ 254      =1  sbit  PSI               = 0xBF;
+ 255      =1  sbit  PADC              = 0xBE;
+ 256      =1  sbit  PT2               = 0xBD;
+ 257      =1  sbit  PS                = 0xBC;
+ 258      =1  sbit  PT1               = 0xBB;
+ 259      =1  sbit  PX1               = 0xBA;
+ 260      =1  sbit  PT0               = 0xB9;
+ 261      =1  sbit  PX0               = 0xB8;
+ 262      =1  //========================================================================================
+ 263      =1  // WDCON //
+ 264      =1  //========================================================================================
+ 265      =1  sbit  PRE3              = 0xC7;
+ 266      =1  sbit  PRE2              = 0xC6;
+ 267      =1  sbit  PRE1              = 0xC5;
+ 268      =1  sbit  PRE0              = 0xC4;
+ 269      =1  sbit  WDIR              = 0xC3;
+ 270      =1  sbit  WDS               = 0xC2;
+ 271      =1  sbit  WDE               = 0xC1;
+ 272      =1  sbit  WDWR              = 0xC0;
+ 273      =1  //========================================================================================
+ 274      =1  // T2CON //
+ 275      =1  //========================================================================================
+ 276      =1  sbit  TF2               = 0xCF;
+ 277      =1  sbit  EXF2              = 0xCE;
+ 278      =1  sbit  RCLK              = 0xCD;
+ 279      =1  sbit  TCLK              = 0xCC;
+ 280      =1  sbit  EXEN2             = 0xCB;
+ 281      =1  sbit  TR2               = 0xCA;
+ 282      =1  sbit  CNT2              = 0xC9;
+ 283      =1  sbit  CAP2              = 0xC8;
+ 284      =1  //========================================================================================
+ 285      =1  // PSW //
+ 286      =1  //========================================================================================
+ 287      =1  sbit  CY                = 0xD7;
+ 288      =1  sbit  AC                = 0xD6;
+ 289      =1  sbit  F0                = 0xD5;
+ 290      =1  sbit  RS1               = 0xD4;
+ 291      =1  sbit  RS0               = 0xD3;
+ 292      =1  sbit  OV                = 0xD2;
+ 293      =1  sbit  F1                = 0xD1;
+ 294      =1  sbit  P                 = 0xD0;
+ 295      =1  //========================================================================================
+ 296      =1  // ADCCON2 //
+ 297      =1  //========================================================================================
+ 298      =1  sbit  ADCI              = 0xDF;
+ 299      =1  sbit  DMA               = 0xDE;
+ 300      =1  sbit  CCONV             = 0xDD;
+ 301      =1  sbit  SCONV             = 0xDC;
+ 302      =1  sbit  CS3               = 0xDB;
+ 303      =1  sbit  CS2               = 0xDA;
+ 304      =1  sbit  CS1               = 0xD9;
+ 305      =1  sbit  CS0               = 0xD8;
+ 306      =1  //========================================================================================
+ 307      =1  // DCON //
+ 308      =1  //========================================================================================
+C51 COMPILER V8.06   CIRCUIT                                                               10/15/2020 16:31:34 PAGE 11  
+
+ 309      =1  sbit  D1                = 0xEF;
+ 310      =1  sbit  D1EN              = 0xEE;
+ 311      =1  sbit  D0                = 0xED;
+ 312      =1  sbit  D0EN              = 0xEB;
+ 313      =1  //========================================================================================
+ 314      =1  // I2CCON //
+ 315      =1  //========================================================================================
+ 316      =1  sbit  MDO               = 0xEF;
+ 317      =1  sbit  MDE               = 0xEE;
+ 318      =1  sbit  MCO               = 0xED;
+ 319      =1  sbit  MDI               = 0xEC;
+ 320      =1  sbit  I2CM              = 0xEB;
+ 321      =1  sbit  I2CRS             = 0xEA;
+ 322      =1  sbit  I2CTX             = 0xE9;
+ 323      =1  sbit  I2CI              = 0xE8;
+ 324      =1  //========================================================================================
+ 325      =1  // SPICON //
+ 326      =1  //========================================================================================
+ 327      =1  sbit  ISPI              = 0xFF;
+ 328      =1  sbit  WCOL              = 0xFE;
+ 329      =1  sbit  SPE               = 0xFD;
+ 330      =1  sbit  SPIM              = 0xFC;
+ 331      =1  sbit  CPOL              = 0xFB;
+ 332      =1  sbit  CPHA              = 0xFA;
+ 333      =1  sbit  SPR1              = 0xF9;
+ 334      =1  sbit  SPR0              = 0xF8;
+ 335      =1  //========================================================================================
+  31          //========================================================================================//
+  32          //                      GLOBAL VARIABLES DECLARATIONS                                     //
+  33          //========================================================================================//
+  34          //U8_T  IDATA AssyVarPass1 _at_ tmpvar1;                                                    //
+  35          //U8_T  IDATA AssyVarPass2 _at_ tmpvar2;                                                    //
+  36          //U16_T IDATA AssyVarPassW _at_ tmpvar1;                                                    //
+  37          //#define tmpvar4             0x38                                                        //
+  38          //static U8_T IDATA AssyVarPass3 _at_ tmpvar4;                                            //
+  39          //========================================================================================//
+  40          //                      harware pin declarations                                          //
+  41          //========================================================================================//
+  42          //sbit ADCCs                    = 0x82;
+  43          //sbit ADCClk                   = 0x83;
+  44          //sbit ADCDin                   = 0x84;
+  45          //sbit  DispCs                  = 0xA0;
+  46          //sbit  DispClk                 = 0xA1;
+  47          //sbit  DispLoad                = 0xA2;
+  48          //sbit  DispData                = 0xA3;
+  49          //sbit  ADCClk                  = 0xA4;
+  50          //sbit  ADCDin                  = 0xA5;
+  51          //sbit  ADCCs                   = 0xA6;
+  52          //========================================================================================//
+  53          //                      LOCAL SUBPROGRAM DECLARATIONS                                     //
+  54          //========================================================================================//
+  55          //U8_T aSevenSegXlate(U8_T ascii);                                                          // translate t
+             -he ASCII character into seven segment data
+  56          //U16_T aFourteenSegXlate(U8_T ascii)                                                       // translate t
+             -he ASCII character into fourteen segment data
+  57          //void x100nSDelay(void);                                                                   //
+  58          //void x001uSDelay(void);                                                                   //
+  59          //void ext1_5thHardwareDelay(void);                                                         //
+  60          //void extHardwareDelay(void);                                                              //
+  61          //void aHI8045DriverLoad(U8_T XDATA* bmapptr, U8_T loop);                                   //
+  62          //                                                                                        //
+  63          //========================================================================================//
+C51 COMPILER V8.06   CIRCUIT                                                               10/15/2020 16:31:34 PAGE 12  
+
+  64          //                      ROUTINES ADDED TO MAIN                                            //
+  65          //========================================================================================//
+  66          
+  67          //
+  68          // ---------------------------------------------------------------------------------------
+  69          // Function Name : aFPGARead(U8_T addr)
+  70          // Purpose       : read data from a FPGA register
+  71          // Params        : the address of the register to read
+  72          // Returns       : the data read from the FPGA
+  73          // Note          :
+  74          // ---------------------------------------------------------------------------------------
+  75          //
+  76          //U8_T aFPGARead(U8_T addr)                                                                 // write addre
+             -ss to the FPGA and read the data from the FPGA
+  77          //{
+  78          ////      U8_T tmp;
+  79          //      
+  80          //      FPGAADDR = addr;                                                                    // place the a
+             -ddress on the port for the FPGA to read
+  81          //#pragma asm
+  82          //      nop                                                                                 // give the di
+             -splay time to see the change
+  83          //      nop                                                                                 // give the di
+             -splay time to see the change
+  84          //      nop                                                                                 // give the di
+             -splay time to see the change
+  85          //#pragma endasm
+  86          //      fpgaserialale = 1;                                                                        // activ
+             -ate the FPGA ale line
+  87          //#pragma asm
+  88          //      nop                                                                                 // give the di
+             -splay time to see the change
+  89          //      nop                                                                                 // give the di
+             -splay time to see the change
+  90          //      nop                                                                                 // give the di
+             -splay time to see the change
+  91          //#pragma endasm
+  92          //      fpgaserialale = 0;                                                                        // deact
+             -ivate the FPGA ale line
+  93          //#pragma asm
+  94          //      nop                                                                                 // give the di
+             -splay time to see the change
+  95          //      nop                                                                                 // give the di
+             -splay time to see the change
+  96          //      nop                                                                                 // give the di
+             -splay time to see the change
+  97          //#pragma endasm
+  98          //      FPGAADDR = 0xFF;                                                                    // setup the F
+             -PGA communications port for reading data
+  99          //#pragma asm
+ 100          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 101          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 102          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 103          //#pragma endasm
+ 104          //      FpgaRd = 0;                                                                         // activate th
+             -e FPGA write line to write the data into the FPGA
+ 105          //#pragma asm
+ 106          //      nop                                                                                 // give the di
+             -splay time to see the change
+C51 COMPILER V8.06   CIRCUIT                                                               10/15/2020 16:31:34 PAGE 13  
+
+ 107          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 108          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 109          //      mov         tmpvar1,FPGAADDR;                                                       // read the da
+             -t from the FPGA
+ 110          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 111          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 112          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 113          //#pragma endasm
+ 114          //      FpgaRd = 1;                                                                         // deactivate 
+             -the FPGA write line to finish the process
+ 115          //      return AssyVarPass1;                                                                // pass read v
+             -alue back to calling routine
+ 116          //}
+ 117          
+ 118          //
+ 119          // ---------------------------------------------------------------------------------------
+ 120          // Function Name : aFPGAWrite(U8_T addr, U8_T dat)
+ 121          // Purpose       : write data to an FPGA register
+ 122          // Params        : the FPGA register address, the data to write to the register
+ 123          // Returns       : void
+ 124          // Note          :
+ 125          // ---------------------------------------------------------------------------------------
+ 126          //
+ 127          //void aFPGAWrite(U8_T addr, U8_T dat)                                                       // write addr
+             -ess and data to the FPGA
+ 128          //{
+ 129          //      FPGAADDR = addr;                                                                    // place the a
+             -ddress on the port for the FPGA to read
+ 130          //#pragma asm
+ 131          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 132          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 133          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 134          //#pragma endasm
+ 135          //      fpgaserialale = 1;                                                                        // activ
+             -ate the FPGA ale line
+ 136          //#pragma asm
+ 137          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 138          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 139          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 140          //#pragma endasm
+ 141          //      fpgaserialale = 0;                                                                        // deact
+             -ivate the FPGA ale line
+ 142          //#pragma asm
+ 143          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 144          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 145          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 146          //#pragma endasm
+ 147          //      FPGAADDR = dat;                                                                     // place the d
+C51 COMPILER V8.06   CIRCUIT                                                               10/15/2020 16:31:34 PAGE 14  
+
+             -ata to write on the port for the FPGA to read
+ 148          //#pragma asm
+ 149          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 150          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 151          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 152          //#pragma endasm
+ 153          //      FpgaWr = 0;                                                                         // activate th
+             -e FPGA write line to write the data into the FPGA
+ 154          //#pragma asm
+ 155          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 156          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 157          //      nop                                                                                 // give the di
+             -splay time to see the change
+ 158          //#pragma endasm
+ 159          //      FpgaWr = 1;                                                                         // deactivate 
+             -the FPGA write line to finish the process
+ 160          //}
+ 161          
+C51 COMPILER V8.06   CIRCUIT                                                               10/15/2020 16:31:34 PAGE 15  
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+P3 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B0H  1
+FLASHPAGE. . . . . . . . . . . . . . .  TYPEDEF  -----  STRUCT   -----  4
+  D1 . . . . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0000H  1
+  D2 . . . . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0001H  1
+  D3 . . . . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0002H  1
+  D4 . . . . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0003H  1
+BOOL . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+flashpage. . . . . . . . . . . . . . .  * TAG *  -----  STRUCT   -----  4
+  D1 . . . . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0000H  1
+  D2 . . . . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0001H  1
+  D3 . . . . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0002H  1
+  D4 . . . . . . . . . . . . . . . . .  MEMBER   -----  U_CHAR   0003H  1
+byte . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+word . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+S8_T . . . . . . . . . . . . . . . . .  TYPEDEF  -----  CHAR     -----  1
+U8_T . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+S32_T. . . . . . . . . . . . . . . . .  TYPEDEF  -----  LONG     -----  4
+S16_T. . . . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
+U32_T. . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
+U16_T. . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

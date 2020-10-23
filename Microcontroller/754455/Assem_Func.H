@@ -1,0 +1,1 @@
+	void	C_MemClear(void)
