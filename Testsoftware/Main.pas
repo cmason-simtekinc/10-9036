@@ -9,9 +9,6 @@ uses
   ShellAPI, jpeg, CPDrv, fileCtrl, spin, Buttons, ImgList,
   ToolWin;
 
-
-
-
 const
 
   lblAddressWWW      = 'www.simtekinc.com';
@@ -49,7 +46,7 @@ const
   TSCapHeader        = ' Transmit speed = ';
 
   StartByte          = $FF;
-  lenDefault         = 3;        // this should be the length of the shortest message returned
+  lenDefault         = 1;        // this should be the length of the shortest message returned
 
   C0Command          = 'Reset';
   C0Request          = $F0; // Reset Request
@@ -62,9 +59,9 @@ const
   C1Request          = $FE; // cursor home
   C1Requestlength    = 2;
   C1CapHeader        = C1Command + ' Transmit speed = ';
-  C1DeviceValDefault = ': 7?-???? Rev ? : 7?-???? Rev ?';
+  C1DeviceValDefault = ': 7?-???? Rev ?';
   C1Response         = C1Request;
-  C1Responselength   = 10;
+  C1Responselength   = 6;
 
   C2Command          = 'Status';
   C2Request          = $F1; // Options Change Request
@@ -87,28 +84,6 @@ const
   C4Response         = C4Request;
   C4Responselength   = 0;
 
-//  C4Command          = 'Display';
-//  C4Request          = $F2; // display toggle
-//  C4Requestlength    = 35;//35
-//  C4CapHeader        = C4Command + ' Transmit speed = ';
-//  C4Response         = C4Request;
-//  C4Responselength   = 0;
-
-//  C2Command          = 'Realtime Report Buttons';
-//  C2Request          = $22; // Firmware information
-//  C2Requestlength    = 0;
-//  C2CapHeader        = C2Command + ' Transmit speed = ';
-//  C2DeviceValDefault = ': 7?-???? Rev ?';
-//  C2Response         = C2Request;
-//  C2Responselength   = 4;
-//
-//  C3Command          = 'Realtime Report Potentiometer';
-//  C3Request          = $23; // Display Request
-//  C3Requestlength    = 0;
-//  C3CapHeader        = C3Command + ' Transmit speed = ';
-//  C3Response         = C3Request;
-//  C3Responselength   = 6;
-
   // Descriptive labels to use with routines
   lblDimming1Cap     = 'Panel Dimming Level = ';
   lblDimming1Hint    = 'Shows Display Brightness Value';
@@ -116,30 +91,12 @@ const
   lblDimming2Hint    = 'Shows Indicator Brightness Value';
 
   clActive           = clLime;
-  clInactive         = clWhite;
-  clDisabled         = clGray;
-  //LightOnTime      = 20;
+  clInactive         = clRed;
+  clDisabled         = clAppWorkSpace;
+  LightOnTime        = 40;
 
-  clShowing          = clWhite;
+  clShowing          = $000052FD;
   clHidden           = clBlack;
-  lblBxbxValDefault  = ': unknown';
-
-  adTop        : integer = 365;
-  adBot        : integer = 400;
-  cdTop        : integer = 365;
-  cdBot        : integer = 400;
-  alarmTop     : integer = 290;
-  alarmbot     : integer = 382;
-
-  rdTop        : integer = 158;
-  rdMid        : integer = 176;
-  rdBot        : integer = 196;
-
-  //StartByte = $FE;
-  //SECTION = '10883801';
-
-
-
 
 type
  Tx = record
@@ -150,7 +107,6 @@ type
    ui   : byte;                                 // update index
    uc   : integer;                              // update rate count
 end;
-
 
 type
     TMainForm = class(TForm)
@@ -250,34 +206,33 @@ type
     updnBaudRate: TUpDown;
     cbValidPorts: TComboBox;
     Upind: TPanel;
-    Label8: TLabel;
     MemoTx: TRichEdit;
     CPDrv: TCommPortDriver;
-    MemoRx: TRichEdit;
+    MemoRx: TRichEdit;                     
     cbfilterGarbage: TCheckBox;
-    pointer: TTrackBar;
+    tkbPointer1: TTrackBar;
     cdegbox: TEdit;
     cdeg: TLabel;
-    ELab: TLabel;
-    SLab: TLabel;
-    WLab: TLabel;
     AddrLab: TLabel;
     updnAddr: TUpDown;
-    Label3: TLabel;
+    AddrColon: TLabel;
     cbAddress: TComboBox;
     tkbC3UpdateRate: TTrackBar;
     lblC3TransmitRate: TLabel;
-    Label2: TLabel;
-    Label4: TLabel;
-    IDD0: TLabel;
-    IDD1: TLabel;
-    NLab: TLabel;
     lblFPData: TLabel;
-    Label1: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
-    Label7: TLabel;
-    Label9: TLabel;
+    lblCalPoint1: TLabel;
+    lblCalPoint2: TLabel;
+    lblCalPoint3: TLabel;
+    lblCalPoint4: TLabel;
+    lblCalPoint5: TLabel;
+    lblCalPoint6: TLabel;
+    lblCalPoint7: TLabel;
+    chex: TLabel;
+    lblFlag: TLabel;
+    lblScrollStep: TLabel;
+    updnScrollStep: TUpDown;
+    edtScrollStep: TEdit;
+    IDD1: TLabel;
 
     procedure ScrollBar2Change(Sender: TObject);
     procedure Exit1Click(Sender: TObject);
@@ -299,8 +254,7 @@ type
     procedure imgSimtekLogoClick(Sender: TObject);
     procedure tkbScrollRateChange(Sender: TObject);
     procedure paintGUI;
-    procedure decodeRecievedData(s : string);
-    procedure decodeSerial(var sp1, sp2 : string);
+    function  decodeRecievedData(sp1, sp2 : string):string;
     function  encodeCommandData(CommandByte : byte) : string;
     function  calculateRate(ct : double;g : Tx;rc : boolean;l : TObject;t : TObject;s : string):Tx;
     procedure cpOutputData(s : string; rc : boolean);
@@ -356,8 +310,7 @@ type
     procedure debugDisplay();  //sets digit locations on res file
     procedure mm04Click(Sender: TObject);
     procedure mm06Click(Sender: TObject);
-    procedure mm09Click(Sender: TObject);
-    procedure pointerChange(Sender: TObject);
+    procedure tkbPointer1Change(Sender: TObject);
     procedure cdegboxClick(Sender: TObject);
     procedure degbox_selectall(Sender: TObject;AA: byte);
     procedure cdegboxKeyPress(Sender: TObject; var Key: Char);
@@ -371,10 +324,17 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure IDD0Click(Sender: TObject);
     procedure updnAddrClick(Sender: TObject; Button: TUDBtnType);
+    procedure lblCalPointClick(Sender: TObject);
+    procedure lblCalPointMouseEnter(Sender: TObject);
+    procedure lblCalPointMouseLeave(Sender: TObject);
+    procedure updnScrollStepClick(Sender: TObject; Button: TUDBtnType);
+    procedure edtScrollStepKeyPress(Sender: TObject; var Key: Char);
+    procedure edtScrollStepClick(Sender: TObject);
+    procedure cbAddressChange(Sender: TObject);
     //*************************************************************************************************************
   private
     { Private declarations }
-    procedure initializeDisplay(cnt : integer);
+    function  ValuesToHexString(s : string):string;
     procedure setMomentaryBtn(button : TObject);
     procedure DisplayHint1(Sender: TObject);
     procedure cpGetData(instr : string) ;
@@ -396,7 +356,6 @@ type
 end;
 
 var
-
   MainForm                  : TMainForm;
   hWind                     : HWND;
   {------------- Variables for serial Communications -----------------------------------------}
@@ -425,13 +384,9 @@ var
   //  MY VARIABLES FOR PROGRAM  DME PANEL
   Txc,Rxc                   : TColor;
   VersionInfo               : TOSVERSIONINFO;
-
-//  PanelMap                  : TBitMap; // holds the bitmap for the instrument face
-//  OSBitMap                  : TBitMap; // off-screen bitmap you do your drawing on
-
 // variables for serial message shortfalls
-  gSerialBuffer             : string  = '';          //
-  gSerialBufferSMsg         : string  = '';          //
+  gSerialBufNew             : string  = '';          //
+  gSerialBufHold            : string  = '';          //
   gByteCount                : word    = 0;           //
   gWholeMsg                 : integer = LenDefault;
 
@@ -447,7 +402,7 @@ var
   toggleBool                : boolean = TRUE;
 
   fScrollReq                : boolean = False;
-  dScrollValue              : byte = 0;
+//  dScrollValue              : byte = 0;
   scrollbit                 : boolean;
 // Device Output control variables
   fImageRedraw              : boolean;
@@ -470,38 +425,29 @@ var
   fC2Request                : boolean  = False; // status
   fC3Request                : boolean  = False; // display
   fC4Request                : boolean  = False; // indicator                                  display backlight toggle
-//  fC7Request                : boolean  = false; //
-//  fC8Request                : boolean  = false; //
-//  fScrollReq                : boolean  = False; // scroll change flag
   fgeneric                  : boolean  = False;
-
 // Debug Variables
   NumberOfRequests         : cardinal = 0;
   UserImageSelected        : boolean  = True;
   NumberOfResponse         : cardinal = 0;
-
 // Display Dimming Variables
   tkbDimming2Old           : integer;
   tkbDimming1Old           : integer;
-
   //integer to hold count down for txshape blink on transmission
   tx_integer, rx_integer   : integer;
-
   //byte to hold panel address
   address                  : byte;
-
   //bytes to transmit dimming data
   bright1, bright2         : byte;
-
   //variables to scroll display
   scrollvalue              : byte;
   scrollcount              : integer = 0;
-
   //variable to hold brightness data
   resetbit                 : boolean;
 
   scrollClickCounter       : integer;
   scrolldeg                : integer;
+  scrollflag               : integer;
 // display paintbox variables
 //  ********************************************************************************************************
   CanvasRect               : array[0..31] of TRect; // digit locations on canvas
@@ -544,40 +490,30 @@ var
   BurstFileName            : string = 'BurstFile.txt';
   BurstFileContents        : TStringlist = nil;
   //bit to reset procedures
-
-  slidebar                : array[0..1] of TTrackBar;
-  slidelab                : array[0..1] of TLabel;
-  slidebyte               : array[0..3] of byte;
-  sinbyte                 : array[0..5] of byte;
-  cosbyte                 : array[0..5] of byte;
   degbar                  : array[0..2] of TTrackBar;
-  sinlab                  : array[0..2] of TLabel;
-  coslab                  : array[0..2] of TLabel;
   deglab                  : array[0..2] of TLabel;
   degbox                  : array[0..2] of TEdit;
-
-  An                      : array[0..10] of TLabel;
+  hexlab                  : array[0..2] of TLabel;
 
 implementation
 
-//uses UAbout, PortDlg;
 {$R *.DFM}
 //
 procedure TMainForm.Exit1Click(Sender: TObject);
 begin
-Close;
+  Close;
 end;
 
 // clear rx window
 procedure TMainForm.mm02s01Click(Sender: TObject);
 begin
-MemoRx.Clear;
+  MemoRx.Clear;
 end;
 
 // clear tx window
 procedure TMainForm.mm02s02Click(Sender: TObject);
 begin
-MemoTx.Clear;
+  MemoTx.Clear;
 end;
 
 // clear num requests and num response
@@ -586,8 +522,6 @@ begin
   NumberOfRequests                := 0;
   NumberOfResponse                := 0;
 end;
-
-
 
 procedure TMainForm.tbUpdateRateChange(Sender: TObject);
 begin
@@ -603,7 +537,6 @@ begin
      scrollbit:= false
   else
      scrollbit:= true;
-//         Label2.caption := inttostr(ord(scrollbit));
   if fScrollReq = false then fScrollReq := true else fScrollReq := false;
 end;
 
@@ -627,17 +560,6 @@ begin
 end;
 
 // display request
-procedure TMainForm.mm09Click(Sender: TObject);
-begin
-end;
-
-//procedure TMainForm.About1Click(Sender: TObject);
-//var AboutForm : TAboutBox;
-//begin
-//AboutForm := TAboutBox.Create(Self);
-//AboutForm.ShowModal;
-//end;
-
 procedure TMainForm.imgSimtekLogoClick(Sender: TObject);
 var url : string;
 begin
@@ -649,29 +571,15 @@ procedure TMainForm.lblFirmwareTitle2Click(Sender: TObject);
 begin
   lblFirmwareValue1.Caption := C1DeviceValDefault;
   lblFirmwareValue2.Caption := C1DeviceValDefault;
-  //lblFirmwareValue3.Caption := C1DeviceValDefault;
 end;
-
-
-
-//procedure TMainForm.debugDisplay_setup();
-//begin
-//end;
-procedure TMainForm.initializeDisplay(cnt : integer); // sets the display to be blank at start up
-//var
-begin
-end;
-
 
 procedure TMainForm.FormCreate(Sender: TObject);
 var i, tmp            : integer;
     SimtekIni    : TIniFile;
 begin
-
   hWind := MainForm.Handle; //get a handle to the main window.                                                                               // clear out the transmit window.
   memoTx.Clear;                                                                               // clear out the transmit window.
   memoRx.Clear;                                                                               // clear out the receive window.
-                                                                                 // clear out the receive window.
   SimtekIni                            := nil;                                                     //
   if FileExists('C:\simtekinc\' + fileCFG) then
     begin
@@ -711,9 +619,10 @@ begin
   TxPlace                         := Length(IntToStr(TxWinLimit));                            // get the number of possible lines in the window
   RxPlace                         := Length(IntToStr(RxWinLimit));                            // get the number of possible lines in the window
   ltime                           := Now;
-  degbar[0]                       := Compass;
+  degbar[0]                       := tkbPointer1;
   deglab[0]                       := cdeg;
   degbox[0]                       := cdegbox;
+  hexlab[0]                       := chex;
   responseReset;
   fImageRedraw                    := true;
   DXTimer1.Enabled                := true;
@@ -721,25 +630,13 @@ end;
 
 procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  // Any background operations in other threads must be closed here
   if hComm <> INVALID_HANDLE_VALUE then CloseHandle(hComm);
-//  if PanelMap.Handle <> INVALID_HANDLE_VALUE then PanelMap.Free;
-//  if OSBitMap.Handle <> INVALID_HANDLE_VALUE then OSBitMap.Free;
 end;
 
 procedure TMainForm.DisplayHint1(Sender: TObject);
 begin
   StatusBar.simpleText := Application.Hint;
 end;
-
-
-{function TMainForm.calcPot(leftnibble, rightnibble : byte) : byte;
-begin
-    leftnibble := leftnibble shl 4;  //shift left 4
-
-    Result:= leftnibble or rightnibble;
-
-end;    }
 
 procedure TMainForm.responseReset;
 begin
@@ -752,14 +649,9 @@ begin
 
     mm03s05s01.Caption               := '&'+C1Command;
     mm03s05s02.Caption               := '&'+C2Command;
-//  mm03s05s03.Caption               := '&'+C3Command;
-
 
     lblFirmwareValue1.Caption        := C1DeviceValDefault;
     lblFirmwareValue2.Caption        := C1DeviceValDefault;
-    //lblFirmwareValue3.Caption        := C1DeviceValDefault;
-    //tkbDimming1Old                   := 4096;
-    //tkbDimming2Old                   := 4096;
 
     lblScrollRate.caption   := 'Scroll Rate Value: ' + InttoStr(tkbScrollRate.Position);
 
@@ -767,12 +659,6 @@ begin
     lblTransmitRate.Caption          := TSCapHeader + '0.00Hz';
     lblC1TransmitRate.Caption        := C1CapHeader + '0.00Hz';
     lblC2TransmitRate.Caption        := C2CapHeader + '0.00Hz';
-//    lblC3TransmitRate.Caption        := C3CapHeader + '0.00Hz';
-
-    {jetToggle.Top                    := jetTop;
-    masterToggle.Top                 := masterBot;
-    ecmToggle.Top                    := ecmBot;
-    ircmToggle.Top                   := ircmBot;}
 
     lblTestSoftwarePNValue.Caption   := lblTestSoftwareCap;
     lblTestSoftwareRevValue.Caption  := lblTestSoftwareRev;
@@ -783,25 +669,21 @@ begin
     C4RequestData[4] := $00;
     C4RequestData[5] := $00;
 
-    //    initializeDisplay(5);
     toggleBool := TRUE;
     degbar[0].Position    := 0;
     scrolldeg             := 0;
+    scrollflag            := 0;
     cdegbox.Text          := '000.0';
     resetbit              := false;
     scrcount              := 0;
     scrolldirection       := false;
     updnBaudRate.Position := 0;
     fImageRedraw          := True;
-//    ActiveControl                    := UserImage;
 end;
 
 procedure TMainForm.responseStatus(ptrCK: pbyte);        // ask how to fix this function
 begin
   inc(ptrCK);                    // ff
-
-//  ButtonLeft.Tag          := (ptrCK^ and $01);                                              // individual pushbuttons
-//  inc (ptrCK);
 end;
 
 procedure TMainForm.responseFirmware(s : string);
@@ -824,20 +706,6 @@ begin
     si := si + chr(b1) + chr(b2) + ' rev ';
     si := si + s[6];
     lblFirmwareValue1.Caption := si;
-    b2 := Ord(s[7]);
-    b1 := ((b2 shr 4) and $0F) or $30;
-    b2 := (b2 and $0F) or $30;
-    si := ': ' + chr(b1) + chr(b2) + '-';
-    b2 := Ord(s[8]);
-    b1 := ((b2 shr 4) and $0F) or $30;
-    b2 := (b2 and $0F) or $30;
-    si := si + chr(b1) + chr(b2);
-    b2 := Ord(s[9]);
-    b1 := ((b2 shr 4) and $0F) or $30;
-    b2 := (b2 and $0F) or $30;
-    si := si + chr(b1) + chr(b2) + ' rev ';
-    si := si + s[10];
-    lblFirmwareValue2.Caption := si;
 end;
 
 procedure TMainForm.tkbC1UpdateRateChange(Sender: TObject);
@@ -876,9 +744,7 @@ begin
   fImageRedraw := True;
 end;
 
-
 procedure TMainForm.ScrollBar2Change(Sender: TObject);
-//r ofset : integer;
 begin
     lblTransmitRate.Top           :=  10 - ScrollBar2.Position;
     tbUpdateRate.Top              :=  22 - ScrollBar2.Position;
@@ -904,9 +770,46 @@ begin
     lblResponseRecieved.Top       := 410 - ScrollBar2.Position;
     lblRecievedTimeout.Top        := 430 - ScrollBar2.Position;
     tkbRecieveTimeOut.Top         := 430 - ScrollBar2.Position;
-//  if cbxResponse.Checked then   ofset :=  60
-//  else                          ofset :=   0;
-//    lblPot2TrapZero.caption       := IntToStr(ScrollBar2.Position);
+end;
+
+procedure TMainForm.edtScrollStepClick(Sender: TObject);
+begin
+  TEdit(Sender).SelectAll;
+end;
+
+procedure TMainForm.edtScrollStepKeyPress(Sender: TObject; var Key: Char);
+var
+  s   : string;
+  num : extended;
+  err : integer;
+begin
+
+    case key of
+     '0'..'9':;
+     #13: begin
+          key := #0;
+          s := edtScrollStep.Text;
+          val(s,num,err);
+          if ((err = 0) and (num <= 100)) then
+            begin
+            err:= Round(num);
+            updnScrollStep.Position:= err;
+            edtScrollStep.SelectAll;
+            end//if err = 0 then
+          else
+            begin
+            MessageDlg('Invalid value.  Please reenter the value 0-100',mtError,[mbOk],0);
+            num := updnScrollStep.Position;
+            err := Round(num);
+            edtScrollStep.Text := FloatToStr(num);
+            updnScrollStep.position := err;
+            edtScrollStep.SelectAll;
+            end;//else
+          end;
+     #8:;
+    end;
+
+
 end;
 
 function TMainForm.encodeCommandData(CommandByte: byte): string; //preps messages to be send to the instrument
@@ -920,13 +823,6 @@ begin
   s := '';
 
   case CommandByte of
-//  C0Command          = 'Reset';      C0Request          = $90; // Reset Request
-//  C1Command          = 'Options';    C1Request          = $91; // Options Change Request
-//  C2Command          = 'Firmware';   C2Request          = $92; // Firmware information
-//  C3Command          = 'Displays';   C3Request          = $A0; // Display Request
-//  C4Command          = 'Indicator';  C4Request          = $A1; // Indicator/Annunciator Change Request
-//  C5Command          = 'Dimming';    C5Request          = $B0; // Dimming Change Request
-//  C6Command          = 'Status';     C6Request          = $D0; // Input Status Request
     C0Request  : begin               // reset
 
       s        := s + chr(C0Request);
@@ -934,36 +830,16 @@ begin
       inc(NumberOfRequests);
       end;
     C1Request  : begin               // firmware
-//      s        := s + chr(StartByte);
-//      s        := s + chr($03);
       s        := s + chr(C1Request);
       s        := s + chr(updnAddr.Position);
       inc(NumberOfRequests);
       end;
-    C2Request  : begin               // status
-//      s        := s + chr(StartByte);
-//      s        := s + chr($03);
-      s        := s + chr(C2Request);
-      s        := s + chr(updnAddr.Position);
-      inc(NumberOfRequests);
-    end;
     C3Request  : begin                // display
-//      s        := s + chr(StartByte);
       s        := s + chr(C3Request);
       s        := s + chr(updnAddr.Position);
       s        := s + Chr(C3RequestData[0]);      // 01
       s        := s + Chr(C3RequestData[1]);      // 02
       s        := s + Chr((C3RequestData[3] and $01));      // 02
-      inc(NumberOfRequests);
-      end;
-      C4Request  : begin                // Indicators
-//      s        := s + chr(StartByte);
-      s        := s + chr(C4Request);
-      s        := s + chr(updnAddr.Position);
-      s        := s + Chr(C4RequestData[2]);      // 01
-      s        := s + Chr(C4RequestData[3]);      // 02
-      s        := s + Chr(C4RequestData[4]);      // 03
-      s        := s + Chr(C4RequestData[5]);      // 04
       inc(NumberOfRequests);
       end;
     else begin
@@ -994,6 +870,23 @@ begin
   gPort := cbValidPorts.Items.Strings[updnValidPorts.Position];
   gPort := UpperCase(gPort);
   //pSetComPort;
+end;
+
+procedure TMainForm.updnScrollStepClick(Sender: TObject; Button: TUDBtnType);
+begin
+  edtScrollStep.Text := IntToStr(updnScrollStep.Position);
+end;
+
+function TMainForm.ValuesToHexString(s: string): string;
+var i         : integer;
+    cnt       : byte;
+    SMsg      : string;
+begin
+    cnt := length(s);
+    SMsg  := '';
+    for i := 1 to cnt do {Loop through the buffer and}
+      SMsg  := SMsg + IntToHex(ord(s[i]),2)+' '; {Convert the bytes to a pascal string}
+    Result := SMsg;
 end;
 
 procedure TMainForm.MemoRxKeyPress(Sender: TObject; var Key: Char);
@@ -1029,7 +922,7 @@ begin
           StringToRecieve := StringToRecieve + Chr(CharacterToRecieve);
           CharacterPointer := CharacterPointer + 2;
           end;
-        if StringToRecieve <> '' then decodeRecievedData(StringToRecieve);
+        if StringToRecieve <> '' then gSerialBufHold := decodeRecievedData(StringToRecieve,gSerialBufHold);
         Key := #00;
         end;
     else Key := #00;
@@ -1042,15 +935,23 @@ begin
   lblReceived.Caption := 'Lines Received : ' + IntToStr(memoRx.lines.count);
 end;
 
+procedure TMainForm.cbAddressChange(Sender: TObject);
+begin
+  updnAddr.Position := TComboBox(Sender).ItemIndex;
+  TComboBox(Sender).SelectAll;
+end;
+
 procedure TMainForm.IDD0Click(Sender: TObject);
 begin
   if IDD1.Font.Color = clHidden then
     begin
     C3RequestData[3] := C3RequestData[3] or TLabel(Sender).Tag;
+
     end
   else
     begin
     C3RequestData[3] := C3RequestData[3] and (not TLabel(Sender).Tag);
+
     end;
   fC3Request   := True;
   fImageRedraw := True;
@@ -1089,26 +990,13 @@ begin
   if (scrollbit) then
   exit
   else
-degbox[AA].SelectAll;
+      degbox[AA].SelectAll;
 end;
 
 procedure TMainForm.cdegboxClick(Sender: TObject);
 begin
     degbox_selectall(Sender,0);
 end;
-
-//procedure TMainForm.cdegboxKeyDown(Sender: TObject; var Key: Word;
-//  Shift: TShiftState);
-//begin
-//if (scrollbit) then
-//  exit;
-//  case key of
-//   '0'..'9':;
-//   '.':;
-//   #13: load_deg_from_degbox(Sender,0);
-//   #8:;
-//  end;
-//end;
 
 procedure TMainForm.cdegboxKeyPress(Sender: TObject; var Key: Char);
 begin
@@ -1119,7 +1007,11 @@ begin
   case key of
    '0'..'9':;
    '.':;
-   #13: begin key := #0; load_deg_from_degbox(Sender,0); degbox_selectall(Sender,0); end;
+   #13: begin
+        key := #0;
+        load_deg_from_degbox(Sender,0);
+        degbox_selectall(Sender,0);
+        end;
    #8:;
   end
   end;
@@ -1127,32 +1019,30 @@ end;
 
 procedure TMainForm.scrolleverything();
 begin
+    degbar[0].Position := scrolldeg;
     if(scrolldirection) then
       begin
-      degbar[0].Position:= scrolldeg;
-      if (scrolldeg = 0) then
+      scrolldeg := scrolldeg + updnScrollStep.Position;
+      if(scrolldeg > 4095)then
         begin
-        scrolldeg:= 3000;
-
-        if scrcount = 0 then scrolldirection := false
-        else scrolldirection := true;
-        dec(scrcount);
-        end
-      else
-        dec(scrolldeg);
+        scrolldeg := 4095;
+        scrolldirection := not scrolldirection;
+        end;
       end
     else
       begin
-      degbar[0].Position:= scrolldeg;
-      if (scrolldeg = 3000) then
+      scrolldeg := scrolldeg - updnScrollStep.Position;
+      if(scrolldeg < 0)then
         begin
-        scrolldeg:= 0;
-        inc(scrcount);
-        if scrcount = 1 then scrolldirection:=true
-        else scrolldirection:=false;
-        end
-      else
-        inc(scrolldeg);
+        scrolldeg := 0;
+        scrolldirection := not scrolldirection;
+        end;
+      end;
+    scrollflag := scrollflag + 1; //updnScrollStep.Position;
+    if(scrollflag >= 300) then
+      begin
+      IDD0Click(IDD1);
+      scrollflag := 0;
       end;
     fC3Request := true;
 end;
@@ -1160,15 +1050,14 @@ end;
 function  TMainForm.cleanRxBuffer(len : integer) : string;
 var x : integer;
 begin
-//    Result := mem2str(gSerialBuffer,len);
   x        := 1;
   while(x <= len)do
   begin
-    Result := Result + IntToHex(ord(gSerialBuffer[x]),2) + ' ';
+    Result := Result + IntToHex(ord(gSerialBufNew[x]),2) + ' ';
     inc(x);
   end;
-  delete(gSerialBuffer,1,len);
-  gByteCount := length(gSerialBuffer);
+  delete(gSerialBufNew,1,len);
+  gByteCount := length(gSerialBufNew);
   gWholeMsg  := lenDefault;
 end;
 
@@ -1181,6 +1070,18 @@ var  rxtimeout : integer;                 // timeout time for attempt to read re
      ratecalc  : boolean;                 //
      ctime     : double;                  //
 begin
+
+  if(LightTXOnTime <> 0)then
+    begin
+    LightTXOnTime := LightTXOnTime - 1;
+    setColorCOMLightTX(clInactive,LightTXOnTime);                       // Show the port as active
+    end;
+  if(LightRXOnTime <> 0)then
+    begin
+    LightRXOnTime := LightRXOnTime - 1;
+    setColorCOMLightRX(clInactive,LightRXOnTime);                       // Show the port as active
+    end;
+
   rxtimeout                   := tkbRecieveTimeOut.Position;
   wrstr                       := '';
   lblRequestsSent.Caption     := ': ' + IntToStr(NumberOfRequests);
@@ -1188,18 +1089,17 @@ begin
 
   if (gByteCount >= gWholeMsg ) then
     begin
-    decodeSerial(gSerialBuffer,gSerialBufferSMsg);
+    gSerialBufHold := decodeRecievedData(gSerialBufNew,gSerialBufHold);
     end;//if (gByteCount >= gWholeByte)
-
 
   if fScrollReq then
     begin
     if ScrollCount > tkbScrollRate.Position then
       begin
       scrollEverything();
-      if dScrollValue > 57 then dScrollValue := 1;
+//      if dScrollValue > 57 then dScrollValue := 1;
       fImageRedraw    := True;
-      ScrollCount     := 255;
+      ScrollCount     := 0;
 //      inc(dScrollValue);
       end;//if DispScrolRateCnt > tkbScrollRate.Position then
     inc(ScrollCount);
@@ -1299,9 +1199,6 @@ begin
     gRateC4 := calculateRate(ctime, gRateC4, True, lblC3TransmitRate, tkbC3UpdateRate, C4CapHeader);
     fC4Request    := False;
     end;// if fC4Request
-
-//
-
 //
   if mm03s03.Checked and (wrstr <> '') then
     begin
@@ -1315,8 +1212,6 @@ begin
     if mm03s02.Checked then gRate := calculateRate(ctime,    gRate, True, lblTransmitRate, tbUpdateRate, TSCapHeader)
     else                    gRate := calculateRate(gRate.uc, gRate, True, lblTransmitRate, tbUpdateRate, TSCapHeader);
 
-    //if li <> 0 then
-//      begin
       for counter  := 1 to li do
         begin
         wrstr           := wdlist[counter];
@@ -1324,7 +1219,7 @@ begin
         if counter       = li then ratecalc := True else  ratecalc := False;
         cpOutputData(wrstr, ratecalc);
         end;//for counter := 1 to li do
-//      end;//if li <> 0 then
+
     gRate.uc := 0;
     inc(gRateC1.uc);
     inc(gRateC2.uc);
@@ -1355,122 +1250,98 @@ begin
     end;
 end;
 
-procedure  TMainForm.decodeSerial(var sp1, sp2 : string);
-var     // sp1 = gSerialBuffer    sp2 = gSerialBufferSMsg
-  SMsg       : string;
-  s1         : string;       // FF0000531100000000000000000000080000
-  tmp1, tmp2 : byte;
-  i          : integer;
-begin
-  sp1          := sp1 + sp2;   // add message to the buffer
-  sp2          := '';         // clean out the message
-
-
-  gByteCount  := length(sp1);  //set byte count to the length of the buffer
-  SMsg := ' ';
-  while(gByteCount >= gWholeMsg) do   // whole message is the minimum sized message I should recieve
-  begin
-    tmp1 := ord(sp1[1]);
-    if tmp1 = $FF then     // make sure a valid start byte is there
-    begin
-      tmp1 := ord(sp1[2]);
-      if (tmp1= $F1) then
-      begin
-        gWholeMsg  :=  C2Responselength;
-        if ((gByteCount < gWholeMsg)) then     // check to see if message is long enough
-        begin
-          Exit; // not enough then I need to  exit this function
-        end
-        else
-        begin
-          if (ord(sp1[3])=$20) then
-          begin
-            sp1[3]:= sp1[4];
-          end;
-          decodeRecievedData(copy(sp1,1,C2Responselength));   // send it here cause I already set up this function
-          cleanRxBuffer(C2Responselength)             // get rid of the message
-        end;
-      end
-      else if (tmp1= $FE) then
-      begin
-        gWholeMsg  :=  C1Responselength;
-        if gByteCount < gWholeMsg then
-        begin
-          Exit;
-        end
-        else
-        begin
-          decodeRecievedData(copy(sp1,1,C1Responselength));
-          cleanRxBuffer(C1Responselength)
-        end;
-      end
-      else
-      begin
-           SMsg := cleanRxBuffer(3);  // not start byte
-           //wrMemoWindow(cbxRDXWindowEnable,memoRx,lblReceived,RxWinLimit,RxPlace,'RX ','Lines Received : ',SMsg);
-      end;
-    end
-    else
-    begin
-      //wrMemoWindow(cbxRDXWindowEnable,memoRx,lblReceived,RxWinLimit,RxPlace,'RX ','Lines Received : ',copy(sp1,1,5));
-      SMsg := cleanRxBuffer(1);
-    end;
-  end;// while
-    if (cbfilterGarbage.Checked = false) then
-    begin                                                   //
-    wrMemoWindow(cbxRDXWindowEnable,memoRx,lblReceived,RxWinLimit,RxPlace,'RX ','Lines Received : ',SMsg);
-    end;                                   //
-end;
-
-procedure TMainForm.decodeRecievedData(s: string);
+function TMainForm.decodeRecievedData(sp1, sp2: string):string;
 var
   SMsg      : string;
+  Msg        : string;       // FF0000531100000000000000000000080000
   lsLineNum : string;
   i         : integer;
   count     : byte;
   cal,giv   : byte;
   DPtr      : pbyte;
   SPtr      : pbyte;
-
-  //0- reset 1- status 2-rtbuttons 3-rtpot 4-displays 5-firmware
+  tmp1, tmp2 : byte;
 begin
-  if length(s) <> 0 then
-    begin
-    i := 1;
-    while i <= length(s) do
-      begin
-      if (Ord(s[i]) = $FF) then
-      begin
-        if (Ord(s[i+1]) = $F1) then
-        begin
-//          if((Ord(s[i+2]) = $F1)) then
-//          begin
-          SPtr     := Addr(s[i+2]);
-          DPtr     := Addr(C2ResponseData[1]);
-          CopyMemory(DPtr, SPtr, C2Responselength);
-          responseStatus(DPtr);
-          i        := i + C2Responselength;
-          fImageRedraw := True;
-          inc(NumberOfResponse);
-//          end;
-        end//case = C1Response
-        else if (Ord(s[i+1]) = $FE) then
-        begin
-            // program revision
-          responseFirmware(s);
-          i        := i + C1Responselength;
-          fImageRedraw := True;
-          inc(NumberOfResponse);
-        end//case = C5Response
-        else
-          begin
-          i          := i + length(s);
-          end;
-        end;// case Ord(s[i]) of
-      end;// while i <= length(s) do
-    end;// if length(s) <> 0 then
+// If filtering is not enable then add the strings to the receive window ass they arrive
+//    if (not cbfilterGarbage.Checked) then
+//      begin
+//      wrMemoWindow(cbxRDXWindowEnable,memoRx,lblReceived,RxWinLimit,RxPlace,'BRX ','Lines Received : ',sp1);
+//      end;
+///else if filtering is enabled the strings will be added as they are decoded
+    sp1 := sp2 + sp1;
+    sp2 := '';
 
-  wrMemoWindow(cbxRDXWindowEnable,memoRx,lblReceived,RxWinLimit,RxPlace,'RX ','Lines Received : ',s);
+    i := 1;
+    while i <= length(sp1) do
+      begin
+      gByteCount := length(sp1);
+      if (Ord(sp1[i+1]) = updnAddr.Position) then
+      begin
+        cal := Ord(sp1[i]);
+        case cal of
+            C1Request :
+              begin
+              gWholeMsg  :=  C1Responselength;
+              if gByteCount >= gWholeMsg then
+                begin
+                sp2 := copy(sp1,i,gWholeMsg);
+                responseFirmware(sp2);
+                delete(sp1,i,gWholeMsg);
+
+//              i        := 1;
+                fImageRedraw := True;
+                inc(NumberOfResponse);
+                if (cbfilterGarbage.Checked) then
+                  begin
+//                  if (SMsg <> '') then
+//                    begin
+//                    wrMemoWindow(cbxRDXWindowEnable,memoRx,lblReceived,RxWinLimit,RxPlace,'CRX ','Lines Received : ',SMsg);
+//                    SMsg := '';
+//                    end;
+                  wrMemoWindow(cbxRDXWindowEnable,memoRx,lblReceived,RxWinLimit,RxPlace,'DRX ','Lines Received : ',sp2);
+                  end;//if (cbfilterGarbage.Checked) then
+                sp2 := '';
+                end//if gByteCount >= gWholeMsg then
+              else
+                begin
+                sp2  := sp1;
+                i := i + length(sp1);
+                SMsg := SMsg + sp2;//ValuesToHexString(sp2); // add the bad command caharacter to the error string
+                end;
+              end;//C1 Request :
+            else
+              begin
+              if (cbfilterGarbage.Checked) then
+                begin
+                sp2  := copy(sp1,i,1);
+                SMsg := SMsg + sp2;//ValuesToHexString(sp2); // add the bad command caharacter to the error string
+                end;
+              i      := i + 1;
+              end;//else case
+          end;//case cal
+        end//if (Ord(sp1[i+1]) = updnAddr.Position) then
+      else // bad address
+        begin
+        if (cbfilterGarbage.Checked) then
+          begin
+          sp2  := copy(sp1,i,1);
+          SMsg := SMsg + sp2;//ValuesToHexString(sp2); // add the bad command caharacter to the error string
+          end;
+        i      := i + 1;
+        end;//else if (Ord(sp1[i+1]) = updnAddr.Position) then
+      end;// while i <= length(sp1) do
+
+      if (cbfilterGarbage.Checked) then
+        begin
+        if (SMsg <> '') then
+          wrMemoWindow(cbxRDXWindowEnable,memoRx,lblReceived,RxWinLimit,RxPlace,'ERX ','Lines Received : ',SMsg);
+          sp2:='';
+          end;
+
+      delete(sp1,1,i);
+      gSerialBufNew := '';
+      gByteCount  := length(sp1+sp2);  //set byte count to the length of the buffer
+      Result := sp1+sp2;
 end;
 
 procedure TMainForm.tkbRecieveTimeOutChange(Sender: TObject);
@@ -1490,18 +1361,23 @@ procedure TMainForm.paintGUI;
 begin
   fImageRedraw := False;
   setindicator(IDD1,(C3Requestdata[3] and $01));
-  setindicator(IDD0,((not C3Requestdata[3]) and $01));
 end;
 
 procedure TMainForm.setindicator(ind : TLabel; val : integer);
     begin
     if (val = 0) then
     begin
-      ind.font.color:= clHidden;
+      ind.font.color  := clHidden;
+      ind.Font.Style  := [];
+      ind.Caption     := 'Hidden';
+      ind.Font.Size   := 9;
     end
     else
     begin
-     ind.font.color:= clShowing;
+      ind.font.color  := clShowing;
+      ind.Font.Style  := [fsBold];
+      ind.Font.Size   := 14;
+      ind.Caption     := 'Showing';
     end;
 end;
 
@@ -1550,7 +1426,6 @@ end;
 
 procedure TMainForm.cpOutputData(s: string; rc: boolean);
 var
-   i         : integer;
    count     : byte;
    SMsg      : string;
    lsLineNum : string;
@@ -1559,13 +1434,11 @@ begin
   if s <> '' then
     begin
     cpDrv.SendString(s);                                                // send the whole string
-    //LightTXOnTime := LightOnTime;                                       //
-    i        := 1;                                                      //
-    setColorCOMLightTX(clActive,i);                                   //
+    LightTXOnTime := LightOnTime;                                       //
+    setColorCOMLightTX(clActive,1);                                     //
     end;
   wrMemoWindow(cbxTRXWindowEnable,memoTx,lblTransmitted,TxWinLimit,TxPlace,'TX ','Lines Transmitted : ',s);
 end;
-
 
 procedure TMainForm.wrMemoWindow(show,memo,lbl :TObject; limit,place : integer;head,cap,s : string);
 var lsLineNum : string;
@@ -1575,10 +1448,7 @@ var lsLineNum : string;
 begin
   if TCheckBox(show).Checked then
     begin
-    cnt := length(s);
-    SMsg  := '';
-    for i := 1 to cnt do {Loop through the buffer and}
-      SMsg  := SMsg + IntToHex(ord(s[i]),2)+' '; {Convert the bytes to a pascal string}
+    SMsg := ValuesToHexString(s);
 
     if TMemo(memo).Lines.Count >= limit then TMemo(memo).Clear;
     lsLineNum := head + IntToStr(TMemo(memo).Lines.Count) + ' -> ';
@@ -1586,7 +1456,7 @@ begin
     While length(lsLineNum) < (place + 7) do
       Insert('0',lsLineNum,4);
 
-    TMemo(memo).Lines.Add(lsLineNum + SMsg);          {then store them in the RX Window }
+    TMemo(memo).Lines.Add(lsLineNum + SMsg);          {then store them in the memo Window }
     TLabel(lbl).Caption := cap + IntToStr(TMemo(memo).Lines.Count);
     end;
 end;
@@ -1596,7 +1466,7 @@ begin
   if i > 1 then Dec(i);
   if i = 1 then
     begin
-    //mRXLight.Brush.Color := SetColor;                       // change the comm transmit light to active
+    mRXLight.Brush.Color := SetColor;                       // change the comm transmit light to active
     end;
 end;
 
@@ -1606,11 +1476,11 @@ begin
   if i = 1 then
     begin
     TXCount := 0;
-    //mTXLight.Brush.Color := SetColor;                         // change the comm transmit light to active
+    mTXLight.Brush.Color := SetColor;                         // change the comm transmit light to active
     end;
 end;
 
-procedure TMainForm.pointerChange(Sender: TObject);
+procedure TMainForm.tkbPointer1Change(Sender: TObject);
 var
     XX,AA    : byte;
     tmp      : word;
@@ -1620,26 +1490,17 @@ var
     AD       : extended;
 begin
     AD := 0.072039072039072;
-    PP:= (degbar[0].Position/10);
+    PP:= ((degbar[0].Position/4095)*30);
+    scrolldeg := degbar[0].Position;
 
-//    if(((PP >= 0) and (PP < 90)) or (PP = 300)) then NLab.Font.color := clBlue
-//    else NLab.Font.color := clBlack;
-//    if ((PP >= 90) and (PP < 180)) then ELab.Font.color := clBlue
-//    else ELab.Font.color := clBlack;
-//    if ((PP >= 180) and (PP < 270)) then SLab.Font.color := clBlue
-//    else SLab.Font.color := clBlack;
-//    if ((PP >= 270) and (PP < 300)) then WLab.Font.color := clBlue
-//    else WLab.Font.color := clBlack;
-
+    hexlab[0].Caption := '(0x'+IntToStr(degbar[0].Position)+')';
     if (PP < 10) then
-      deglab[0].Caption:= 'Deg = 00' + FloatToStrF(PP,ffFixed,4,1)
+      deglab[0].Caption:= 'Val = 00' + FloatToStrF(PP,ffFixed,4,1)
     else if (PP < 100) then
-      deglab[0].Caption:= 'Deg = 0' + FloatToStrF(PP,ffFixed,4,1)
+      deglab[0].Caption:= 'Val = 0' + FloatToStrF(PP,ffFixed,4,1)
     else
-      deglab[0].Caption:= 'Deg = ' + FloatToStrF(PP,ffFixed,4,1);
-
-    tmp := Round((PP)/AD);
-
+      deglab[0].Caption:= 'Val = ' + FloatToStrF(PP,ffFixed,4,1);
+    tmp := degbar[0].Position;
     if(resetbit = false) then
     begin
       C3RequestData[0] := (tmp AND $3F);
@@ -1657,7 +1518,6 @@ end;
 procedure TMainForm.memoTxKeyPress(Sender: TObject; var Key: Char);
 var UserrecieveString,CharacterCreationString,StringToRecieve : string;
     CharacterPointer,CharacterToRecieve,Stringlength,BadCharPos : byte;
-
 begin
    case Key of
     '0'..'9':;
@@ -1738,12 +1598,10 @@ begin
                   end;
                   fC3Request := true;
                end;
-
            end;
       end;
     end;// if length(s) <> 0 then
     //debugDisplay();
-
 end;
 
 procedure TMainForm.MemoTxChange(Sender: TObject);
@@ -1789,8 +1647,10 @@ end;
 procedure TMainForm.cpGetData(instr: String);
 begin
 // Add the string to the recieved lines box with header info
-  gSerialBufferSMsg := gSerialBufferSMsg + instr;
-  gByteCount := length(gSerialBuffer+gSerialBufferSMsg);
+  gSerialBufHold := gSerialBufNew;
+  gSerialBufNew  := gSerialBufHold + instr;
+  gSerialBufHold := '';
+  gByteCount := length(gSerialBufNew);
 end;
 
 procedure TMainForm.cpDRVReceiveData(Sender: TObject; DataPtr: Pointer;
@@ -1802,6 +1662,12 @@ begin
   s := StringOfChar(' ', DataSize);                                      //
   move(DataPtr^, pchar(s)^, DataSize);                                   //
   if s = '' then exit;                                                   //
+  if(not cbfilterGarbage.Checked)then
+    begin
+    wrMemoWindow(cbxRDXWindowEnable,memoRx,lblReceived,RxWinLimit,RxPlace,'BRX ','Lines Received : ',s);
+    end;
+  LightRXOnTime := LightOnTime;                                          //
+  setColorCOMLightRX(clActive,1);                                        //
 // Process the buffer line by line.  This breaks the buffer block into discreet lines.
   while s <> '' do                                                       //
   begin
@@ -1822,6 +1688,7 @@ begin
      5 : Result :=  '76800';
      6 : Result :=  '93750';
      7 : Result := '115200';
+     8 : Result :=  '12800';
     else Result :=   '9600';
     end;
 end;
@@ -1917,6 +1784,25 @@ begin
   fImageRedraw := True;
   //label7.Caption := inttostr(TShape(sender).Tag);
 
+end;
+
+procedure TMainForm.lblCalPointClick(Sender: TObject);
+begin
+  degbar[0].Position := TLabel(Sender).Tag;
+end;
+
+procedure TMainForm.lblCalPointMouseEnter(Sender: TObject);
+begin
+  TLabel(sender).Font.Color := clBlue;
+  TLabel(sender).Font.Style := [fsBold];
+  TLabel(sender).Font.Height := TLabel(sender).Font.Height - 4;
+end;
+
+procedure TMainForm.lblCalPointMouseLeave(Sender: TObject);
+begin
+  TLabel(sender).Font.Color  := clBlack;
+  TLabel(sender).Font.Style  := [];
+  TLabel(sender).Font.Height := TLabel(sender).Font.Height + 4;
 end;
 
 procedure TMainForm.saveSettings;
@@ -2019,7 +1905,7 @@ begin
     cpDrv.Disconnect;                                         // disconnect the com port
     setColorCOMLightsOff;                                     // deactivate comm line lights
     end;
-//  gParity := 'none';
+  gParity := 'odd';
 
   cpDrv.PortName            := '\\.\'+gPort;                  // assign the port
   cpDrv.BaudRate            := cpIntToBaudRate(gBaud);        // set the baud rate
@@ -2064,9 +1950,9 @@ end;
 
 procedure TMainForm.load_deg_from_degbox(Sender: TObject;AA: byte);
 var
-s : string;
-num : extended;
-err : integer;
+  s   : string;
+  num : extended;
+  err : integer;
 begin
   if (scrollbit) then
   exit
@@ -2074,23 +1960,25 @@ begin
   begin
     s:= degbox[AA].Text;
     val(s,num,err);
-    if ((err = 0) and (num < 360)) then
+    if ((err = 0) and (num <= 30)) then
     begin
-      err:= Round(num*10);
+      err:= Round((num/30)*4095);
       degbar[AA].Position:= err;
     end//if err = 0 then
     else
     begin
-      MessageDlg('Invalid value.  Please reenter the value',mtError,[mbOk],0)
+      MessageDlg('Invalid value.  Please reenter the value',mtError,[mbOk],0);
+      num := ((degbar[0].Position/4095)*30);
+      num := RoundTo(num,-1);
+      degbox[AA].Text := FloatToStr(num);
     end;//else
   end; //else scrollbit
-//typebit:= false;
 end;
 
 procedure TMainForm.azdegbuttonMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-load_deg_from_degbox(Sender,0);
+    load_deg_from_degbox(Sender,0);
 end;
 
 function TMainForm.buildMainCaption: string;

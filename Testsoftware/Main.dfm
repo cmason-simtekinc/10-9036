@@ -1,14 +1,14 @@
 object MainForm: TMainForm
   Left = 240
   Top = 42
-  ClientHeight = 561
-  ClientWidth = 835
+  ClientHeight = 556
+  ClientWidth = 840
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -13
   Font.Name = 'MS Sans Serif'
-  Font.Style = []
+  Font.Style = [fsBold]
   Icon.Data = {
     0000010001002020100000000000E80200001600000028000000200000004000
     0000010004000000000080020000000000000000000000000000000000000000
@@ -41,13 +41,13 @@ object MainForm: TMainForm
   OnClose = FormClose
   OnCreate = FormCreate
   DesignSize = (
-    835
-    561)
+    840
+    556)
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 16
   object lblTransmitted: TLabel
     Left = 334
-    Top = 373
+    Top = 208
     Width = 98
     Height = 13
     Hint = 'The number of lines in the transmit window'
@@ -61,7 +61,7 @@ object MainForm: TMainForm
   end
   object lblReceived: TLabel
     Left = 334
-    Top = 448
+    Top = 360
     Width = 89
     Height = 13
     Caption = 'Lines Received : 0'
@@ -72,23 +72,10 @@ object MainForm: TMainForm
     Font.Style = []
     ParentFont = False
   end
-  object Label8: TLabel
-    Left = 638
-    Top = 153
-    Width = 10
-    Height = 25
-    Caption = 'x'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -20
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
-  end
   object StatusBar: TStatusBar
     Left = 0
-    Top = 540
-    Width = 835
+    Top = 535
+    Width = 840
     Height = 21
     Panels = <>
   end
@@ -98,8 +85,14 @@ object MainForm: TMainForm
     Width = 316
     Height = 503
     ActivePage = TabSheet1
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
     HotTrack = True
     MultiLine = True
+    ParentFont = False
     RaggedRight = True
     TabOrder = 1
     object TabSheet1: TTabSheet
@@ -134,7 +127,7 @@ object MainForm: TMainForm
       end
       object lblFirmwareTitle2: TLabel
         Left = 10
-        Top = 350
+        Top = 378
         Width = 94
         Height = 16
         Hint = 'Click to reset values to startup condition'
@@ -145,11 +138,12 @@ object MainForm: TMainForm
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
+        Visible = False
         OnClick = lblFirmwareTitle2Click
       end
       object lblFirmwareValue2: TLabel
         Left = 198
-        Top = 350
+        Top = 378
         Width = 39
         Height = 16
         Hint = 'Click to reset values to startup condition'
@@ -160,13 +154,14 @@ object MainForm: TMainForm
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
+        Visible = False
         OnClick = lblFirmwareTitle2Click
       end
       object lblWARNING: TLabel
         Left = 7
-        Top = 425
-        Width = 296
-        Height = 44
+        Top = 412
+        Width = 288
+        Height = 60
         Alignment = taCenter
         AutoSize = False
         Caption = 'value'
@@ -571,7 +566,7 @@ object MainForm: TMainForm
       end
       object lblFirmwareTitle1: TLabel
         Left = 10
-        Top = 332
+        Top = 360
         Width = 146
         Height = 16
         Hint = 'Click to reset values to startup condition'
@@ -586,7 +581,7 @@ object MainForm: TMainForm
       end
       object lblFirmwareValue1: TLabel
         Left = 198
-        Top = 332
+        Top = 360
         Width = 39
         Height = 16
         Hint = 'Click to reset values to startup condition'
@@ -659,16 +654,32 @@ object MainForm: TMainForm
         ParentShowHint = False
         ShowHint = False
       end
-      object Label3: TLabel
+      object AddrColon: TLabel
         Left = 199
         Top = 238
         Width = 3
         Height = 13
         Caption = ':'
       end
+      object lblScrollStep: TLabel
+        Left = 10
+        Top = 324
+        Width = 65
+        Height = 16
+        Hint = 'Shows Scroll Step'
+        Caption = 'Scroll Step'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBtnText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = False
+      end
       object pnlDividerBar05: TPanel
         Left = 4
-        Top = 374
+        Top = 402
         Width = 296
         Height = 5
         TabOrder = 1
@@ -696,7 +707,7 @@ object MainForm: TMainForm
       end
       object pnlDividerBar04: TPanel
         Left = 4
-        Top = 320
+        Top = 348
         Width = 296
         Height = 5
         TabOrder = 5
@@ -708,7 +719,7 @@ object MainForm: TMainForm
         Height = 25
         Hint = 'Controls the rate of change for the digit/annunciator scroll'
         Max = 1024
-        Min = 256
+        Min = 1
         PageSize = 15
         Frequency = 8
         Position = 288
@@ -844,8 +855,10 @@ object MainForm: TMainForm
         Height = 21
         ItemHeight = 13
         ItemIndex = 0
+        MaxLength = 1
         TabOrder = 11
         Text = '0'
+        OnChange = cbAddressChange
         Items.Strings = (
           '0'
           '1'
@@ -855,6 +868,25 @@ object MainForm: TMainForm
           '5'
           '6'
           '7')
+      end
+      object updnScrollStep: TUpDown
+        Left = 278
+        Top = 322
+        Width = 17
+        Height = 20
+        Position = 1
+        TabOrder = 12
+        OnClick = updnScrollStepClick
+      end
+      object edtScrollStep: TEdit
+        Left = 207
+        Top = 322
+        Width = 68
+        Height = 21
+        TabOrder = 13
+        Text = '1'
+        OnClick = edtScrollStepClick
+        OnKeyPress = edtScrollStepKeyPress
       end
     end
     object TabSheet4: TTabSheet
@@ -867,6 +899,12 @@ object MainForm: TMainForm
         Height = 13
         Hint = 'Shows number of messages requested fro the panel'
         Caption = 'Response Requests Transmitted'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         Visible = False
       end
       object lblResponseRequestsTitle2: TLabel
@@ -876,6 +914,12 @@ object MainForm: TMainForm
         Height = 13
         Hint = 'Shows number of responses to requested messages'
         Caption = 'Responses Recieved'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         Visible = False
       end
       object lblRecievedTimeout: TLabel
@@ -885,6 +929,12 @@ object MainForm: TMainForm
         Height = 13
         Hint = 'Shows the setting of the recieve timeout control'
         Caption = 'Recieve Timeout = 1'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         Visible = False
       end
       object lblC1TransmitRate: TLabel
@@ -894,6 +944,12 @@ object MainForm: TMainForm
         Height = 13
         Hint = 'Shows the current speed of transmission'
         Caption = 'C1 Transmit speed = 00.00 Hz'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         Visible = False
       end
       object lblC2TransmitRate: TLabel
@@ -903,6 +959,12 @@ object MainForm: TMainForm
         Height = 13
         Hint = 'Shows the current speed of transmission'
         Caption = 'C2 Transmit speed = 00.00 Hz'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         Visible = False
       end
       object lblC4TransmitRate: TLabel
@@ -912,6 +974,12 @@ object MainForm: TMainForm
         Height = 13
         Hint = 'Shows the current speed of transmission'
         Caption = 'C4 Transmit speed = 00.00 Hz'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         Visible = False
       end
       object lblTransmitRate: TLabel
@@ -921,14 +989,27 @@ object MainForm: TMainForm
         Height = 13
         Hint = 'Shows the current speed of transmission'
         Caption = 'Transmit speed = 00.00 Hz'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        Visible = False
       end
       object lblRequestsSent: TLabel
-        Left = 218
+        Left = 262
         Top = 390
         Width = 12
         Height = 13
         Hint = 'Shows number of messages requested fro the panel'
         Caption = ': 0'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         Visible = False
       end
       object lblResponseRecieved: TLabel
@@ -938,6 +1019,12 @@ object MainForm: TMainForm
         Height = 13
         Hint = 'Shows number of messages requested fro the panel'
         Caption = ': 0'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         Visible = False
       end
       object lblC5TransmitRate: TLabel
@@ -947,6 +1034,12 @@ object MainForm: TMainForm
         Height = 13
         Hint = 'Shows the current speed of transmission'
         Caption = 'C5 Transmit speed = 00.00 Hz'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         Visible = False
       end
       object lblC6TransmitRate: TLabel
@@ -956,6 +1049,12 @@ object MainForm: TMainForm
         Height = 13
         Hint = 'Shows the current speed of transmission'
         Caption = 'C6 Transmit speed = 00.00 Hz'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         Visible = False
       end
       object lblC3TransmitRate: TLabel
@@ -965,16 +1064,30 @@ object MainForm: TMainForm
         Height = 13
         Hint = 'Shows the current speed of transmission'
         Caption = 'C3 Transmit speed = 00.00 Hz'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        Visible = False
       end
       object cbxResponse: TCheckBox
         Left = 10
         Top = 370
-        Width = 171
+        Width = 220
         Height = 17
         Hint = 'Turns On/Off tracking of message request versus responses'
         TabStop = False
         Caption = 'Track Request vs Responses'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 7
+        Visible = False
         OnClick = cbxResponseClick
       end
       object tkbRecieveTimeOut: TTrackBar
@@ -1061,35 +1174,55 @@ object MainForm: TMainForm
         TabOrder = 0
         ThumbLength = 15
         TickMarks = tmTopLeft
+        Visible = False
         OnChange = tbUpdateRateChange
       end
       object cbxGraphicsEnable: TCheckBox
         Left = 10
         Top = 350
-        Width = 120
+        Width = 150
         Height = 17
         Caption = 'Graphics Enabled'
         Checked = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         State = cbChecked
         TabOrder = 6
+        Visible = False
       end
       object cbxTRXWindowEnable: TCheckBox
         Left = 10
         Top = 310
-        Width = 120
+        Width = 150
         Height = 17
         Caption = 'TX Window Enabled'
         Checked = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         State = cbChecked
         TabOrder = 4
       end
       object cbxRDXWindowEnable: TCheckBox
         Left = 10
         Top = 331
-        Width = 120
+        Width = 150
         Height = 17
         Caption = 'RX Window Enabled'
         Checked = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         State = cbChecked
         TabOrder = 5
       end
@@ -1145,11 +1278,15 @@ object MainForm: TMainForm
       object cbfilterGarbage: TCheckBox
         Left = 168
         Top = 310
-        Width = 97
+        Width = 130
         Height = 17
         Caption = 'Filter Garbage'
-        Checked = True
-        State = cbChecked
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 12
       end
       object tkbC3UpdateRate: TTrackBar
@@ -1167,14 +1304,15 @@ object MainForm: TMainForm
         TabStop = False
         ThumbLength = 15
         TickMarks = tmTopLeft
+        Visible = False
         OnChange = tkbC3UpdateRateChange
       end
     end
   end
   object pnlStatusLights: TPanel
     Left = 0
-    Top = 516
-    Width = 835
+    Top = 511
+    Width = 840
     Height = 24
     Hint = 
       'Com port status lights(yellow = error,red = functional, green = ' +
@@ -1195,8 +1333,8 @@ object MainForm: TMainForm
     object lblTrxDataLight: TLabel
       Left = 32
       Top = 6
-      Width = 83
-      Height = 13
+      Width = 123
+      Height = 16
       Hint = 
         'Com port status lights(yellow = error,red = functional, green = ' +
         'processing)'
@@ -1205,7 +1343,7 @@ object MainForm: TMainForm
       ShowHint = False
     end
     object mRXLight: TShape
-      Left = 145
+      Left = 193
       Top = 13
       Width = 11
       Height = 5
@@ -1216,10 +1354,10 @@ object MainForm: TMainForm
     end
     object lblRdxDataLight: TLabel
       Tag = 6
-      Left = 162
+      Left = 214
       Top = 6
-      Width = 74
-      Height = 13
+      Width = 108
+      Height = 16
       Hint = 
         'Com port status lights(yellow = error,red = functional, green = ' +
         'processing)'
@@ -1245,10 +1383,10 @@ object MainForm: TMainForm
     TabOrder = 3
     object cdeg: TLabel
       Left = 240
-      Top = 8
-      Width = 99
+      Top = 9
+      Width = 92
       Height = 20
-      Caption = 'Deg = 000.0'
+      Caption = 'Val = 000.0'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16
@@ -1256,48 +1394,10 @@ object MainForm: TMainForm
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object ELab: TLabel
-      Left = 249
-      Top = 158
-      Width = 28
-      Height = 13
-      Caption = 'EAST'
-      Visible = False
-    end
-    object SLab: TLabel
-      Left = 314
-      Top = 158
-      Width = 38
-      Height = 13
-      Caption = 'SOUTH'
-      Visible = False
-    end
-    object WLab: TLabel
-      Left = 384
-      Top = 158
-      Width = 32
-      Height = 13
-      Caption = 'WEST'
-      Visible = False
-    end
-    object Label2: TLabel
-      Left = 410
-      Top = 109
-      Width = 21
-      Height = 20
-      Alignment = taCenter
-      Caption = '30'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object Label4: TLabel
-      Left = 178
-      Top = 109
-      Width = 11
+    object lblCalPoint1: TLabel
+      Left = 16
+      Top = 104
+      Width = 9
       Height = 20
       Alignment = taCenter
       Caption = '0'
@@ -1305,41 +1405,109 @@ object MainForm: TMainForm
       Font.Color = clWindowText
       Font.Height = -16
       Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
+      Font.Style = []
       ParentFont = False
+      OnClick = lblCalPointClick
+      OnMouseEnter = lblCalPointMouseEnter
+      OnMouseLeave = lblCalPointMouseLeave
     end
-    object IDD0: TLabel
-      Tag = 1
-      Left = 14
-      Top = 44
-      Width = 34
+    object lblCalPoint2: TLabel
+      Tag = 682
+      Left = 94
+      Top = 108
+      Width = 6
       Height = 13
-      Caption = 'Hidden'
-      OnClick = IDD0Click
+      Alignment = taCenter
+      Caption = '5'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -12
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      OnClick = lblCalPointClick
+      OnMouseEnter = lblCalPointMouseEnter
+      OnMouseLeave = lblCalPointMouseLeave
     end
-    object IDD1: TLabel
-      Tag = 2
-      Left = 14
-      Top = 63
-      Width = 41
+    object lblCalPoint3: TLabel
+      Tag = 1365
+      Left = 167
+      Top = 108
+      Width = 12
       Height = 13
-      Caption = 'Showing'
-      OnClick = IDD0Click
+      Alignment = taCenter
+      Caption = '10'
+      OnClick = lblCalPointClick
+      OnMouseEnter = lblCalPointMouseEnter
+      OnMouseLeave = lblCalPointMouseLeave
     end
-    object NLab: TLabel
-      Left = 172
-      Top = 158
-      Width = 39
+    object lblCalPoint4: TLabel
+      Tag = 2048
+      Left = 243
+      Top = 108
+      Width = 12
       Height = 13
-      Caption = 'NORTH'
-      Visible = False
+      Alignment = taCenter
+      Caption = '15'
+      OnClick = lblCalPointClick
+      OnMouseEnter = lblCalPointMouseEnter
+      OnMouseLeave = lblCalPointMouseLeave
+    end
+    object lblCalPoint5: TLabel
+      Tag = 2730
+      Left = 319
+      Top = 108
+      Width = 12
+      Height = 13
+      Alignment = taCenter
+      Caption = '20'
+      OnClick = lblCalPointClick
+      OnMouseEnter = lblCalPointMouseEnter
+      OnMouseLeave = lblCalPointMouseLeave
+    end
+    object lblCalPoint6: TLabel
+      Tag = 3413
+      Left = 396
+      Top = 108
+      Width = 12
+      Height = 13
+      Alignment = taCenter
+      Caption = '25'
+      OnClick = lblCalPointClick
+      OnMouseEnter = lblCalPointMouseEnter
+      OnMouseLeave = lblCalPointMouseLeave
+    end
+    object lblCalPoint7: TLabel
+      Tag = 4095
+      Left = 468
+      Top = 104
+      Width = 18
+      Height = 20
+      Alignment = taCenter
+      Caption = '30'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      OnClick = lblCalPointClick
+      OnMouseEnter = lblCalPointMouseEnter
+      OnMouseLeave = lblCalPointMouseLeave
+    end
+    object chex: TLabel
+      Left = 356
+      Top = 13
+      Width = 23
+      Height = 13
+      Caption = '(0x0)'
     end
     object lblFPData: TLabel
       Left = 14
-      Top = 22
-      Width = 154
+      Top = 11
+      Width = 169
       Height = 16
-      Caption = 'Flap Position Ind Data'
+      Caption = 'Angle Of Attack Ind Data'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = 16
@@ -1347,57 +1515,47 @@ object MainForm: TMainForm
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object Label1: TLabel
-      Left = 220
-      Top = 113
-      Width = 6
+    object IDD1: TLabel
+      Tag = 1
+      Left = 14
+      Top = 150
+      Width = 34
       Height = 13
-      Alignment = taCenter
-      Caption = '5'
+      Caption = 'Hidden'
+      Color = clAppWorkSpace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -12
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      OnClick = IDD0Click
     end
-    object Label5: TLabel
-      Left = 255
-      Top = 113
-      Width = 12
-      Height = 13
-      Alignment = taCenter
-      Caption = '10'
+    object lblFlag: TLabel
+      Left = 14
+      Top = 130
+      Width = 32
+      Height = 16
+      Caption = 'Flag'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
-    object Label6: TLabel
-      Left = 294
-      Top = 113
-      Width = 12
-      Height = 13
-      Alignment = taCenter
-      Caption = '15'
-    end
-    object Label7: TLabel
-      Left = 334
-      Top = 113
-      Width = 12
-      Height = 13
-      Alignment = taCenter
-      Caption = '20'
-    end
-    object Label9: TLabel
-      Left = 374
-      Top = 113
-      Width = 12
-      Height = 13
-      Alignment = taCenter
-      Caption = '25'
-    end
-    object pointer: TTrackBar
-      Left = 172
+    object tkbPointer1: TTrackBar
+      Left = 10
       Top = 78
-      Width = 258
+      Width = 480
       Height = 25
       Hint = 'Slide to Change Degree'
       Max = 4095
       PageSize = 682
       Frequency = 682
       TabOrder = 0
-      OnChange = pointerChange
+      OnChange = tkbPointer1Change
     end
     object cdegbox: TEdit
       Left = 260
@@ -1420,9 +1578,9 @@ object MainForm: TMainForm
   object MemoTx: TRichEdit
     Tag = 890
     Left = 334
-    Top = 392
-    Width = 500
-    Height = 55
+    Top = 224
+    Width = 505
+    Height = 134
     Hint = 'Lines that have been transmitted'
     TabStop = False
     Anchors = [akLeft, akTop, akRight]
@@ -1446,9 +1604,9 @@ object MainForm: TMainForm
   object MemoRx: TRichEdit
     Tag = 890
     Left = 334
-    Top = 461
-    Width = 500
-    Height = 55
+    Top = 376
+    Width = 505
+    Height = 134
     Hint = 'Lines that have been transmitted'
     TabStop = False
     Anchors = [akLeft, akTop, akRight]
@@ -1470,8 +1628,8 @@ object MainForm: TMainForm
     OnKeyPress = MemoRxKeyPress
   end
   object MainMenu1: TMainMenu
-    Left = 515
-    Top = 353
+    Left = 771
+    Top = 163
     object mm01: TMenuItem
       Caption = '&File'
       object Port1: TMenuItem
@@ -1571,12 +1729,12 @@ object MainForm: TMainForm
     Enabled = False
     Interval = 1
     OnTimer = DXTimer1Timer
-    Left = 487
-    Top = 353
+    Left = 743
+    Top = 163
   end
   object PopupMenu1: TPopupMenu
-    Left = 459
-    Top = 353
+    Left = 715
+    Top = 163
     object Cut1: TMenuItem
       Caption = 'Cut'
     end
@@ -1621,7 +1779,7 @@ object MainForm: TMainForm
     Port = pnCustom
     PortName = '\\.\COM2'
     OnReceiveData = cpDRVReceiveData
-    Left = 544
-    Top = 354
+    Left = 800
+    Top = 164
   end
 end
